@@ -6,6 +6,17 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/js2me/flamebird.git"
+  },
+  "keywords": [
+    "task",
+    "tasks",
+    "procfile",
+    "taskmanager",
+    "taskrunner"
+  ],
   "author": "Sergey Volkov",
   "license": "MIT",
   "dependencies": {
@@ -29,5 +40,9 @@
   },
   "directories": {
     "lib": "lib"
-  }
+  },
+  "bugs":{
+    "url": "https://github.com/js2me/flamebird/issues"
+  },
+  "homepage": "https://github.com/js2me/flamebird"
 }
