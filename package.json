@@ -18,6 +18,9 @@
     "taskrunner"
   ],
   "author": "Sergey Volkov",
+  "bin": {
+    "flamebird": "flamebird.js"
+  },
   "license": "MIT",
   "dependencies": {
     "commander": "~2.15.1",
@@ -31,7 +34,6 @@
     "eslint-config-standard": "11.0.0",
     "eslint-config-standard-react": "6.0.0",
     "eslint-plugin-import": "2.9.0",
-    "eslint-plugin-jsx-a11y": "6.0.3",
     "eslint-plugin-node": "6.0.1",
     "eslint-plugin-prettier": "2.5.0",
     "eslint-plugin-promise": "3.6.0",
