@@ -1,0 +1,108 @@
+body,html {
+    width: 100%;
+    height: 100%;
+    font-family: sans-serif;
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -ms-overflow-style: scrollbar;
+    -webkit-tap-highlight-color: transparent;
+}
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+    background-color: #fff;
+    padding: 3% 0%;
+    display: flex;
+    justify-content: center;
+}
+button{
+    outline: none;
+}
+body * {
+    font-family: 'Roboto', sans-serif;
+}
+
+header {
+    font-size: 18px;
+    /* padding: 8px 10px; */
+    color: #f1f1f1;
+    font-weight: bold;
+    background: #f1f1f1;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffdcdc+0,ffdcdc+20,f1f1f1+47,f1f1f1+100 */
+    background: #ffdcdc; /* Old browsers */
+    background: -moz-linear-gradient(left, #ff878d 0%,#ffc1c1 20%,#f1f1f1 47%,#f1f1f1 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, #ff878d 0%,#ffc1c1 20%,#f1f1f1 47%,#f1f1f1 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #ff878d 0%,#ffc1c1 20%,#f1f1f1 47%,#f1f1f1 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff878d', endColorstr='#f1f1f1',GradientType=1 ); /* IE6-9 */
+}
+
+.wrapper {
+    height: 100%;
+    box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.35);
+    background: whitesmoke;
+    max-width: 768px;
+    flex: 1;
+}
+.wrapper > section{
+    height: calc(100% - 2em - 9px);
+    float: left;
+    overflow-y: auto;
+}
+
+#tasks {
+    width: 30%;
+    background: #f1f1f1;
+}
+
+#task-logs {
+    width: 70%;
+    background: #2f2f2f;
+    padding: 9px 0;
+}
+#task-logs > div {
+    color: #f1f1f1;
+    padding: 0px 12px;
+    font-size: 14px;
+    font-family: monospace;
+}
+
+.task {
+    padding: 9px;
+    background: rgba(119, 119, 119, 0.05);
+    color: #7b7b7b;
+    cursor: pointer;
+    display: flex;
+}
+.run-task{
+    margin-left: auto;
+}
+
+.main-button{
+    border: 0;
+    color: #f1f1f1;
+    font-size: 0.8em;
+    cursor: pointer;
+    padding: 5px 16px;
+    background: transparent;
+    /* border: 1px solid; */
+    text-decoration: underline;
+}
+.run{
+    color: #3ead25;
+}
+header > * {
+    padding: 8px 10px 5px;
+}
+.stop{color: #e65555;}
+

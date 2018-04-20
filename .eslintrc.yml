@@ -1,9 +1,7 @@
 extends:
   - standard
-  - standard-react
   - prettier
   - prettier/standard
-  - prettier/react
 
 parser: babel-eslint
 
@@ -23,6 +21,3 @@ rules:
 
   # TODO: The following rules should be removed incrementally in order to fully
   # integrate lint rules from the Standard ESLint config and Prettier
-
-  # React Rules
-  react/no-unused-prop-types: off
