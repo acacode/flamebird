@@ -29,7 +29,6 @@ program.option(
   'load environment from file, a comma-separated list',
   '.env'
 )
-program.option('-P, --port <PORT>', 'start indexing ports at number PORT', 0)
 program
   .command('start')
   .usage('[Options]')
@@ -48,6 +47,7 @@ program
   .command('web')
   .usage('[Options]')
   .option('-p, --package', 'Use package.json for managing tasks')
+  .option('-P, --port <PORT>', 'sets the server port', 5050)
   .option(
     '-t, --tasks [tasks]',
     'List of tasks which will be run flamebird ( example : --tasks start,start:dev,start-server )'
@@ -57,7 +57,7 @@ program
     args.web = true
     storage.set('actionArgs', args)
     const taskfile = require('./lib/taskfile').load(program.procfile, args)
-    server.start(taskfile, program.port || process.env.PORT || 5050, args)
+    server.start(taskfile, args.port, args)
   })
 
 program.parse(process.argv)
