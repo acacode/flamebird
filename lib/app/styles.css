@@ -20,8 +20,6 @@ body {
     text-align: left;
     background-color: #fff;
     padding: 3% 0%;
-    display: flex;
-    justify-content: center;
 }
 button{
     outline: none;
@@ -41,9 +39,9 @@ header {
     justify-content: space-between;
 /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffdcdc+0,ffdcdc+20,f1f1f1+47,f1f1f1+100 */
     background: #ffdcdc; /* Old browsers */
-    background: -moz-linear-gradient(left, #ff878d 0%,#ffc1c1 20%,#f1f1f1 47%,#f1f1f1 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(left, #ff878d 0%,#ffc1c1 20%,#f1f1f1 47%,#f1f1f1 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to right, #ff3a44 0%,#ff9d80 20%,#f1f1f1 47%,#f1f1f1 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    background: -moz-linear-gradient(left, #ec2a45 0%,#ff9676 20%,#f1f1f1 47%,#f1f1f1 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, #ec2a45 0%,#ff9676 20%,#f1f1f1 47%,#f1f1f1 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #ec2a45 0%,#ff9676 20%,#f1f1f1 47%,#f1f1f1 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff878d', endColorstr='#f1f1f1',GradientType=1 ); /* IE6-9 */
 }
 
@@ -52,8 +50,9 @@ header {
     box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.35);
     background: whitesmoke;
     max-width: 768px;
-    flex: 1;
     background: red;
+    margin-left: auto;
+    margin-right: auto;
 }
 .wrapper > section{
     float: left;
@@ -83,7 +82,7 @@ header {
     width: 70%;
     background: #1d1d1d;
     padding: 9px 0;
-    height: calc(100% - 2em - 8px - 42px);
+    height: calc(100% - 2em - 8px - 32px);
 }
 #task-logs::-webkit-scrollbar {
     width: 10px;
@@ -103,12 +102,14 @@ header {
 }
 
 .task {
-    padding: 9px;
+    padding: 0 0 0 9px;
     background: rgba(119, 119, 119, 0.05);
     color: #7b7b7b;
     cursor: pointer;
     display: flex;
     position: relative;
+    transition: all 250ms ease;
+    z-index: 0;
 }
 .task.active:after {
     width: 2.5%;
@@ -117,11 +118,20 @@ header {
     position: absolute;
     right: 0;
     top: 0;
-    background: #1d1d1d;
+    /* background: #1d1d1d; */
 }
 
 .task > button{
     margin-left: auto;
+    border: none;
+    background: none;
+    cursor: pointer;
+    height: inherit;
+    position: relative;
+    font-size: 15px;
+    width: 32px;
+    right: 106%;
+    transition: right 69ms linear;
 }
 
 .main-button{
@@ -145,9 +155,15 @@ header > * {
 .stop{background: #b55d5d;}
 .task > .stop-task {
     display: none;
+    color: #a93333;
+    background: #f38f8f;
+}
+.task > .run-task {
+    color: rgb(9, 101, 25);
+    background: rgb(129, 211, 144);
 }
 .task-data {
-    height: 42px;
+    height: 32px;
     float: left;
     justify-content: center;
     padding: 10px 12px 0;
@@ -156,14 +172,16 @@ header > * {
     background: #1d1d1d;
 }
 .task-data > span {
-    background: #20629c;
-    color: #f1f1f1c7;
+    background: #ebebeb;
+    color: #1d1d1d;
     padding: 0 8px;
     border-radius: 15px;
 }
 .task.active {
     color: #1d1d1d;
-    font-weight: 500;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.55);
+    background: rgb(241, 241, 241);
+    z-index: 2;
 }
 .run:active {
     background: #3ead25;
@@ -173,18 +191,15 @@ header > * {
     background: #e65555;
 }
 
-.task:not(.running) i{
-    display: none;
-}
-.task.running i{
+.task i.fa-cog{
     display:inline-block;
-    height: 16px;
+    height: 24px;
     position: relative;
-    left: -3px;
-    top: 3px;
-    -webkit-animation:spin 4s linear infinite;
-    -moz-animation:spin 4s linear infinite;
-    animation:spin 4s linear infinite;
+    left: -5px;
+    font-size: 24px;
+    top: 8px;
+    /* padding: 9px 0; */
+    color: rgba(80, 80, 80, 0);
 }
 
 .task.running .run-task {
@@ -195,6 +210,59 @@ header > * {
     display: block;
 }
 
+.task.running:before {
+    background: #75d085;
+}
+
+.task > span {
+    margin-left: 2px;
+    padding: 9px 0;
+    transition: transform 199ms cubic-bezier(0.18, 0.89, 0.32, 1.28) !important;
+}
+
+.task.running i.fa-cog {
+    color: #096519;
+    -webkit-animation: spin 4s linear infinite;
+    -moz-animation: spin 4s linear infinite;
+    animation: spin 4s linear infinite;
+}
+
+.task:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 32px;
+    height: 100%;
+    background: #ebebeb;
+    z-index: 0;
+    opacity: .9;
+}
+.task:hover button {
+    transition: right 199ms cubic-bezier(0.18, 0.89, 0.32, 1.28) !important;
+    right: calc(100% + -23px);
+}
+
+.task:hover {
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.35);
+    background: rgba(241, 241, 241, 0.91);
+    z-index: 1;
+}
+
+.task:hover:before {
+    opacity: .3;
+}
+
+.task:not(:hover) > span {
+    transform: translateX(-29px);
+}
+
+.task.running > span {
+    transform: translateX(0);
+}
+.task.active:not(.running):before {
+    background: #f1f1f1;
+}
 
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }

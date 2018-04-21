@@ -1,6 +1,16 @@
 
 # Changelog
 
+## [1.5.3] - 2018-04-21
+
+### Added
+- option `-n, --name <NAME>` for the `web` command. Sets the name of application
+- added feature of the opening new tab of Google Chrome browser when we launch `web` command 
+
+### Changed
+- update styles for web application
+- route `commands` renamed to `info` and now returns object with properties `appName` and `commands`
+
 
 ## [1.5.0] - 2018-04-21
 

@@ -1,6 +1,6 @@
 {
   "name": "flamebird",
-  "version": "1.5.0",
+  "version": "1.5.3",
   "description": "flamebird",
   "main": "flamebird.js",
   "scripts": {
@@ -29,6 +29,7 @@
     "express": "^4.16.3",
     "lodash": "^4.17.5",
     "moment": "^2.22.1",
+    "opn": "^5.3.0",
     "tree-kill": "^1.2.0",
     "ws": "^5.1.1"
   },

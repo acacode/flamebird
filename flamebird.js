@@ -48,6 +48,7 @@ program
   .usage('[Options]')
   .option('-p, --package', 'Use package.json for managing tasks')
   .option('-P, --port <PORT>', 'sets the server port', 5050)
+  .option('-n, --name <NAME>', 'sets the project name', '')
   .option(
     '-t, --tasks [tasks]',
     'List of tasks which will be run flamebird ( example : --tasks start,start:dev,start-server )'
