@@ -6,7 +6,21 @@
 
 const program = require('commander')
 const utils = require('./lib/utils')
-const processWorker = require('./lib/processWorker')(process)
+const storage = require('./lib/storage')
+const emitter = require('./lib/emitter')
+const processWorker = require('./lib/processWorker')
+const server = require('./lib/server')
+
+process.once('SIGINT', function() {
+  console.warn('Interrupted by User')
+  emitter.emit('killall', 'SIGINT')
+})
+
+// Kill All Child Processes & Exit on SIGTERM
+process.once('SIGTERM', function() {
+  console.warn('killall', 'SIGTERM')
+  process.exit()
+})
 
 program.version(utils.getLogoWithVersion(), '-v, --version')
 program.option('-j, --procfile <FILE>', 'load procfile from file', 'Procfile')
@@ -19,10 +33,6 @@ program.option('-P, --port <PORT>', 'start indexing ports at number PORT', 0)
 program
   .command('start')
   .usage('[Options]')
-  .option(
-    '-w, --web',
-    'Launch webview for managing jobs. If this flag is setted then tasks will not be running in the command line'
-  )
   .option('-p, --package', 'Use package.json for managing tasks')
   .option(
     '-t, --tasks [tasks]',
@@ -30,16 +40,24 @@ program
   )
   .description('Start the jobs in the Procfile/Package.json')
   .action(function(args) {
+    storage.set('actionArgs', args)
     const taskfile = require('./lib/taskfile').load(program.procfile, args)
-    if (args.web) {
-      processWorker.web(
-        taskfile,
-        program.port || process.env.PORT || 5050,
-        args
-      )
-    } else {
-      processWorker.start(taskfile, args)
-    }
+    processWorker.runAll(taskfile, args)
+  })
+program
+  .command('web')
+  .usage('[Options]')
+  .option('-p, --package', 'Use package.json for managing tasks')
+  .option(
+    '-t, --tasks [tasks]',
+    'List of tasks which will be run flamebird ( example : --tasks start,start:dev,start-server )'
+  )
+  .description('Start the jobs in the Procfile/Package.json')
+  .action(function(args) {
+    args.web = true
+    storage.set('actionArgs', args)
+    const taskfile = require('./lib/taskfile').load(program.procfile, args)
+    server.start(taskfile, program.port || process.env.PORT || 5050, args)
   })
 
 program.parse(process.argv)
