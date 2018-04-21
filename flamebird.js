@@ -4,49 +4,65 @@
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
 
-var program = require('commander')
-var packageJson = require('./package.json')
-const processWorker = require('./lib/processWorker')(process)
+const program = require('commander')
+const utils = require('./lib/utils')
+const storage = require('./lib/storage')
+const emitter = require('./lib/emitter')
+const processWorker = require('./lib/processWorker')
+const server = require('./lib/server')
 
-program.version(getLogoWithVersion(true), '-v, --version')
+process.once('SIGINT', function() {
+  console.warn('Interrupted by User')
+  emitter.emit('killall', 'SIGINT')
+})
+
+// Kill All Child Processes & Exit on SIGTERM
+process.once('SIGTERM', function() {
+  console.warn('killall', 'SIGTERM')
+  process.exit()
+})
+
+program.version(utils.getLogoWithVersion(), '-v, --version')
 program.option('-j, --procfile <FILE>', 'load procfile from file', 'Procfile')
 program.option(
   '-e, --env <FILE>',
   'load environment from file, a comma-separated list',
   '.env'
 )
-program.option('-p, --port <PORT>', 'start indexing ports at number PORT', 0)
 program
   .command('start')
   .usage('[Options]')
-  .description('Start the jobs in the Procfile')
-  .action(function(args) {                                                             
-    const procfile = require('./lib/procfile').load(program.procfile)
-    processWorker.start(procfile, program.port || process.env.PORT || 5050)
+  .option('-p, --package', 'Use package.json for managing tasks')
+  .option(
+    '-t, --tasks [tasks]',
+    'List of tasks which will be run flamebird ( example : --tasks start,start:dev,start-server )'
+  )
+  .description('Start the jobs in the Procfile/Package.json')
+  .action(function(args) {
+    storage.set('actionArgs', args)
+    const taskfile = require('./lib/taskfile').load(program.procfile, args)
+    processWorker.runAll(taskfile, args)
+  })
+program
+  .command('web')
+  .usage('[Options]')
+  .option('-p, --package', 'Use package.json for managing tasks')
+  .option('-P, --port <PORT>', 'sets the server port', 5050)
+  .option(
+    '-t, --tasks [tasks]',
+    'List of tasks which will be run flamebird ( example : --tasks start,start:dev,start-server )'
+  )
+  .description('Start the jobs in the Procfile/Package.json')
+  .action(function(args) {
+    args.web = true
+    storage.set('actionArgs', args)
+    const taskfile = require('./lib/taskfile').load(program.procfile, args)
+    server.start(taskfile, args.port, args)
   })
 
 program.parse(process.argv)
 
-function getLogoWithVersion(onlyVersion){
-  var strings = []
-  if(!onlyVersion){
-     strings.push('  ╔══╗ ╔╗   ╔══╗ ╔╗  ╔╗ ╔═══╗ ╔══╗  ╔══╗ ╔═══╗ ╔══╗ ')
-     strings.push('  ║╔═╝ ║║   ║╔╗║ ║║  ║║ ║╔══╝ ║╔╗║  ╚╗╔╝ ║╔═╗║ ║╔╗╚╗')
-     strings.push('  ║╚═╗ ║║   ║╚╝║ ║╚╗╔╝║ ║╚══╗ ║╚╝╚╗  ║║  ║╚═╝║ ║║╚╗║')
-     strings.push('  ║╔═╝ ║║   ║╔╗║ ║╔╗╔╗║ ║╔══╝ ║╔═╗║  ║║  ║╔╗╔╝ ║║ ║║')
-     strings.push('  ║║   ║╚═╗ ║║║║ ║║╚╝║║ ║╚══╗ ║╚═╝║ ╔╝╚╗ ║║║║  ║╚═╝║')
-     strings.push('  ╚╝   ╚══╝ ╚╝╚╝ ╚╝  ╚╝ ╚═══╝ ╚═══╝ ╚══╝ ╚╝╚╝  ╚═══╝')
-     strings.push('             - wonderful nodejs task manager        ')
-  }
-  const v = packageJson.version + (new Array(11 - packageJson.version.length).join(' '))
-  const commonSpace = onlyVersion ? '  ' : '                           '
-   strings.push(commonSpace+'╔═══════════════╗  ')
-   strings.push(commonSpace+'║    v' + v + '║  ')
-   strings.push(commonSpace+'╚═══════════════╝  ')
-   return strings.join('\r\n')
-}
 if (!process.argv.slice(2).length) {
-  console.log(getLogoWithVersion())
-  process.argv.push('start')
-  program.parse(process.argv)
+  console.log(utils.getLogoWithVersion())
+  program.outputHelp()
 }

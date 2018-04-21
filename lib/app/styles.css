@@ -1,0 +1,201 @@
+body,html {
+    width: 100%;
+    height: 100%;
+    font-family: sans-serif;
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -ms-overflow-style: scrollbar;
+    -webkit-tap-highlight-color: transparent;
+}
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+    background-color: #fff;
+    padding: 3% 0%;
+    display: flex;
+    justify-content: center;
+}
+button{
+    outline: none;
+}
+body * {
+    font-family: 'Roboto', sans-serif;
+}
+
+header {
+    font-size: 18px;
+    /* padding: 8px 10px; */
+    color: rgba(241, 241, 241, 0.9);
+    font-weight: 900;
+    background: #f1f1f1;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffdcdc+0,ffdcdc+20,f1f1f1+47,f1f1f1+100 */
+    background: #ffdcdc; /* Old browsers */
+    background: -moz-linear-gradient(left, #ff878d 0%,#ffc1c1 20%,#f1f1f1 47%,#f1f1f1 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, #ff878d 0%,#ffc1c1 20%,#f1f1f1 47%,#f1f1f1 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #ff3a44 0%,#ff9d80 20%,#f1f1f1 47%,#f1f1f1 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff878d', endColorstr='#f1f1f1',GradientType=1 ); /* IE6-9 */
+}
+
+.wrapper {
+    height: 100%;
+    box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.35);
+    background: whitesmoke;
+    max-width: 768px;
+    flex: 1;
+    background: red;
+}
+.wrapper > section{
+    float: left;
+    overflow-y: auto;
+}
+
+#tasks {
+    height: calc(100% - 2em - 8px);
+    width: 30%;
+    background: #f1f1f1;
+}
+
+#tasks::-webkit-scrollbar {
+    width: 10px;
+}
+#tasks::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+#tasks::-webkit-scrollbar-thumb {
+    background: #ff5655;
+}
+#tasks::-webkit-scrollbar-thumb:hover {
+    background: rgb(255, 69, 75); 
+}
+
+#task-logs {
+    width: 70%;
+    background: #1d1d1d;
+    padding: 9px 0;
+    height: calc(100% - 2em - 8px - 42px);
+}
+#task-logs::-webkit-scrollbar {
+    width: 10px;
+}
+#task-logs::-webkit-scrollbar-thumb {
+    background: #f1f1f1;
+}
+#task-logs::-webkit-scrollbar-thumb:hover {
+    background: rgb(220, 220, 220); 
+}
+
+#task-logs > div {
+    color: #f1f1f1;
+    padding: 0px 12px;
+    font-size: 14px;
+    font-family: monospace;
+}
+
+.task {
+    padding: 9px;
+    background: rgba(119, 119, 119, 0.05);
+    color: #7b7b7b;
+    cursor: pointer;
+    display: flex;
+    position: relative;
+}
+.task.active:after {
+    width: 2.5%;
+    height: 100%;
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: #1d1d1d;
+}
+
+.task > button{
+    margin-left: auto;
+}
+
+.main-button{
+    border: 0;
+    color: #f1f1f1;
+    font-size: 15px;
+    cursor: pointer;
+    padding: 1px 8px;
+    background: #1d1d1d;
+    /* border: 1px solid; */
+    border-radius: 5px;
+    min-width: 88px;
+}
+.run{
+    background: #6db55d;
+    margin-right: 5px;
+}
+header > * {
+    padding: 8px 10px 5px;
+}
+.stop{background: #b55d5d;}
+.task > .stop-task {
+    display: none;
+}
+.task-data {
+    height: 42px;
+    float: left;
+    justify-content: center;
+    padding: 10px 12px 0;
+    width: 70%;
+    flex-direction: column;
+    background: #1d1d1d;
+}
+.task-data > span {
+    background: #20629c;
+    color: #f1f1f1c7;
+    padding: 0 8px;
+    border-radius: 15px;
+}
+.task.active {
+    color: #1d1d1d;
+    font-weight: 500;
+}
+.run:active {
+    background: #3ead25;
+}
+
+.stop:active {
+    background: #e65555;
+}
+
+.task:not(.running) i{
+    display: none;
+}
+.task.running i{
+    display:inline-block;
+    height: 16px;
+    position: relative;
+    left: -3px;
+    top: 3px;
+    -webkit-animation:spin 4s linear infinite;
+    -moz-animation:spin 4s linear infinite;
+    animation:spin 4s linear infinite;
+}
+
+.task.running .run-task {
+    display: none;
+}
+
+.task.running .stop-task {
+    display: block;
+}
+
+
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }

@@ -1,6 +1,6 @@
 {
   "name": "flamebird",
-  "version": "1.0.1",
+  "version": "1.5.0",
   "description": "flamebird",
   "main": "flamebird.js",
   "scripts": {
@@ -19,12 +19,18 @@
   ],
   "author": "Sergey Volkov",
   "bin": {
-    "flamebird": "flamebird.js"
+    "flamebird": "flamebird.js",
+    "fb": "flamebird.js"
   },
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "commander": "~2.15.1",
-    "lodash": "^4.17.5"
+    "express": "^4.16.3",
+    "lodash": "^4.17.5",
+    "moment": "^2.22.1",
+    "tree-kill": "^1.2.0",
+    "ws": "^5.1.1"
   },
   "devDependencies": {
     "babel-eslint": "8.2.1",
@@ -32,18 +38,16 @@
     "eslint": "4.18.0",
     "eslint-config-prettier": "2.9.0",
     "eslint-config-standard": "11.0.0",
-    "eslint-config-standard-react": "6.0.0",
     "eslint-plugin-import": "2.9.0",
     "eslint-plugin-node": "6.0.1",
     "eslint-plugin-prettier": "2.5.0",
     "eslint-plugin-promise": "3.6.0",
-    "eslint-plugin-react": "7.7.0",
     "eslint-plugin-standard": "3.0.1"
   },
   "directories": {
     "lib": "lib"
   },
-  "bugs":{
+  "bugs": {
     "url": "https://github.com/js2me/flamebird/issues"
   },
   "homepage": "https://github.com/js2me/flamebird"
