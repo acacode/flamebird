@@ -81,8 +81,14 @@ header {
 #task-logs {
     width: 70%;
     background: #1d1d1d;
-    padding: 9px 0;
-    height: calc(100% - 2em - 8px - 32px);
+    /* white-space: pre; */
+    word-break: break-all;
+    text-align: justify;
+    height: calc(100% - 2em - 8px - 40px);
+    color: #f1f1f1;
+    font-size: 12px;
+    font-family: monospace;
+    padding: 6px 0 0 8px;
 }
 #task-logs::-webkit-scrollbar {
     width: 10px;
@@ -92,13 +98,6 @@ header {
 }
 #task-logs::-webkit-scrollbar-thumb:hover {
     background: rgb(220, 220, 220); 
-}
-
-#task-logs > div {
-    color: #f1f1f1;
-    padding: 0px 12px;
-    font-size: 14px;
-    font-family: monospace;
 }
 
 .task {
@@ -166,7 +165,7 @@ header > * {
     height: 32px;
     float: left;
     justify-content: center;
-    padding: 10px 12px 0;
+    padding: 9px 8px 0;
     width: 70%;
     flex-direction: column;
     background: #1d1d1d;
@@ -262,6 +261,38 @@ header > * {
 }
 .task.active:not(.running):before {
     background: #f1f1f1;
+}
+
+.ansi-black-fg {color: rgba(0,0,0,1) } 
+.ansi-red-fg {color: rgba(187,0,0,1) } 
+.ansi-green-fg {color: rgba(0,187,0,1) } 
+.ansi-yellow-fg {color: rgba(187,187,0,1) } 
+.ansi-blue-fg {color: rgb(80, 141, 255);} 
+.ansi-magenta-fg {color: rgba(187,0,187,1) } 
+.ansi-cyan-fg {color: rgba(0,187,187,1) } 
+.ansi-white-fg {color: rgba(255,255,255,1) } 
+.ansi-bright-black-fg {color: rgba(85,85,85,1) } 
+.ansi-bright-red-fg {color: rgba(255,85,85,1) } 
+.ansi-bright-green-fg {color: rgba(0,255,0,1) } 
+.ansi-bright-yellow-fg {color: rgba(255,255,85,1) } 
+.ansi-bright-blue-fg {color: rgba(85,85,255,1) } 
+.ansi-bright-magenta-fg {color: rgba(255,85,255,1) } 
+.ansi-bright-cyan-fg {color: rgba(85,255,255,1) } 
+.ansi-bright-white-fg {color: rgba(255,255,255,1) } 
+
+#task-logs > div > span.ansi-red-fg {
+    display: block;
+}
+
+#task-logs > div {
+    padding-bottom: 3px;
+    font-size: 14px;
+}
+
+#task-logs > span.ended {
+    font-family: monospace;
+    color: #85b5ff;
+    font-weight: 900;
 }
 
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
