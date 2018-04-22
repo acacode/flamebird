@@ -1,6 +1,18 @@
 
 # Changelog
 
+
+## [1.5.5] - 2018-04-23
+
+### Changed
+- working status of the tasks dependent on the server's status of task
+
+### Fixed
+- Normalized showing logs of the task
+- Envs isn't passing to the command (BUG)[https://github.com/js2me/flamebird/issues/3]
+- fb web: UnhandledPromiseRejectionWarning: Error: spawn chrome ENOENT (BUG)[https://github.com/js2me/flamebird/issues/2]
+
+
 ## [1.5.3] - 2018-04-21
 
 ### Added
