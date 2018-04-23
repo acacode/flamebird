@@ -1,5 +1,5 @@
 # Flamebird.js
-Flamebird is a task manager for Procfile-based or npm-based applications
+Flamebird is a nodejs task manager for Procfile-based or npm-based applications
 
 ## Installation
 
