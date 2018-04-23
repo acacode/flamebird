@@ -49,10 +49,11 @@ header {
     height: 100%;
     box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.35);
     background: whitesmoke;
-    max-width: 768px;
+    max-width: 780px;
     background: red;
     margin-left: auto;
     margin-right: auto;
+    position: relative;
 }
 .wrapper > section{
     float: left;
@@ -60,7 +61,7 @@ header {
 }
 
 #tasks {
-    height: calc(100% - 2em - 8px);
+    height: calc(100% - 40px);
     width: 30%;
     background: #f1f1f1;
 }
@@ -84,11 +85,11 @@ header {
     /* white-space: pre; */
     word-break: break-all;
     text-align: justify;
-    height: calc(100% - 2em - 8px - 40px);
+    height: calc(100% - 40px);
     color: #f1f1f1;
     font-size: 12px;
     font-family: monospace;
-    padding: 6px 0 0 8px;
+    padding: 36px 0 0 8px;
 }
 #task-logs::-webkit-scrollbar {
     width: 10px;
@@ -141,7 +142,7 @@ header {
     padding: 1px 8px;
     background: #1d1d1d;
     /* border: 1px solid; */
-    border-radius: 5px;
+    border-radius: 25px;
     min-width: 88px;
 }
 .run{
@@ -163,12 +164,14 @@ header > * {
 }
 .task-data {
     height: 32px;
-    float: left;
-    justify-content: center;
+    /* float: left; */
+    /* justify-content: center; */
     padding: 9px 8px 0;
-    width: 70%;
-    flex-direction: column;
-    background: #1d1d1d;
+    max-width: 70%;
+    /* flex-direction: column; */
+    background: transparent;
+    position: absolute;
+    left: 30%;
 }
 .task-data > span {
     background: #ebebeb;
@@ -289,10 +292,36 @@ header > * {
     font-size: 14px;
 }
 
-#task-logs > span.ended {
+span.ended {
     font-family: monospace;
     color: #85b5ff;
     font-weight: 900;
+}
+
+.autoscroll-button {
+    position: absolute;
+    right: 34px;
+    bottom: 28px;
+    width: 30px;
+    height: 30px;
+    font-size: 19px;
+    border: 2px solid;
+    border-radius: 5px;
+    background: transparent;
+    color: #f1f1f1;
+    opacity: .3;
+    cursor: pointer;
+    transition: all 279ms ease;
+}
+
+.autoscroll-button.active, .autoscroll-button:active {
+    border: 2px solid #f1f1f1;
+    background: #f1f1f1;
+    color: rgb(29, 29, 29);
+}
+
+button.autoscroll-button:hover {
+    opacity: 1;
 }
 
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
