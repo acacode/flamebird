@@ -323,9 +323,8 @@ span.ended.ok {
     color: rgb(53, 212, 118);
 }
 
-.autoscroll-button {
+.logs-button {
     position: absolute;
-    right: 34px;
     bottom: 28px;
     width: 30px;
     height: 30px;
@@ -334,18 +333,27 @@ span.ended.ok {
     border-radius: 5px;
     background: transparent;
     color: #f1f1f1;
-    opacity: .3;
+    opacity: .2;
     cursor: pointer;
     transition: all 279ms ease;
 }
 
-.autoscroll-button.active, .autoscroll-button:active {
+.logs-button.autoscroll{
+    right: 34px;
+}
+.logs-button.clear{
+    right: 34px;
+    bottom: 72px;
+    padding-left: 3px;
+}
+
+.logs-button.active, .logs-button:active {
     border: 2px solid #f1f1f1;
     background: #f1f1f1;
     color: rgb(29, 29, 29);
 }
 
-button.autoscroll-button:hover {
+button.logs-button:hover {
     opacity: 1;
 }
 .task.clicked i.fa-cog {
