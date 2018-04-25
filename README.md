@@ -1,4 +1,7 @@
 # Flamebird.js
+[![GitHub license](https://img.shields.io/badge/license-MIT-red.svg)](https://github.com/js2me/flamebird/blob/master/LICENSE) 
+[![npm version](https://img.shields.io/npm/v/flamebird.svg?style=flat)](https://www.npmjs.com/package/flamebird)
+
 Flamebird is a nodejs task manager for Procfile-based or npm-based applications
 
 ## Installation
