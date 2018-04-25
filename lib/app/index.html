@@ -17,13 +17,23 @@
         <header>
             <span>flamebird</span>
             <div class="main-buttons">
-                <button class="main-button run">run all</button>
-                <button class="main-button stop">stop all</button>
+                <button class="main-button run" onclick="runAllTasks()">run all</button>
+                <button class="main-button stop" onclick="stopAllTasks()">stop all</button>
             </div>
+            <span class="tabs">
+                <button class="tab" id="packageJson">package.json</button>
+                <button class="tab active" id="Procfile">Procfile</button>
+            </span>
         </header>
         <section id="tasks"></section>
         <div class="task-data"><span></span></div>
         <section id="task-logs"></section>
+        <button class="logs-button clear active" onclick="clearLogs()">
+            <i class="fas fa-eraser"></i>
+        </button>
+        <button class="logs-button autoscroll active" onclick="triggerScrollWatcher()">
+            <i class="fas fa-angle-double-down"></i>
+        </button>
     </div>
     <script src="scripts/axios.js"></script>
     <script src="scripts/lodash.core.min.js"></script>

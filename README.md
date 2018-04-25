@@ -1,5 +1,5 @@
 # Flamebird.js
-Flamebird is a task manager for Procfile-based or npm-based applications
+Flamebird is a nodejs task manager for Procfile-based or npm-based applications
 
 ## Installation
 
@@ -24,12 +24,11 @@ Options:
 
 ### command: fb web
 
-Launch web-applcation which is task-manager. This command has more opportunities then `start`.
+Launch web-applcation which is task-manager. This command has more opportunities then `start`. Web-application read `Procfile` and `package.json` together and adding ability switching between them
 
 Options:
-- `-p, --package` - using package.json for the managing tasks.
 - `-t, --tasks [tasks]` - list of tasks which will be managing in the `fb web` command ( example : `fb web --tasks start,start:dev,start-server` and this tasks will be showing in the web-application `start`,`start:dev`,`start-server` )
-- `-P, --port <PORT>` - sets the server port, by default `5050`
+- `-p, --port <PORT>` - sets the server port, by default `5050`
 - `-n, --name <NAME>` - sets the project name. Display name of the project in title and header.
 
 

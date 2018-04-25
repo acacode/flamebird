@@ -49,10 +49,11 @@ header {
     height: 100%;
     box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.35);
     background: whitesmoke;
-    max-width: 768px;
+    max-width: 780px;
     background: red;
     margin-left: auto;
     margin-right: auto;
+    position: relative;
 }
 .wrapper > section{
     float: left;
@@ -60,7 +61,7 @@ header {
 }
 
 #tasks {
-    height: calc(100% - 2em - 8px);
+    height: calc(100% - 40px);
     width: 30%;
     background: #f1f1f1;
 }
@@ -84,11 +85,11 @@ header {
     /* white-space: pre; */
     word-break: break-all;
     text-align: justify;
-    height: calc(100% - 2em - 8px - 40px);
+    height: calc(100% - 40px);
     color: #f1f1f1;
     font-size: 12px;
     font-family: monospace;
-    padding: 6px 0 0 8px;
+    padding: 36px 0 0 8px;
 }
 #task-logs::-webkit-scrollbar {
     width: 10px;
@@ -141,7 +142,7 @@ header {
     padding: 1px 8px;
     background: #1d1d1d;
     /* border: 1px solid; */
-    border-radius: 5px;
+    border-radius: 25px;
     min-width: 88px;
 }
 .run{
@@ -163,18 +164,21 @@ header > * {
 }
 .task-data {
     height: 32px;
-    float: left;
-    justify-content: center;
+    /* float: left; */
+    /* justify-content: center; */
     padding: 9px 8px 0;
-    width: 70%;
-    flex-direction: column;
-    background: #1d1d1d;
+    max-width: 70%;
+    /* flex-direction: column; */
+    background: transparent;
+    position: absolute;
+    left: 30%;
 }
 .task-data > span {
     background: #ebebeb;
     color: #1d1d1d;
     padding: 0 8px;
     border-radius: 15px;
+    display: block;
 }
 .task.active {
     color: #1d1d1d;
@@ -201,7 +205,7 @@ header > * {
     color: rgba(80, 80, 80, 0);
 }
 
-.task.running .run-task {
+.task.running .run-task, .task.clicked .run-task, .task.clicked .stop-task {
     display: none;
 }
 
@@ -213,18 +217,33 @@ header > * {
     background: #75d085;
 }
 
-.task > span {
-    margin-left: 2px;
-    padding: 9px 0;
-    transition: transform 199ms cubic-bezier(0.18, 0.89, 0.32, 1.28) !important;
+.task.clicked:before {
+    background: #bdbdbd;
+}
+.task.clicked i.fa-cog:before {
+    content: "\f110" !important;
 }
 
-.task.running i.fa-cog {
-    color: #096519;
+.task.running i.fa-cog, .task.clicked i.fa-cog {
     -webkit-animation: spin 4s linear infinite;
     -moz-animation: spin 4s linear infinite;
     animation: spin 4s linear infinite;
 }
+
+.task.running i.fa-cog{
+    color: #096519;
+}
+.task.clicked i.fa-cog{
+    color: #5c9aad;
+}
+
+.task > span {
+    margin-left: 2px;
+    user-select: none;
+    padding: 9px 0;
+    transition: transform 199ms cubic-bezier(0.18, 0.89, 0.32, 1.28) !important;
+}
+
 
 .task:before {
     content: '';
@@ -256,11 +275,14 @@ header > * {
     transform: translateX(-29px);
 }
 
-.task.running > span {
-    transform: translateX(0);
+.task.running > span, .task.clicked > span {
+    transform: translateX(2px);
 }
 .task.active:not(.running):before {
     background: #f1f1f1;
+}
+.task.clicked:before {
+    background: #94d6ea !important;
 }
 
 .ansi-black-fg {color: rgba(0,0,0,1) } 
@@ -279,6 +301,8 @@ header > * {
 .ansi-bright-magenta-fg {color: rgba(255,85,255,1) } 
 .ansi-bright-cyan-fg {color: rgba(85,255,255,1) } 
 .ansi-bright-white-fg {color: rgba(255,255,255,1) } 
+.mocha-test {font-family: monospace;}
+.bold{font-weight: bold;}
 
 #task-logs > div > span.ansi-red-fg {
     display: block;
@@ -289,10 +313,87 @@ header > * {
     font-size: 14px;
 }
 
-#task-logs > span.ended {
+span.ended {
     font-family: monospace;
     color: #85b5ff;
-    font-weight: 900;
+    font-weight: 100;
+    font-size: 14px;
+}
+span.ended.ok {
+    color: rgb(53, 212, 118);
+}
+
+.logs-button {
+    position: absolute;
+    bottom: 28px;
+    width: 30px;
+    height: 30px;
+    font-size: 19px;
+    border: 2px solid;
+    border-radius: 5px;
+    background: transparent;
+    color: #f1f1f1;
+    opacity: .2;
+    cursor: pointer;
+    transition: all 279ms ease;
+}
+
+.logs-button.autoscroll{
+    right: 34px;
+}
+.logs-button.clear{
+    right: 34px;
+    bottom: 72px;
+    padding-left: 3px;
+}
+
+.logs-button.active, .logs-button:active {
+    border: 2px solid #f1f1f1;
+    background: #f1f1f1;
+    color: rgb(29, 29, 29);
+}
+
+button.logs-button:hover {
+    opacity: 1;
+}
+.task.clicked i.fa-cog {
+    animation-duration: 1s;
+}
+
+button.tab {
+    position: absolute;
+    border-top-left-radius: 10px;
+    user-select: none;
+    border-top-right-radius: 10px;
+    border: none;
+    text-transform: uppercase;
+    padding: 3px 10px 1px;
+    z-index: -50;
+    color: #cecece;
+    background: rgb(255, 255, 255);
+    cursor: pointer;
+    box-shadow: 0 0px 2px rgba(0, 0, 0, 0.28), inset 0 -1px 10px rgba(0, 0, 0, 0.1);
+}
+
+button.tab.active, button.tab:active {
+    z-index: 3;
+    background: #ebebeb;
+    font-weight: 500;
+    box-shadow: 0 0px 2px rgba(0, 0, 0, 0.49), inset 0 1px 10px rgba(0, 0, 0, 0.15);
+    color: #1d1d1d;
+}
+
+button#Procfile {
+    left: -52px;
+    /* top: 8px; */
+}
+
+span.tabs {
+    position: absolute;
+    left: -32px;
+    top: 215px;
+    transform: rotate(-90deg);
+    z-index: 0;
 }
 
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
