@@ -46,7 +46,7 @@ program
 program
   .command('web')
   .usage('[Options]')
-  .option('-P, --port <PORT>', 'sets the server port', 5050)
+  .option('-p, --port <PORT>', 'sets the server port', 5050)
   .option('-n, --name <NAME>', 'sets the project name', '')
   .option(
     '-t, --tasks [tasks]',

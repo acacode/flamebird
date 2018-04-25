@@ -2,6 +2,20 @@
 # Changelog
 
 
+## [1.6.7] -
+
+### Changed
+- renaming option `-P` to `-p` in the `web` command, for the setting port
+- update styles for web application
+
+### Added
+- `web` - added autoscroll button on the right bottom side. For turning on/off autoscrolling logs to bottom
+- `web` - [dev only] function for colorizing specific words like so `[emitted]`, `[built]` etc.
+- `web` - flamebird can read and procfile and package.json together, and added ability switching between this files in the web-application
+
+### Removed
+- removed option `-p, --package`
+
 ## [1.5.5] - 2018-04-23
 
 ### Changed
