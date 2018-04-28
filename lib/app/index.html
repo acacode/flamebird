@@ -26,9 +26,11 @@
             </span>
         </header>
         <section id="tasks"></section>
-        <div class="task-data"><span></span></div>
         <section id="task-logs"></section>
-        <button class="logs-button clear active" onclick="clearLogs()">
+        <button class="logs-button scroll-top" onclick="scrollToTop()">
+            <i class="fas fa-angle-double-down"></i>
+        </button>
+        <button class="logs-button clear" onclick="clearLogs()">
             <i class="fas fa-eraser"></i>
         </button>
         <button class="logs-button autoscroll active" onclick="triggerScrollWatcher()">

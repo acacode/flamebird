@@ -89,7 +89,7 @@ header {
     color: #f1f1f1;
     font-size: 12px;
     font-family: monospace;
-    padding: 36px 0 0 8px;
+    padding: 8px 0 0 8px;
 }
 #task-logs::-webkit-scrollbar {
     width: 10px;
@@ -163,15 +163,17 @@ header > * {
     background: rgb(129, 211, 144);
 }
 .task-data {
-    height: 32px;
+    min-height: 32px;
     /* float: left; */
     /* justify-content: center; */
     padding: 9px 8px 0;
-    max-width: 70%;
+    width: auto;
     /* flex-direction: column; */
     background: transparent;
-    position: absolute;
-    left: 30%;
+    position: relative;
+    left: -8px;
+    top: -6px;
+    display: flex;
 }
 .task-data > span {
     background: #ebebeb;
@@ -301,6 +303,7 @@ header > * {
 .ansi-bright-magenta-fg {color: rgba(255,85,255,1) } 
 .ansi-bright-cyan-fg {color: rgba(85,255,255,1) } 
 .ansi-bright-white-fg {color: rgba(255,255,255,1) } 
+.tussock{color: #c6d2ff;}
 .mocha-test {font-family: monospace;}
 .bold{font-weight: bold;}
 
@@ -340,6 +343,12 @@ span.ended.ok {
 
 .logs-button.autoscroll{
     right: 34px;
+    padding-top: 2px;
+}
+.logs-button.scroll-top{
+    right: 34px;
+    bottom: 134px;
+    transform: rotate(180deg);
 }
 .logs-button.clear{
     right: 34px;
@@ -387,6 +396,9 @@ button#Procfile {
     left: -52px;
     /* top: 8px; */
 }
+.envs-log:before{
+    content:'envs: ';
+}
 
 span.tabs {
     position: absolute;
@@ -394,6 +406,59 @@ span.tabs {
     top: 215px;
     transform: rotate(-90deg);
     z-index: 0;
+}
+
+.envs-log {
+    text-align: left;
+}
+.envs-log > .env-value {
+    pointer-events: none;
+    background: transparent;
+    border: none;
+    outline: none;
+}
+
+.envs-log > button.logs-button {
+    position: relative;
+    right: 31px;
+    top: 10px;
+    float: right;
+    font-size: 15px;
+}
+
+.logs-button.apply, .logs-button.cancel, .envs-log.active .logs-button {
+    display: none;
+}
+
+.envs-log.active .logs-button.apply, .envs-log.active .logs-button.cancel {
+    display: block;
+}
+
+.logs-button.apply {
+    margin-right: 8px;
+    color: #95ff7d;
+}
+
+.logs-button.cancel {
+    color: #ff8c8c;
+}
+
+.envs-log.active > .env-value {
+    pointer-events: all;
+    border: 1px solid rgb(235, 235, 235);
+    border-radius: 6px;
+    color: #ebebeb;
+}
+
+.flying > .task-data {
+    position: fixed;
+    left: 37.8%;
+    top: 80px;
+    width: 42%;
+}
+
+#task-logs.flying {
+    padding-top: 41px;
 }
 
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
