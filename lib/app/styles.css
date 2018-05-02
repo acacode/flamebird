@@ -47,7 +47,7 @@ header {
 
 .wrapper {
     height: 100%;
-    box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.35), 0 1px 50px 8px rgba(0, 0, 0, 0.17);
+    box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.35), 0 1px 50px 8px rgba(0, 0, 0, 0.04);
     background: whitesmoke;
     max-width: 780px;
     background: red;
@@ -487,6 +487,10 @@ header .title {
     color: #1d1d1d;
     font-weight: 500;
     padding-left: 6px;
+}
+.project-version {
+    color: #888888;
+    margin-left: 5px;
 }
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }

@@ -47,7 +47,11 @@ program
   .command('web')
   .usage('[Options]')
   .option('-p, --port <PORT>', 'sets the server port', 5050)
-  .option('-n, --name <NAME>', 'sets the project name', '')
+  .option(
+    '-n, --name <NAME>',
+    'sets the project name',
+    "By default takes from 'package.json' else 'flamebird'"
+  )
   .option(
     '-t, --tasks [tasks]',
     'List of tasks which will be run flamebird ( example : --tasks start,start:dev,start-server )'
