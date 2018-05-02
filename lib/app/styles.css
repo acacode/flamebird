@@ -484,9 +484,9 @@ span.tabs {
     top: -11.2%;
 }
 header .title {
-    font-family: monospace;
-    /* margin-left: 27px; */
     color: #1d1d1d;
+    font-weight: 500;
+    padding-left: 6px;
 }
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
