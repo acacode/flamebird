@@ -65,4 +65,5 @@ program.parse(process.argv)
 if (!process.argv.slice(2).length) {
   console.log(utils.getLogoWithVersion())
   program.outputHelp()
+  console.log(process.env.npm_config_)
 }
