@@ -36,13 +36,14 @@ header {
     background: #f1f1f1;
     display: flex;
     width: 100%;
+    position: relative;
     justify-content: space-between;
 /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffdcdc+0,ffdcdc+20,f1f1f1+47,f1f1f1+100 */
-    /* background: #ffdcdc; */ /* Old browsers */
-    background: -moz-linear-gradient(left, #ec2a45 0%,#ff9676 20%,#f1f1f1 47%,#f1f1f1 100%); /* FF3.6-15 */
-    /* background: -webkit-linear-gradient(left, #ec2a45 0%,#ff9676 20%,#f1f1f1 47%,#f1f1f1 100%); */ /* Chrome10-25,Safari5.1-6 */
-    /* background: linear-gradient(to right, #ec2a45 0%,#ff9676 20%,#f1f1f1 47%,#f1f1f1 100%); */ /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff878d', endColorstr='#f1f1f1',GradientType=1 ); /* IE6-9 */
+     /* Old browsers */
+     /* FF3.6-15 */
+     /* Chrome10-25,Safari5.1-6 */
+     /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+     /* IE6-9 */
 }
 
 .wrapper {
@@ -50,7 +51,7 @@ header {
     box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.35), 0 1px 50px 8px rgba(0, 0, 0, 0.04);
     background: whitesmoke;
     max-width: 780px;
-    background: red;
+    background: transparent;
     margin-left: auto;
     margin-right: auto;
     position: relative;
@@ -261,7 +262,7 @@ header > * {
     top: 0;
     width: 32px;
     height: 100%;
-    background: #ebebeb;
+    background: transparent;
     z-index: 0;
     opacity: .9;
 }
@@ -395,7 +396,7 @@ button.tab {
     background: rgb(239, 239, 239);
     cursor: pointer;
     box-shadow: 0 0px 2px rgba(0, 0, 0, 0.28), inset 0 -1px 10px rgba(0, 0, 0, 0.1);
-    transition: all 269ms cubic-bezier(0, 0, 0.2, 1);
+    transition: background 269ms cubic-bezier(0, 0, 0.2, 1);
 }
 
 button.tab.active, button.tab:active {
@@ -480,8 +481,8 @@ span.tabs {
     position: absolute;
     transform: scale(.2);
     z-index: -1;
-    left: -19%;
-    top: -11.2%;
+    left: -148px;
+    top: -90px;
 }
 header .title {
     color: #1d1d1d;
@@ -491,7 +492,164 @@ header .title {
 .project-version {
     color: #888888;
     margin-left: 5px;
+    font-size: 12px;
 }
+
+.themes {
+    position: absolute;
+    right: 30%;
+    top: -13px;
+    padding: 0;
+}
+
+.theme {
+    width: 30px;
+    height: 30px;
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    border-radius: 20px;
+    border: 3px solid #bdbdbd;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.32);
+}
+
+.theme.white {
+    background: #efefef;
+}
+
+.theme.dark {
+    background: #525252;
+}
+
+.theme.blue {
+    background: #588ff7;
+}
+
+.theme:hover, .white-theme .theme.white, .blue-theme .theme.blue, .dark-theme .theme.dark {
+    bottom: 5px;
+}
+.task:hover > span {
+    margin-left: 4px;
+}
+
+
+
+
+.dark-theme header {
+    background: #3e3e3e;
+}
+
+.dark-theme .title {
+    color: #eeeeee;
+}
+
+body.dark-theme {
+    background: #383838;
+}
+
+.dark-theme .theme {
+    border-color: #2f2f2f;
+}
+
+.dark-theme #tasks {
+    background: #424242;
+}
+
+.dark-theme .task.active {
+    background: rgb(37, 37, 37);
+    color: #ebebeb;
+}
+
+.dark-theme .task.active:not(.running):before {
+    background: #252525;
+}
+
+.dark-theme .task {
+    color: #a5a5a5;
+}
+
+.dark-theme .task:hover {
+    background: rgb(37, 37, 37);
+    color: #ebebeb;
+}
+
+
+.dark-theme button.tab {
+    color: #696969;
+    background: rgb(56, 56, 56);
+}
+
+.dark-theme button.tab.active, .dark-theme button.tab:active {
+    background: #252525;
+    color: #c7c7c7;
+}
+
+
+
+
+.blue-theme header {
+    background: #395384;
+}
+
+.blue-theme .title {
+    color: #d2dcf1;
+}
+
+body.blue-theme {
+    background: #ececec;
+}
+
+.blue-theme .theme {
+    border-color: #18305d;
+}
+
+.blue-theme #tasks {
+    background: #576682;
+}
+
+.blue-theme .task.active {
+    background: rgb(97, 126, 181);
+    color: #ebebeb;
+}
+
+.blue-theme .task.active:not(.running):before {
+    background: rgb(97, 126, 181);
+}
+
+.blue-theme .task {
+    color: #b5bece;
+}
+
+.blue-theme .task:hover {
+    background: rgb(97, 126, 181);
+    color: #ebebeb;
+}
+
+
+.blue-theme button.tab {
+    color: #696969;
+    background: rgb(234, 234, 234);
+}
+
+.blue-theme button.tab.active, .blue-theme button.tab:active {
+    background: #596781;
+    color: #e5edfb;
+}
+.blue-theme .project-version {
+    color: #afc9fb;
+}
+.blue-theme #task-logs{
+    background: #0e2144;
+}
+
+.tasks-button{
+	display: none;
+}
+#task-logs > span {
+    font-family: monospace;
+}
+
+
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }

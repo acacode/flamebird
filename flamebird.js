@@ -10,6 +10,7 @@ const storage = require('./lib/storage')
 const emitter = require('./lib/emitter')
 const processWorker = require('./lib/processWorker')
 const server = require('./lib/server')
+process.env.FORCE_COLOR = true
 
 process.once('SIGINT', function() {
   console.warn('Interrupted by User')

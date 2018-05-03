@@ -1,0 +1,75 @@
+.wrapper {
+    max-width: 100%;
+}
+
+body {
+    padding: 0;
+}
+
+.tasks-button{
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: block;
+    background: transparent;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 0;
+    color: #4e4e4e;
+    font-size: 24px;
+	cursor:pointer;
+}
+.tasks-button > .fas:before{
+    content: "\f0c9";
+}
+.task-list-showed .tasks-button > .fas:before{
+    content: "\f00d";
+}
+.blue-theme .tasks-button{
+    color: #d2dcf1;
+}
+.dark-theme .tasks-button{
+    color: #dedede;
+}
+header .title {
+    padding-left: 50px;
+}
+section#tasks {
+    transform: translateX(-100%);
+    width: 0;
+}
+
+section#task-logs {
+    width: 100%;
+}
+.task-list-showed #tasks {
+    transform: translateX(0);
+    width: 30%;
+}
+
+.task-list-showed #task-logs {
+    width: 70%;
+}
+.task-list-showed .themes {
+    right: 39%;
+    top: -20px;
+    z-index: 2;
+}
+
+.theme:hover, .white-theme .theme.white, .blue-theme .theme.blue, .dark-theme .theme.dark {
+    bottom: -5px;
+}
+.task-list-showed span.tabs {
+    position: absolute;
+    left: 60px;
+    top: 32px;
+    transform: rotate(0deg);
+    z-index: 2;
+}
+.flying > .task-data {
+    top: 4.7%;
+}
+.task-list-showed button.tab {border-top-left-radius: 0;border-top-right-radius: 0;border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;}
+.task:first-child {
+    padding-top: 24px;
+}
