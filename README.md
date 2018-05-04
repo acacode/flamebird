@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://github.com/webpack/webpack">
+  <a href="https://www.npmjs.com/package/flamebird">
     <img width="250" height="210" src="https://github.com/js2me/flamebird/raw/release/1.7.0/lib/app/logo.png">
   </a>
   <br>
@@ -23,16 +23,18 @@
 
     $ npm install -g flamebird
 
-## Get usage
+<h2 align="center">Get usage</h2>
 
     $ fb --help
 
-## Usage
+<h2 align="center">Usage</h2>
 
 Flamebird can be run using `fb` keyword or a little larger `flamebird` keyword.
 You can use command `fb start` or `fb web`
 
-### command: fb start
+<h3 align="center">command: fb start</h2>
+
+    $ fb start [options]
 
 Run tasks from `Procfile` or `package.json` 
 
@@ -40,7 +42,9 @@ Options:
 - `-p, --package` - using package.json for the managing tasks. (WARNING: only command `start` run all tasks from `package.json`, for resolving it , please use option `-t`)
 - `-t, --tasks [tasks]` - list of tasks which will be run `fb start` ( example : `fb start --tasks start,start:dev,start-server` and will be run tasks `start`,`start:dev`,`start-server` )
 
-### command: fb web
+<h3 align="center">command: fb web</h2>
+
+    $ fb web [options]
 
 Launch web-applcation which is task-manager. This command has more opportunities then `start`. Web-application read `Procfile` and `package.json` together and adding ability switching between them
 
