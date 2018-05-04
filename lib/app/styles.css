@@ -50,7 +50,7 @@ header {
     height: 100%;
     box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.35), 0 1px 50px 8px rgba(0, 0, 0, 0.04);
     background: whitesmoke;
-    max-width: 780px;
+    max-width: 876px;
     background: transparent;
     margin-left: auto;
     margin-right: auto;
@@ -63,7 +63,7 @@ header {
 
 #tasks {
     height: calc(100% - 40px);
-    width: 30%;
+    width: 28%;
     background: #f1f1f1;
 }
 
@@ -81,16 +81,16 @@ header {
 }
 
 #task-logs {
-    width: 70%;
-    background: #1d1d1d;
+    width: 72%;
+    background: #1e1e1e;
     /* white-space: pre; */
     word-break: break-all;
     text-align: justify;
     height: calc(100% - 40px);
-    color: #f1f1f1;
+    color: #dedede;
     font-size: 12px;
     font-family: monospace;
-    padding: 8px 0 0 8px;
+    padding: 8px 0 27px 8px;
     position: relative;
     overflow-x: hidden;
 }
@@ -292,23 +292,23 @@ header > * {
 }
 
 .ansi-black-fg {color: rgba(0,0,0,1) } 
-.ansi-red-fg {color: rgba(187,0,0,1) } 
-.ansi-green-fg {color: rgba(0,187,0,1) } 
-.ansi-yellow-fg {color: rgba(187,187,0,1) } 
-.ansi-blue-fg {color: rgb(80, 141, 255);} 
-.ansi-magenta-fg {color: rgba(187,0,187,1) } 
-.ansi-cyan-fg {color: rgba(0,187,187,1) } 
+.ansi-red-fg {color: rgb(249, 101, 92);} 
+.ansi-green-fg {color: rgb(63, 216, 104);} 
+.ansi-yellow-fg {color: rgb(222, 222, 89);} 
+.ansi-blue-fg {color: rgb(108, 159, 255);} 
+.ansi-magenta-fg {color: rgb(204, 77, 204);} 
+.ansi-cyan-fg {color: rgb(90, 218, 218);} 
 .ansi-white-fg {color: rgba(255,255,255,1) } 
-.ansi-bright-black-fg {color: rgba(85,85,85,1) } 
+.ansi-bright-black-fg {color: #cbcbcb;} 
 .ansi-bright-red-fg {color: rgba(255,85,85,1) } 
 .ansi-bright-green-fg {color: rgba(0,255,0,1) } 
 .ansi-bright-yellow-fg {color: rgba(255,255,85,1) } 
-.ansi-bright-blue-fg {color: rgba(85,85,255,1) } 
-.ansi-bright-magenta-fg {color: rgba(255,85,255,1) } 
+.ansi-bright-blue-fg {color: rgb(81, 136, 197);} 
+.ansi-bright-magenta-fg {color: rgb(236, 97, 236);} 
 .ansi-bright-cyan-fg {color: rgba(85,255,255,1) } 
 .ansi-bright-white-fg {color: rgba(255,255,255,1) } 
 .tussock{color: #c6d2ff;}
-.mocha-test {font-family: monospace;}
+.mocha-test {font-size: 16px;}
 .bold{font-weight: bold;}
 
 #task-logs > div > span.ansi-red-fg {
@@ -574,7 +574,7 @@ body.dark-theme {
     color: #c7c7c7;
 }
 .dark-theme #task-logs{
-    color: #b7b7b7;
+    color: #dcdcdc;
 }
 .dark-theme .ansi-red-fg {
     color: rgb(230, 78, 78);
@@ -585,7 +585,12 @@ body.dark-theme {
 .dark-theme #task-logs::-webkit-scrollbar-thumb:hover {
     background: #9e9e9e; 
 }
-
+.dark-theme #task-logs{
+    background: #060606;
+}
+.dark-theme .ansi-bright-black-fg {
+    color: #909090;
+}
 
 .blue-theme header {
     background: #395384;
@@ -650,8 +655,8 @@ body.blue-theme {
 }
 .task:after{
     position: absolute;
-    right: 4px;
-    bottom: 4px;
+    right: 6px;
+    bottom: 6px;
     font-size: 11px;
     color: #828282;
 }
