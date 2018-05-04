@@ -19,20 +19,20 @@
   </p>
 </div>
 
-<h2 align="center">Installation</h2>
+<h2 align="left">Installation</h2>
 
     $ npm install -g flamebird
 
-<h2 align="center">Get usage</h2>
+<h2 align="left">Get usage</h2>
 
     $ fb --help
 
-<h2 align="center">Usage</h2>
+<h2 align="left">Usage</h2>
 
 Flamebird can be run using `fb` keyword or a little larger `flamebird` keyword.
 You can use command `fb start` or `fb web`
 
-<h3 align="center">command: fb start</h2>
+<h3 align="left">command: fb start</h2>
 
     $ fb start [options]
 
@@ -42,7 +42,7 @@ Options:
 - `-p, --package` - using package.json for the managing tasks. (WARNING: only command `start` run all tasks from `package.json`, for resolving it , please use option `-t`)
 - `-t, --tasks [tasks]` - list of tasks which will be run `fb start` ( example : `fb start --tasks start,start:dev,start-server` and will be run tasks `start`,`start:dev`,`start-server` )
 
-<h3 align="center">command: fb web</h2>
+<h3 align="left">command: fb web</h2>
 
     $ fb web [options]
 
