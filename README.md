@@ -1,10 +1,25 @@
-# Flamebird.js
-[![GitHub license](https://img.shields.io/badge/license-MIT-red.svg)](https://github.com/js2me/flamebird/blob/master/LICENSE) 
-[![npm version](https://img.shields.io/npm/v/flamebird.svg?style=flat)](https://www.npmjs.com/package/flamebird)
+<div align="center">
+  <a href="https://github.com/webpack/webpack">
+    <img width="250" height="210" src="https://github.com/js2me/flamebird/raw/release/1.7.0/lib/app/logo.png">
+  </a>
+  <br>
+  <br>
 
-Flamebird is a nodejs task manager for Procfile-based or npm-based applications
 
-## Installation
+  <br>
+	<a href="https://github.com/js2me/flamebird/blob/master/LICENSE">
+		<img src="https://img.shields.io/badge/license-MIT-red.svg">
+	</a>
+	<a href="https://www.npmjs.com/package/flamebird">
+		<img src="https://img.shields.io/npm/v/flamebird.svg?style=flat">
+	</a>
+  <h1>Flamebird.js</h1>
+  <p>
+    Flamebird is a nodejs task manager for Procfile-based or npm-based applications
+  </p>
+</div>
+
+<h2 align="center">Installation</h2>
 
     $ npm install -g flamebird
 
