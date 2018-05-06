@@ -1,0 +1,54 @@
+header {
+    background: #395384;
+}
+
+.title {
+    color: #d2dcf1;
+}
+
+body{
+    background: #ececec;
+}
+
+.theme {
+    border-color: #18305d;
+}
+
+#tasks {
+    background: #576682;
+}
+
+.task.active {
+    background: rgb(97, 126, 181);
+    color: #ebebeb;
+}
+
+.task.active:not(.running):before {
+    background: rgb(97, 126, 181);
+}
+
+.task {
+    color: #b5bece;
+}
+
+.task:hover {
+    background: rgb(97, 126, 181);
+    color: #ebebeb;
+}
+
+
+button.tab {
+    color: #696969;
+    background: rgb(234, 234, 234);
+}
+
+button.tab.active, button.tab:active {
+    background: #596781;
+    color: #e5edfb;
+}
+.project-version {
+    color: #afc9fb;
+}
+#task-logs{
+    background: #0e2144;
+}

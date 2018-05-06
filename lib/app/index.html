@@ -35,7 +35,7 @@
 		<button class="tasks-button" onclick="showTaskList()"><i class="fas"></i></button>
         <section id="tasks"></section>
         <section id="task-logs"></section>
-        <button class="logs-button scroll-top" onclick="scrollToTop()">
+        <button class="logs-button scroll-top" onclick="WebLogger.scrollTo('top')">
             <i class="fas fa-angle-double-down"></i>
         </button>
         <button class="logs-button clear" onclick="clearLogs()">
@@ -45,11 +45,13 @@
             <i class="fas fa-angle-double-down"></i>
         </button>
     </div>
-    <script src="scripts/axios.js"></script>
-    <script src="scripts/lodash.core.min.js"></script>
-    <script src="scripts/ansi_up.js"></script>
-    <script src="scripts/jquery.min.js"></script>
+    <script src="libs/axios.js"></script>
+    <script src="libs/lodash.core.min.js"></script>
+    <script src="libs/ansi_up.js"></script>
+    <script src="libs/jquery.min.js"></script>
     <script src="dom_utils.js"></script>
+    <script src="scripts/fileloader.js"></script>
+    <script src="scripts/weblogger.js"></script>
     <script src="main.js"></script>
 </body>
 

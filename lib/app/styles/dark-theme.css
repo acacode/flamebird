@@ -1,0 +1,67 @@
+
+header {
+    background: #3e3e3e;
+}
+
+.title {
+    color: #eeeeee;
+}
+
+body{
+    background: #212121;
+}
+
+.theme {
+    border-color: #464646;
+}
+
+#tasks {
+    background: #424242;
+}
+
+.task.active {
+    background: rgb(37, 37, 37);
+    color: #ebebeb;
+}
+
+/* .task.active:not(.running):before {
+    background: transparent;
+} */
+
+.task {
+    color: #a5a5a5;
+}
+
+.task:hover {
+    background: rgb(37, 37, 37);
+    color: #ebebeb;
+}
+
+
+button.tab {
+    color: #696969;
+    background: rgb(33, 33, 33);
+}
+
+button.tab.active, button.tab:active {
+    background: #454545;
+    color: #c7c7c7;
+}
+#task-logs{
+    color: #dcdcdc;
+}
+.ansi-red-fg {
+    color: rgb(230, 78, 78);
+}
+#task-logs::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+}
+#task-logs::-webkit-scrollbar-thumb:hover {
+    background: #9e9e9e; 
+}
+#task-logs{
+    background: #060606;
+}
+.ansi-bright-black-fg {
+    color: #909090;
+}
