@@ -397,7 +397,7 @@ button.tab.active, button.tab:active {
     color: #565656;
 }
 
-button#Procfile {
+button#procfile {
     left: -52px;
     /* top: 8px; */
 }
