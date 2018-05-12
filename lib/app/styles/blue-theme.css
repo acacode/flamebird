@@ -10,7 +10,7 @@ body{
     background: #ececec;
 }
 
-.theme {
+.menu-item {
     border-color: #18305d;
 }
 
@@ -51,4 +51,7 @@ button.tab.active, button.tab:active {
 }
 #task-logs{
     background: #0e2144;
+}
+.menu-item.keyboard {
+    color: #18305d;
 }

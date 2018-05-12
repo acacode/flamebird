@@ -11,7 +11,7 @@ body{
     background: #212121;
 }
 
-.theme {
+.menu-item {
     border-color: #464646;
 }
 
@@ -64,4 +64,16 @@ button.tab.active, button.tab:active {
 }
 .ansi-bright-black-fg {
     color: #909090;
+}
+
+.menu-item.keyboard {
+    color: grey;
+    background: #252525;
+    border-color: grey;
+}
+
+.menu-item.keyboard.active {
+    border-color: #4b7d4d;
+    background: #a5c7a7;
+    color: #4b7d4d;
 }

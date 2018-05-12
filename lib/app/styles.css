@@ -485,14 +485,14 @@ span.tabs {
     font-size: 12px;
 }
 
-.themes {
+.short-menu {
     position: absolute;
     right: 30%;
     top: -13px;
     padding: 0;
 }
 
-.theme {
+.menu-item {
     width: 30px;
     height: 30px;
     position: relative;
@@ -503,19 +503,19 @@ span.tabs {
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.32);
 }
 
-.theme.white {
+.menu-item.white {
     background: #efefef;
 }
 
-.theme.dark {
+.menu-item.dark {
     background: #525252;
 }
 
-.theme.blue {
+.menu-item.blue {
     background: #588ff7;
 }
 
-.theme:hover, .theme.active{
+.menu-item:hover, .menu-item.active{
     bottom: 5px;
 }
 .task:hover > span {
@@ -526,6 +526,21 @@ span.tabs {
 }
 #task-logs > span {
     font-family: monospace;
+}
+
+.menu-item.keyboard {
+    padding-left: 3px;
+    padding-top: 0px;
+    bottom: 10px;
+    color: grey;
+    right: 50px;
+}
+
+.menu-item.keyboard.active {
+    border-color: #2a9e30;
+    background: #bce6be;
+    color: #2a9e30;
+    bottom: 15px;
 }
 
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }

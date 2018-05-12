@@ -4,6 +4,7 @@
     right: 6px;
     bottom: 6px;
     font-size: 11px;
+    text-transform: uppercase;
     color: #828282;
 }
 .task-num-1:after {
