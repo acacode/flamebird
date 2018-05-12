@@ -528,7 +528,7 @@ span.tabs {
     font-family: monospace;
 }
 
-.menu-item.keyboard {
+.menu-item.web-action {
     padding-left: 3px;
     padding-top: 0px;
     bottom: 10px;
@@ -536,11 +536,15 @@ span.tabs {
     right: 50px;
 }
 
-.menu-item.keyboard.active {
+.menu-item.web-action.active {
     border-color: #2a9e30;
     background: #bce6be;
     color: #2a9e30;
     bottom: 15px;
+}
+
+.menu-item.web-action.resize {
+    padding-left: 4.4px;
 }
 
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }

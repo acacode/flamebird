@@ -17,11 +17,12 @@
 <body>
     <div class="wrapper">
         <div class="short-menu">
-            <div class="menu-item keyboard" onclick="toggleKeyboard()"><i class="far fa-keyboard"></i></div>
+            <div class="menu-item web-action resize" onclick="toggleResize()"><i class="fas fa-expand-arrows-alt"></i></div>
+            <div class="menu-item web-action keyboard" onclick="toggleKeyboard()"><i class="far fa-keyboard"></i></div>
 
-            <div class="menu-item white" onclick="setTheme('white')"></div>
-            <div class="menu-item dark" onclick="setTheme('dark')"></div>
-            <div class="menu-item blue" onclick="setTheme('blue')"></div>
+            <div class="menu-item theme white" onclick="setTheme('white')"></div>
+            <div class="menu-item theme dark" onclick="setTheme('dark')"></div>
+            <div class="menu-item theme blue" onclick="setTheme('blue')"></div>
         </div>
         <header>
             <span class="title">flamebird</span>
@@ -31,8 +32,8 @@
                 <button class="main-button stop" onclick="stopAllTasks()">stop all</button>
             </div>
             <span class="tabs">
-                <button class="tab" id="npm" onclick="handleClickTab('npm')">package.json</button>
-                <button class="tab active" id="procfile" onclick="handleClickTab('procfile')">Procfile</button>
+                <button class="tab" id="npm" onclick="handleClickTab('npm')">npm</button>
+                <button class="tab active" id="procfile" onclick="handleClickTab('procfile')">procfile</button>
             </span>
         </header>
 		<button class="tasks-button" onclick="showTaskList()"><i class="fas"></i></button>

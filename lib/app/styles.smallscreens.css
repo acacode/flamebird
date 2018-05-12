@@ -25,12 +25,6 @@ body {
 .task-list-showed .tasks-button > .fas:before{
     content: "\f00d";
 }
-.blue-theme .tasks-button{
-    color: #d2dcf1;
-}
-.dark-theme .tasks-button{
-    color: #dedede;
-}
 header .title {
     padding-left: 50px;
 }
@@ -50,13 +44,15 @@ section#task-logs {
 .task-list-showed #task-logs {
     width: 70%;
 }
-.task-list-showed .themes {
+.task-list-showed .short-menu {
     right: 39%;
     top: -20px;
     z-index: 2;
 }
-
-.theme:hover, .white-theme .theme.white, .blue-theme .theme.blue, .dark-theme .theme.dark {
+.menu-item{
+    z-index: 1;
+}
+.menu-item:hover {
     bottom: -5px;
 }
 .task-list-showed span.tabs {

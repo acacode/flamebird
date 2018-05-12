@@ -66,13 +66,13 @@ button.tab.active, button.tab:active {
     color: #909090;
 }
 
-.menu-item.keyboard {
+.menu-item.web-action {
     color: grey;
     background: #252525;
     border-color: grey;
 }
 
-.menu-item.keyboard.active {
+.menu-item.web-action.active {
     border-color: #4b7d4d;
     background: #a5c7a7;
     color: #4b7d4d;
