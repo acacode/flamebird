@@ -6,6 +6,8 @@
     font-size: 11px;
     text-transform: uppercase;
     color: #828282;
+    text-align: center;
+    width: 10px;
 }
 .task-num-1:after {
     content:'q';
