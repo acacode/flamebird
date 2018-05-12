@@ -5,7 +5,8 @@
   "main": "flamebird.js",
   "scripts": {
     "lint-js-fix": "yarn lint-js --fix",
-    "lint-js": "eslint ."
+    "lint-js": "eslint .",
+    "postinstall": "webpack --config webpack.config.js"
   },
   "repository": {
     "type": "git",
