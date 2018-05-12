@@ -1,6 +1,28 @@
 
 # Changelog
 
+## [1.7.1] - 2018-05-13
+
+### Fixed
+- fixed webpack build after installing npm packages
+
+## [1.7.0] - 2018-05-13
+
+### Changed
+- refactoring code in frontend part of application
+- update styles for web application
+
+### Fixed
+- loosing colors in logs [18 issue](https://github.com/js2me/flamebird/issues/18)
+- problems with running webpack-dev-server in flamebird [15 issue](https://github.com/js2me/flamebird/issues/15)
+
+### Added
+- `web` - added hotkeys button. Which helps task switching or tabs switching via keyboard
+- `web` - added themes [default(white), dark, blue]
+- `web` - added fullscreene button. Changes task runner window size
+- `web` - webpack build
+- `web` - create flamebird logo [16 issue](https://github.com/js2me/flamebird/issues/16)
+- `web` - ability of the renaming values of the env variables [13 issue](https://github.com/js2me/flamebird/issues/13)
 
 ## [1.6.7] -
 
