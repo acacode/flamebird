@@ -1,14 +1,15 @@
 const fs = require('fs')
+const _ = require('lodash')
 const resolve = require('path').resolve
 
-function getEntries() {
+function getEntries(folder) {
   return fs
-    .readdirSync('./lib/app/')
+    .readdirSync(folder)
     .filter(file => file.match(/.*\.js$/))
     .map(file => {
       return {
         name: file.substring(0, file.length - 3),
-        path: './lib/app/' + file,
+        path: folder + file,
       }
     })
     .reduce((memo, file) => {
@@ -16,14 +17,25 @@ function getEntries() {
       return memo
     }, {})
 }
+console.log(
+  _.merge({}, getEntries('./lib/app/'), getEntries('./lib/app/scripts/'))
+)
 
-const config = {
-  mode: 'production',
-  entry: getEntries(),
-  output: {
-    path: resolve('./lib/app'),
-    filename: '[name].js',
+module.exports = [
+  {
+    mode: 'production',
+    entry: getEntries('./lib/app/'),
+    output: {
+      path: resolve('./lib/app'),
+      filename: '[name].js',
+    },
   },
-}
-
-module.exports = config
+  {
+    mode: 'production',
+    entry: getEntries('./lib/app/scripts/'),
+    output: {
+      path: resolve('./lib/app/scripts'),
+      filename: '[name].js',
+    },
+  },
+]
