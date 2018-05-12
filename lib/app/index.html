@@ -17,8 +17,8 @@
 <body>
     <div class="wrapper">
         <div class="short-menu">
-            <div class="menu-item web-action resize" onclick="toggleResize()"><i class="fas fa-expand-arrows-alt"></i></div>
-            <div class="menu-item web-action keyboard" onclick="toggleKeyboard()"><i class="far fa-keyboard"></i></div>
+            <div class="menu-item web-action resize" onclick="global.toggleResize()"><i class="fas fa-expand-arrows-alt"></i></div>
+            <div class="menu-item web-action keyboard" onclick="global.toggleKeyboard()"><i class="far fa-keyboard"></i></div>
 
             <div class="menu-item theme white" onclick="setTheme('white')"></div>
             <div class="menu-item theme dark" onclick="setTheme('dark')"></div>
@@ -28,24 +28,24 @@
             <span class="title">flamebird</span>
             <img src="logo.png" alt="flamebird" class="logo"/>
             <div class="main-buttons">
-                <button class="main-button run" onclick="runAllTasks()">run all</button>
-                <button class="main-button stop" onclick="stopAllTasks()">stop all</button>
+                <button class="main-button run" onclick="global.runAllTasks()">run all</button>
+                <button class="main-button stop" onclick="global.stopAllTasks()">stop all</button>
             </div>
             <span class="tabs">
-                <button class="tab" id="npm" onclick="handleClickTab('npm')">npm</button>
-                <button class="tab active" id="procfile" onclick="handleClickTab('procfile')">procfile</button>
+                <button class="tab" id="npm" onclick="global.handleClickTab('npm')">npm</button>
+                <button class="tab active" id="procfile" onclick="global.handleClickTab('procfile')">procfile</button>
             </span>
         </header>
-		<button class="tasks-button" onclick="showTaskList()"><i class="fas"></i></button>
+		<button class="tasks-button" onclick="global.showTaskList()"><i class="fas"></i></button>
         <section id="tasks"></section>
         <section id="task-logs"></section>
         <button class="logs-button scroll-top" onclick="logger.scrollTo('top')">
             <i class="fas fa-angle-double-down"></i>
         </button>
-        <button class="logs-button clear" onclick="clearLogs()">
+        <button class="logs-button clear" onclick="global.clearLogs()">
             <i class="fas fa-eraser"></i>
         </button>
-        <button class="logs-button autoscroll active" onclick="triggerScrollWatcher()">
+        <button class="logs-button autoscroll active" onclick="global.triggerScrollWatcher()">
             <i class="fas fa-angle-double-down"></i>
         </button>
     </div>
