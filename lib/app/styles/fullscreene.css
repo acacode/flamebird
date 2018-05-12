@@ -1,0 +1,59 @@
+.wrapper {
+    max-width: 100%;
+}
+
+body {
+    padding: 0;
+}
+
+header .title {
+    padding-left: 61px;
+}
+
+#tasks {
+    width: 260px;
+}
+
+#task-logs {
+    width: calc(100% - 260px);
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.menu-item{
+    z-index: 1;
+    bottom: -5px !important;
+}
+.menu-item.web-action{
+    bottom: 5px !important;
+}
+span.tabs {
+    position: absolute;
+    left: 332px;
+    top: 0;
+    transform: rotate(0deg);
+    z-index: 2;
+}
+.flying > .task-data {
+    top: 4.7%;
+}
+
+button.tab {border-radius: 4px;}
+
+.menu-item.active {
+    bottom: -5px;
+}
+
+.menu-item.web-action.active {
+    bottom: 5px;
+}
+.logo {
+    left: -105px;
+    z-index: 1;
+}
+
+.menu-item:not(.active) {
+    opacity: .5;
+}
+.short-menu {
+    top: -2px;
+}
