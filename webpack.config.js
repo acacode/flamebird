@@ -1,3 +1,4 @@
+const webpack = require('webpack')
 const fs = require('fs')
 const _ = require('lodash')
 const resolve = require('path').resolve
@@ -17,25 +18,29 @@ function getEntries(folder) {
       return memo
     }, {})
 }
-console.log(
-  _.merge({}, getEntries('./lib/app/'), getEntries('./lib/app/scripts/'))
+webpack(
+  [
+    {
+      mode: 'production',
+      entry: getEntries('./lib/app/'),
+      output: {
+        path: resolve('./lib/app'),
+        filename: '[name].js',
+      },
+    },
+    {
+      mode: 'production',
+      entry: getEntries('./lib/app/scripts/'),
+      output: {
+        path: resolve('./lib/app/scripts'),
+        filename: '[name].js',
+      },
+    },
+  ],
+  (err, stats) => {
+    if (err || stats.hasErrors()) {
+      console.log(err)
+    }
+    console.log('Build done!')
+  }
 )
-
-module.exports = [
-  {
-    mode: 'production',
-    entry: getEntries('./lib/app/'),
-    output: {
-      path: resolve('./lib/app'),
-      filename: '[name].js',
-    },
-  },
-  {
-    mode: 'production',
-    entry: getEntries('./lib/app/scripts/'),
-    output: {
-      path: resolve('./lib/app/scripts'),
-      filename: '[name].js',
-    },
-  },
-]
