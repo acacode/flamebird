@@ -1,14 +1,16 @@
 {
   "name": "flamebird",
-  "version": "1.7.27",
+  "version": "1.7.28",
   "description": "wonderful task manager for Procfile-based or npm-based applications",
   "main": "flamebird.js",
   "scripts": {
-    "webpack": "webpack --config webpack.config.js",
+    "webpack": "node_modules/.bin/webpack",
     "lint-js-fix": "yarn lint-js --fix",
     "lint-js": "eslint .",
-    "build-prod": "npm run webpack",
-    "postinstall": "yarn build-prod"
+    "build-prod": "yarn webpack --config webpack.config.js",
+    "prepublish": "echo hola1",
+    "postpublish": "echo hola2",
+    "fb-publish": "yarn build-prod && npm publish && git checkout lib flamebird.js"
   },
   "repository": {
     "type": "git",
@@ -38,7 +40,6 @@
     "tree-kill": "^1.2.0",
     "ws": "^5.1.1"
   },
-  "preferGlobal": false,
   "devDependencies": {
     "babel-eslint": "8.2.1",
     "eslint": "4.18.0",
