@@ -8,9 +8,8 @@
     "lint-js-fix": "yarn lint-js --fix",
     "lint-js": "eslint .",
     "build-prod": "yarn webpack --config webpack.config.js",
-    "prepublish": "echo hola1",
-    "postpublish": "echo hola2",
-    "fb-publish": "yarn build-prod && npm publish && git checkout lib flamebird.js"
+    "prepublish": "yarn build-prod",
+    "postpublish": "git checkout lib flamebird.js"
   },
   "repository": {
     "type": "git",
