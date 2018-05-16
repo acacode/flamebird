@@ -1,7 +1,12 @@
 
 # Changelog
 
-## [1.7.1] - 2018-05-13
+## [1.7.5]
+
+### Changed
+- add post install script ( only decorations )
+
+## [1.7.1 - 1.7.31]
 
 ### Fixed
 - fixed webpack build after installing npm packages
