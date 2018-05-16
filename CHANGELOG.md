@@ -6,6 +6,9 @@
 ### Changed
 - add post install script ( only decorations )
 
+### Fixed
+- Displaying logs not linked with opened task in web [21 issue](https://github.com/js2me/flamebird/issues/21)
+
 ## [1.7.1 - 1.7.31]
 
 ### Fixed
