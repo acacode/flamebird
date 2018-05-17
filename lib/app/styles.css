@@ -127,25 +127,52 @@ header {
     transition: left 69ms linear;
 }
 
+.main-buttons {
+    padding: 0;
+    display: flex;
+    overflow: hidden;
+    padding-left: 43px;
+}
+
+
 .main-button{
     border: 0;
     color: #f1f1f1;
     font-size: 15px;
     cursor: pointer;
-    padding: 1px 8px;
-    background: #1d1d1d;
-    /* border: 1px solid; */
-    border-radius: 25px;
+    padding: 1px 20px;
     min-width: 88px;
 }
+
+
+.main-button:not(.toggle){
+    margin: 0 0 0 -20px;
+    overflow:hidden;
+    position:relative;
+    -webkit-transform: skew(20deg);
+    -moz-transform: skew(20deg);
+    -o-transform: skew(20deg);
+    transform: skew(-20deg);
+}
+
+.main-button:not(.toggle) > span {
+    -webkit-transform: skew(20deg);
+    -moz-transform: skew(20deg);
+    -o-transform: skew(20deg);
+    transform: skew(20deg);
+    position: relative;
+    display: block;
+}
+
 .run{
-    background: #6db55d;
-    margin-right: 5px;
+    background: #2eb97a;
+    /* margin-right: 5px; */
+    right: 12px;
 }
 header > * {
     padding: 8px 10px 5px;
 }
-.stop{background: #b55d5d;}
+.stop{background: #b55d5d;right: -7px;padding-right: 27px;}
 .task > .stop-task {
     display: none;
     color: #a93333;
@@ -181,7 +208,7 @@ header > * {
     z-index: 2;
 }
 .run:active {
-    background: #3ead25;
+    background: #21d483;
 }
 
 .stop:active {
@@ -325,6 +352,8 @@ span.ended {
     color: #85b5ff;
     font-weight: 100;
     font-size: 14px;
+    display: block;
+    padding: 10px 0 16px;
 }
 span.ended.ok {
     color: rgb(53, 212, 118);
@@ -504,7 +533,7 @@ span.tabs {
 }
 
 .menu-item.white {
-    background: #efefef;
+    background: #ffffff;
 }
 
 .menu-item.dark {
@@ -524,27 +553,28 @@ span.tabs {
 .tasks-button{
 	display: none;
 }
-#task-logs > span {
+
+.main-button.toggle {
+    margin: auto 5px;
+    border-radius: 25px;
+    background: #d8d8d8;
+    color: #5d5d5d;
+    padding: 2px 15px;
+}
+
+
+
+#task-logs > * {
     font-family: monospace;
 }
 
-.menu-item.web-action {
-    padding-left: 3px;
-    padding-top: 0px;
-    bottom: 10px;
-    color: grey;
-    right: 50px;
+.main-button.toggle.keyboard {
+    margin-right: 60px;
 }
 
-.menu-item.web-action.active {
-    border-color: #2a9e30;
-    background: #bce6be;
-    color: #2a9e30;
-    bottom: 15px;
-}
-
-.menu-item.web-action.resize {
-    padding-left: 4.4px;
+.main-button.toggle.active {
+    background: #2eb97a;
+    color: #dbffef;
 }
 
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }

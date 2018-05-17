@@ -65,15 +65,16 @@ button.tab.active, button.tab:active {
 .ansi-bright-black-fg {
     color: #909090;
 }
-
-.menu-item.web-action {
-    color: grey;
-    background: #252525;
-    border-color: grey;
+.main-button.toggle {
+    background: #333333;
+    color: #929292;
+}
+.main-button.toggle.active {
+    background: #2e7b58;
+    color: #b5e0cd;
 }
 
-.menu-item.web-action.active {
-    border-color: #4b7d4d;
-    background: #a5c7a7;
-    color: #4b7d4d;
+.run{
+    background: #2f9a6a;
 }
+.stop{background: #8c4343;}
