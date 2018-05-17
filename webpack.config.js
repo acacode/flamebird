@@ -1,5 +1,6 @@
 const fs = require('fs')
 const _ = require('lodash')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const resolve = require('path').resolve
 
 function getEntries(folder, jsFiles) {
@@ -40,31 +41,43 @@ module.exports = [
     entry: getEntries('./lib/app/'),
     output: {
       path: resolve('./lib/app'),
-      filename: '[name].css',
+      filename: '[name]css',
     },
     module: {
       rules: [
         {
           test: /\.css$/,
-          use: ['style-loader', 'css-loader'],
+          use: ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: 'css-loader?minimize=true',
+          }),
         },
       ],
     },
+    plugins: [
+      new ExtractTextPlugin('[name]css'), // css file will override generated js file
+    ],
   },
   {
     mode: 'production',
     entry: getEntries('./lib/app/styles/'),
     output: {
       path: resolve('./lib/app/styles'),
-      filename: '[name].css',
+      filename: '[name]css',
     },
     module: {
       rules: [
         {
           test: /\.css$/,
-          use: ['style-loader', 'css-loader'],
+          use: ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: 'css-loader?minimize=true',
+          }),
         },
       ],
     },
+    plugins: [
+      new ExtractTextPlugin('[name]css'), // css file will override generated js file
+    ],
   },
 ]

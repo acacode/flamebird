@@ -30,7 +30,6 @@ body * {
 
 header {
     font-size: 18px;
-    /* padding: 8px 10px; */
     color: rgb(99, 99, 99);
     font-weight: 900;
     background: #f1f1f1;
@@ -38,12 +37,6 @@ header {
     width: 100%;
     position: relative;
     justify-content: space-between;
-/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffdcdc+0,ffdcdc+20,f1f1f1+47,f1f1f1+100 */
-     /* Old browsers */
-     /* FF3.6-15 */
-     /* Chrome10-25,Safari5.1-6 */
-     /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-     /* IE6-9 */
 }
 
 .wrapper {
@@ -149,9 +142,9 @@ header {
     margin: 0 0 0 -20px;
     overflow:hidden;
     position:relative;
-    -webkit-transform: skew(20deg);
-    -moz-transform: skew(20deg);
-    -o-transform: skew(20deg);
+    -webkit-transform: skew(-20deg);
+    -moz-transform: skew(-20deg);
+    -o-transform: skew(-20deg);
     transform: skew(-20deg);
 }
 

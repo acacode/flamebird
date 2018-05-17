@@ -27,7 +27,7 @@
 ### Added
 - `web` - added hotkeys button. Which helps task switching or tabs switching via keyboard
 - `web` - added themes [default(white), dark, blue]
-- `web` - added fullscreene button. Changes task runner window size
+- `web` - added fullscreen button. Changes task runner window size
 - `web` - webpack build
 - `web` - create flamebird logo [16 issue](https://github.com/js2me/flamebird/issues/16)
 - `web` - ability of the renaming values of the env variables [13 issue](https://github.com/js2me/flamebird/issues/13)
