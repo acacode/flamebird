@@ -17,8 +17,6 @@
 <body>
     <div class="wrapper">
         <div class="short-menu">
-            <div class="menu-item web-action resize" onclick="global.toggleResize()"><i class="fas fa-expand-arrows-alt"></i></div>
-            <div class="menu-item web-action keyboard" onclick="global.toggleKeyboard()"><i class="far fa-keyboard"></i></div>
 
             <div class="menu-item theme white" onclick="global.setTheme('white')"></div>
             <div class="menu-item theme dark" onclick="global.setTheme('dark')"></div>
@@ -28,8 +26,16 @@
             <span class="title">flamebird</span>
             <img src="logo.png" alt="flamebird" class="logo"/>
             <div class="main-buttons">
-                <button class="main-button run" onclick="global.runAllTasks()">run all</button>
-                <button class="main-button stop" onclick="global.stopAllTasks()">stop all</button>
+                <button class="main-button toggle resize" onclick="global.toggleResize()">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                    <span>fullscreen</span>
+                </button>
+                <button class="main-button toggle keyboard" onclick="global.toggleKeyboard()">
+                    <i class="far fa-keyboard"></i>
+                    <span>hotkeys</span>
+                </button>
+                <button class="main-button run" onclick="global.runAllTasks()"><span>run all</span></button>
+                <button class="main-button stop" onclick="global.stopAllTasks()"><span>stop all</span></button>
             </div>
             <span class="tabs">
                 <button class="tab" id="npm" onclick="global.handleClickTab('npm')">npm</button>

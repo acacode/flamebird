@@ -11,6 +11,8 @@ const emitter = require('./lib/emitter')
 const processWorker = require('./lib/processWorker')
 const server = require('./lib/server')
 process.env.FORCE_COLOR = true
+process.env.colors = true
+process.env.color = true
 
 process.once('SIGINT', function() {
   console.warn('Interrupted by User')
@@ -41,6 +43,7 @@ program
   .description('Start the jobs in the Procfile/Package.json')
   .action(function(args) {
     storage.set('actionArgs', args)
+    require('./lib/envs').load(program.env)
     const taskfile = require('./lib/taskfile').load(program.procfile, args)
     processWorker.runAll(taskfile, args)
   })
@@ -61,6 +64,7 @@ program
   .action(function(args) {
     args.web = true
     storage.set('actionArgs', args)
+    require('./lib/envs').load(program.env)
     const taskfile = require('./lib/taskfile').load(program.procfile, args)
     server.start(taskfile, args.port, args)
   })

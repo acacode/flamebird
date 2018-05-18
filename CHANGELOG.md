@@ -1,7 +1,21 @@
 
 # Changelog
 
-## [1.7.1] - 2018-05-13
+## [1.7.5]
+
+### Added
+- Ability of the parsing and displaying `.env` file [20 issue](https://github.com/js2me/flamebird/issues/20)
+
+### Changed
+- [Internal] FE/BE code refactoring
+- `web` - changes in webpack config. Add builds for `*.css` files
+- add post install script ( only decorations )
+- `web` - Fix styles for small screens and for fullscreen mode.
+
+### Fixed
+- Displaying logs not linked with opened task in web [21 issue](https://github.com/js2me/flamebird/issues/21)
+
+## [1.7.1 - 1.7.31]
 
 ### Fixed
 - fixed webpack build after installing npm packages
@@ -19,7 +33,7 @@
 ### Added
 - `web` - added hotkeys button. Which helps task switching or tabs switching via keyboard
 - `web` - added themes [default(white), dark, blue]
-- `web` - added fullscreene button. Changes task runner window size
+- `web` - added fullscreen button. Changes task runner window size
 - `web` - webpack build
 - `web` - create flamebird logo [16 issue](https://github.com/js2me/flamebird/issues/16)
 - `web` - ability of the renaming values of the env variables [13 issue](https://github.com/js2me/flamebird/issues/13)

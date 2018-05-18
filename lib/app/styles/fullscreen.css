@@ -23,13 +23,10 @@ header .title {
     z-index: 1;
     bottom: -5px !important;
 }
-.menu-item.web-action{
-    bottom: 5px !important;
-}
 span.tabs {
     position: absolute;
     left: 332px;
-    top: 0;
+    top: 2px;
     transform: rotate(0deg);
     z-index: 2;
 }
@@ -40,11 +37,7 @@ span.tabs {
 button.tab {border-radius: 4px;}
 
 .menu-item.active {
-    bottom: -5px;
-}
-
-.menu-item.web-action.active {
-    bottom: 5px;
+    transform: scale(1.1);
 }
 .logo {
     left: -105px;
@@ -54,6 +47,17 @@ button.tab {border-radius: 4px;}
 .menu-item:not(.active) {
     opacity: .5;
 }
-.short-menu {
-    top: -2px;
+.short-menu{
+    top: 0;
+    right: 47%;
+}
+
+body[theme="blue"] button.tab {
+    color: #56678a;
+    background: rgb(42, 56, 84);
+}
+
+body[theme="blue"] button.tab.active,body[theme="blue"] button.tab:active {
+    background: #516998;
+    color: #e5edfb;
 }
