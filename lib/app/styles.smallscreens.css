@@ -73,3 +73,6 @@ section#task-logs {
 body[theme="blue"] .tasks-button{    
     color: #cbdbf9;
 }
+body[theme="dark"] .tasks-button{    
+    color: #ebebeb;
+}
