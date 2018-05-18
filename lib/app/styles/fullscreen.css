@@ -48,7 +48,8 @@ button.tab {border-radius: 4px;}
     opacity: .5;
 }
 .short-menu{
-    top: 0
+    top: 0;
+    right: 47%;
 }
 
 body[theme="blue"] button.tab {

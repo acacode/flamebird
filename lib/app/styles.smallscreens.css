@@ -69,3 +69,7 @@ section#task-logs {
 .task:first-child {
     padding-top: 24px;
 }
+
+body[theme="blue"] .tasks-button{    
+    color: #cbdbf9;
+}
