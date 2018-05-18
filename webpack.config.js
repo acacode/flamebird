@@ -1,5 +1,4 @@
 const fs = require('fs')
-const _ = require('lodash')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const resolve = require('path').resolve
 
