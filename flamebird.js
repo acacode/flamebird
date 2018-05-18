@@ -41,6 +41,7 @@ program
   .description('Start the jobs in the Procfile/Package.json')
   .action(function(args) {
     storage.set('actionArgs', args)
+    require('./lib/envs').load(program.env)
     const taskfile = require('./lib/taskfile').load(program.procfile, args)
     processWorker.runAll(taskfile, args)
   })
@@ -61,6 +62,7 @@ program
   .action(function(args) {
     args.web = true
     storage.set('actionArgs', args)
+    require('./lib/envs').load(program.env)
     const taskfile = require('./lib/taskfile').load(program.procfile, args)
     server.start(taskfile, args.port, args)
   })
