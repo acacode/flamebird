@@ -3,8 +3,14 @@
 
 ## [1.7.5]
 
+### Added
+- Ability of the parsing and displaying `.env` file [20 issue](https://github.com/js2me/flamebird/issues/20)
+
 ### Changed
+- [Internal] FE/BE code refactoring
+- `web` - changes in webpack config. Add builds for `*.css` files
 - add post install script ( only decorations )
+- `web` - Fix styles for small screens and for fullscreen mode.
 
 ### Fixed
 - Displaying logs not linked with opened task in web [21 issue](https://github.com/js2me/flamebird/issues/21)
