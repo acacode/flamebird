@@ -161,11 +161,12 @@ header {
     background: #2eb97a;
     /* margin-right: 5px; */
     right: 12px;
+    color: #d5ffec;
 }
 header > * {
     padding: 8px 10px 5px;
 }
-.stop{background: #b55d5d;right: -7px;padding-right: 27px;}
+.stop{background: #b55d5d;color: #ffd5d5;right: -7px;padding-right: 27px;}
 .task > .stop-task {
     display: none;
     color: #a93333;
@@ -481,13 +482,9 @@ span.tabs {
     position: fixed;
     left: auto;
     right: auto;
-    top: 10.7%;
+    top: auto;
     width: 546px;
     margin-top: -5px;
-}
-
-#task-logs.flying {
-    padding-top: 41px;
 }
 .logo{
     position: absolute;
