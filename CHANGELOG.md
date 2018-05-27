@@ -1,6 +1,14 @@
 
 # Changelog
 
+## [1.7.8]
+
+### Added
+- Running commands without `yarn`/`npm run`. Launching libraries in the commands via full path to library (util -> node_modules/.bin/util)[14 issue](https://github.com/js2me/flamebird/issues/14)
+
+### Fixed
+- `web` - Fixed whitespace in the logs [26 issue](https://github.com/js2me/flamebird/issues/26)
+
 ## [1.7.5]
 
 ### Added
