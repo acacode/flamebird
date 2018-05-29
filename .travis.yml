@@ -1,0 +1,21 @@
+language: node_js
+branches:
+  only:
+    - master
+node_js:
+  - "node"
+cache:
+  yarn: true
+  directories:
+      - "node_modules"
+before_install:
+  - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
+install:
+  - yarn
+script:
+  - yarn lint-js
+  - yarn build-prod
+after_success:
+  - if [ ${TRAVIS_BRANCH} = "master" ] && [ "${TRAVIS_PULL_REQUEST}" = "false" ];then
+    npm publish;
+    fi

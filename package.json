@@ -1,6 +1,6 @@
 {
   "name": "flamebird",
-  "version": "1.7.5",
+  "version": "1.7.8",
   "description": "wonderful task manager for Procfile-based or npm-based applications",
   "main": "flamebird.js",
   "scripts": {
@@ -8,8 +8,6 @@
     "lint-js-fix": "yarn lint-js --fix",
     "lint-js": "eslint .",
     "build-prod": "yarn webpack --config webpack.config.js",
-    "prepublish": "yarn build-prod",
-    "postpublish": "git checkout lib flamebird.js",
     "postinstall": "node postinstall.js"
   },
   "repository": {

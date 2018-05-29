@@ -502,6 +502,7 @@ span.tabs {
     color: #888888;
     margin-left: 5px;
     font-size: 12px;
+    pointer-events: none;
 }
 
 .short-menu {

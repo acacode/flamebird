@@ -1,17 +1,20 @@
 <div align="center">
   <a href="https://www.npmjs.com/package/flamebird">
-    <img width="250" height="210" src="https://github.com/js2me/flamebird/raw/release/1.7.0/lib/app/logo.png">
+    <img width="250" height="210" src="https://github.com/acacode/flamebird/raw/release/1.7.0/lib/app/logo.png">
   </a>
   <br>
   <br>
 
 
   <br>
-	<a href="https://github.com/js2me/flamebird/blob/master/LICENSE">
+	<a href="https://github.com/acacode/flamebird/blob/master/LICENSE">
 		<img src="https://img.shields.io/badge/license-MIT-red.svg">
 	</a>
 	<a href="https://www.npmjs.com/package/flamebird">
 		<img src="https://img.shields.io/npm/v/flamebird.svg?style=flat">
+	</a>
+	<a href="https://travis-ci.org/acacode/flamebird">
+		<img src="https://travis-ci.org/acacode/flamebird.svg?branch=master">
 	</a>
   <h1>Flamebird.js</h1>
   <p>

@@ -63,10 +63,12 @@ program
   .description('Start the jobs in the Procfile/Package.json')
   .action(function(args) {
     args.web = true
-    storage.set('actionArgs', args)
-    require('./lib/envs').load(program.env)
-    const taskfile = require('./lib/taskfile').load(program.procfile, args)
-    server.start(taskfile, args.port, args)
+    setTimeout(() => {
+      storage.set('actionArgs', args)
+      require('./lib/envs').load(program.env)
+      const taskfile = require('./lib/taskfile').load(program.procfile, args)
+      server.start(taskfile, args.port, args)
+    }, 8000)
   })
 
 program.parse(process.argv)
