@@ -4,15 +4,16 @@
 ## [1.7.8]
 
 ### Added
-- Running commands without `yarn`/`npm run`. Launching libraries in the commands via full path to library (util -> node_modules/.bin/util)[14 issue](https://github.com/js2me/flamebird/issues/14)
+- Running commands without `yarn`/`npm run`. Launching libraries in the commands via full path to library (util -> node_modules/.bin/util)[14 issue](https://github.com/acacode/flamebird/issues/14) & [25 issue](https://github.com/acacode/flamebird/issues/25)
+- Integration with Travis CI [17 issue](https://github.com/acacode/flamebird/issues/17)
 
 ### Fixed
-- `web` - Fixed whitespace in the logs [26 issue](https://github.com/js2me/flamebird/issues/26)
+- `web` - Fixed whitespace in the logs [26 issue](https://github.com/acacode/flamebird/issues/26)
 
 ## [1.7.5]
 
 ### Added
-- Ability of the parsing and displaying `.env` file [20 issue](https://github.com/js2me/flamebird/issues/20)
+- Ability of the parsing and displaying `.env` file [20 issue](https://github.com/acacode/flamebird/issues/20)
 
 ### Changed
 - [Internal] FE/BE code refactoring
@@ -21,7 +22,7 @@
 - `web` - Fix styles for small screens and for fullscreen mode.
 
 ### Fixed
-- Displaying logs not linked with opened task in web [21 issue](https://github.com/js2me/flamebird/issues/21)
+- Displaying logs not linked with opened task in web [21 issue](https://github.com/acacode/flamebird/issues/21)
 
 ## [1.7.1 - 1.7.31]
 
@@ -35,16 +36,16 @@
 - update styles for web application
 
 ### Fixed
-- loosing colors in logs [18 issue](https://github.com/js2me/flamebird/issues/18)
-- problems with running webpack-dev-server in flamebird [15 issue](https://github.com/js2me/flamebird/issues/15)
+- loosing colors in logs [18 issue](https://github.com/acacode/flamebird/issues/18)
+- problems with running webpack-dev-server in flamebird [15 issue](https://github.com/acacode/flamebird/issues/15)
 
 ### Added
 - `web` - added hotkeys button. Which helps task switching or tabs switching via keyboard
 - `web` - added themes [default(white), dark, blue]
 - `web` - added fullscreen button. Changes task runner window size
 - `web` - webpack build
-- `web` - create flamebird logo [16 issue](https://github.com/js2me/flamebird/issues/16)
-- `web` - ability of the renaming values of the env variables [13 issue](https://github.com/js2me/flamebird/issues/13)
+- `web` - create flamebird logo [16 issue](https://github.com/acacode/flamebird/issues/16)
+- `web` - ability of the renaming values of the env variables [13 issue](https://github.com/acacode/flamebird/issues/13)
 
 ## [1.6.7] -
 
@@ -68,8 +69,8 @@
 
 ### Fixed
 - Normalized showing logs of the task
-- Envs isn't passing to the command [BUG](https://github.com/js2me/flamebird/issues/3)
-- fb web: UnhandledPromiseRejectionWarning: Error: spawn chrome ENOENT [BUG](https://github.com/js2me/flamebird/issues/2)
+- Envs isn't passing to the command [BUG](https://github.com/acacode/flamebird/issues/3)
+- fb web: UnhandledPromiseRejectionWarning: Error: spawn chrome ENOENT [BUG](https://github.com/acacode/flamebird/issues/2)
 
 
 ## [1.5.3] - 2018-04-21
