@@ -12,7 +12,6 @@ install:
   - yarn
 script:
   - yarn lint-js
-  - yarn test
 after_success:
   - if [ ${TRAVIS_BRANCH} = "master" ] && [ "${TRAVIS_PULL_REQUEST}" = "false" ];then
     yarn build-prod;
