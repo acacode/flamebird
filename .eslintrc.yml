@@ -1,4 +1,5 @@
 extends:
+  - eslint:recommended
   - standard
   - prettier
   - prettier/standard
