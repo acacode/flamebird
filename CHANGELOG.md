@@ -1,6 +1,12 @@
 
 # Changelog
 
+## [1.7.9]
+
+### Fixed
+- `web` - Cannot switch to `npm` tab [32 issue](https://github.com/acacode/flamebird/issues/32)
+- `web` - Cannot read property `isActive` of undefined [30 issue](https://github.com/acacode/flamebird/issues/30)
+
 ## [1.7.8]
 
 ### Added
