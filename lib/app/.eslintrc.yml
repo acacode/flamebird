@@ -1,4 +1,5 @@
 extends:
+  - eslint:recommended
   - standard
   - prettier
   - prettier/standard
@@ -8,9 +9,6 @@ parser: babel-eslint
 plugins:
   - standard
   - prettier
-
-env:
-  browser: true
 
 rules:
   prettier/prettier:
