@@ -1,7 +1,7 @@
 
 # Changelog
 
-## [1.7.91]
+## [1.7.91 - 1.7.92]
 
 ### Fixed
 - `web` - Fix displaying logs for non active task in the active task
