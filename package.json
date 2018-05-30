@@ -1,6 +1,6 @@
 {
   "name": "flamebird",
-  "version": "1.7.8",
+  "version": "1.7.9",
   "description": "wonderful task manager for Procfile-based or npm-based applications",
   "main": "flamebird.js",
   "scripts": {
