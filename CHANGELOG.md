@@ -1,6 +1,12 @@
 
 # Changelog
 
+## [1.7.91]
+
+### Fixed
+- `web` - Fix displaying logs for non active task in the active task
+- `web` - Fix problem with changing env variables in web (previous process not killed)
+
 ## [1.7.9]
 
 ### Fixed
