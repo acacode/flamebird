@@ -1,11 +1,12 @@
 
 # Changelog
 
-## [1.7.91 - 1.7.92]
+## [1.7.91 - 1.7.94]
 
 ### Fixed
 - `web` - Fix displaying logs for non active task in the active task
 - `web` - Fix problem with changing env variables in web (previous process not killed)
+- Remove unsupportable spread operator
 
 ## [1.7.9]
 
