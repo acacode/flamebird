@@ -5,6 +5,7 @@
 
 ### Fixed
 - maximum `killall` event listeners. The removing of the `killall` event listener if task is completed
+- `web` - more than one websocket clients
 
 ### Changed
 - `web` - a small UI/UX fixes.
