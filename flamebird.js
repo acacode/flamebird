@@ -15,13 +15,13 @@ process.env.colors = true
 process.env.color = true
 
 process.once('SIGINT', function() {
-  console.warn('Interrupted by User')
   emitter.emit('killall', 'SIGINT')
+  process.exit()
 })
 
 // Kill All Child Processes & Exit on SIGTERM
 process.once('SIGTERM', function() {
-  console.warn('killall', 'SIGTERM')
+  emitter.emit('killall', 'SIGTERM')
   process.exit()
 })
 
@@ -63,12 +63,10 @@ program
   .description('Start the jobs in the Procfile/Package.json')
   .action(function(args) {
     args.web = true
-    setTimeout(() => {
-      storage.set('actionArgs', args)
-      require('./lib/envs').load(program.env)
-      const taskfile = require('./lib/taskfile').load(program.procfile, args)
-      server.start(taskfile, args.port, args)
-    }, 8000)
+    storage.set('actionArgs', args)
+    require('./lib/envs').load(program.env)
+    const taskfile = require('./lib/taskfile').load(program.procfile, args)
+    server.start(taskfile, args.port, args)
   })
 
 program.parse(process.argv)

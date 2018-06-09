@@ -1,6 +1,20 @@
 
 # Changelog
 
+## [1.8.0]
+
+### Fixed
+- maximum `killall` event listeners. The removing of the `killall` event listener if task is completed
+
+### Changed
+- `web` - a small UI/UX fixes.
+
+### Removed
+- `web` - `blue` theme
+
+### Added
+- `web` - Ability of the creating new tasks [10 issue](https://github.com/acacode/flamebird/issues/10)
+
 ## [1.7.91 - 1.7.94]
 
 ### Fixed
