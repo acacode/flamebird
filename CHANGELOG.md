@@ -13,9 +13,6 @@
 ### Removed
 - `web` - `blue` theme
 
-### Added
-- `web` - Ability of the creating new tasks [10 issue](https://github.com/acacode/flamebird/issues/10)
-
 ## [1.7.91 - 1.7.94]
 
 ### Fixed

@@ -59,7 +59,7 @@ section#task-logs {
     z-index: 2;
 }
 .flying > .task-data {
-    top: 4.7%;
+    top: 45px;
 }
 
 body[theme="dark"] .tasks-button{    

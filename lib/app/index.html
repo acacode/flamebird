@@ -45,14 +45,6 @@
         </button>
         <section id="tasks"></section>
         <section id="task-logs"></section>
-        <div class="task new-task" onclick="newTaskModal.triggerModal()">
-            <i class="fas fa-plus"></i>
-            <div class="form">
-                <input name="name" placeholder="your task name">
-                <textarea name="command" placeholder="your task commands"></textarea>
-                <button onclick="newTaskModal.addNewTask()"><i class="fas fa-plus"></i> add</button>
-            </div>
-        </div>
         <button class="logs-button scroll-top" onclick="logger.scrollTo('top')">
             <i class="fas fa-angle-double-down"></i>
         </button>
@@ -71,7 +63,6 @@
     <script src="scripts/file_loader.js"></script>
     <script src="scripts/task_list.js"></script>
     <script src="scripts/weblogger.js"></script>
-    <script src="scripts/new_task_modal.js"></script>
     <script src="main.js"></script>
 </body>
 
