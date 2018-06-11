@@ -1,7 +1,7 @@
 <!doctype html>
 <html class="no-js" lang="">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <title>flamebird</title>
     <link rel="shortcut icon" href="logo.png" />
@@ -15,17 +15,15 @@
 </head>
 
 <body>
-    <div class="wrapper">
-        <div class="short-menu">
-
-            <div class="menu-item theme white" onclick="global.setTheme('white')"></div>
-            <div class="menu-item theme dark" onclick="global.setTheme('dark')"></div>
-            <div class="menu-item theme blue" onclick="global.setTheme('blue')"></div>
-        </div>
+    <div class="wrapper active-tab-procfile">
         <header>
             <span class="title">flamebird</span>
             <img src="logo.png" alt="flamebird" class="logo"/>
             <div class="main-buttons">
+                <button class="main-button toggle color" onclick="global.switchTheme()">
+                    <i class="fas fa-adjust"></i>
+                    <span>theme</span>
+                </button>
                 <button class="main-button toggle resize" onclick="global.toggleResize()">
                     <i class="fas fa-expand-arrows-alt"></i>
                     <span>fullscreen</span>
@@ -42,7 +40,9 @@
                 <button class="tab active" id="procfile" onclick="global.handleClickTab('procfile')">procfile</button>
             </span>
         </header>
-		<button class="tasks-button" onclick="global.showTaskList()"><i class="fas"></i></button>
+		<button class="tasks-button" onclick="global.showTaskList()">
+            <i class="fas"></i>
+        </button>
         <section id="tasks"></section>
         <section id="task-logs"></section>
         <button class="logs-button scroll-top" onclick="logger.scrollTo('top')">
@@ -55,7 +55,6 @@
             <i class="fas fa-angle-double-down"></i>
         </button>
     </div>
-    <div class="modals"></div>
     <script src="libs/axios.js"></script>
     <script src="libs/lodash.core.min.js"></script>
     <script src="libs/ansi_up.js"></script>

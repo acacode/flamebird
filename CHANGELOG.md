@@ -1,6 +1,21 @@
 
 # Changelog
 
+## [1.8.0]
+
+### Fixed
+- maximum `killall` event listeners. The removing of the `killall` event listener if task is completed
+- `web` - more than one websocket clients
+- `web` - restart of the task has been fixed
+- `start` - not all processes was launched from Procfile using `start` command
+
+
+### Changed
+- `web` - a small UI/UX fixes.
+
+### Removed
+- `web` - `blue` theme
+
 ## [1.7.91 - 1.7.94]
 
 ### Fixed

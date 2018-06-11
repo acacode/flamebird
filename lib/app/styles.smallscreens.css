@@ -38,41 +38,43 @@ section#task-logs {
 }
 .task-list-showed #tasks {
     transform: translateX(0);
+}
+.task.new-task, .task-list-showed #tasks{
     width: 30%;
 }
-
+.active-tab-procfile .task.new-task,.active-tab-procfile .task.new-task.show{
+    transform: scaleY(.6) translateY(58px);
+}
+.task-list-showed .active-tab-procfile .task.new-task{
+    transform: none
+}
 .task-list-showed #task-logs {
     width: 70%;
 }
-.task-list-showed .short-menu {
-    right: 39%;
-    top: -20px;
-    z-index: 2;
-}
-.menu-item{
-    z-index: 1;
-}
-.menu-item:hover {
-    bottom: -5px;
-}
 .task-list-showed span.tabs {
     position: absolute;
-    left: 60px;
-    top: 32px;
-    transform: rotate(0deg);
+    left: 31.3%;
+    top: 292px;
+    transform: rotate(90deg);
     z-index: 2;
 }
 .flying > .task-data {
-    top: 4.7%;
-}
-.task-list-showed button.tab {border-top-left-radius: 0;border-top-right-radius: 0;border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;}
-.task:first-child {
-    padding-top: 24px;
+    top: 45px;
 }
 
-body[theme="blue"] .tasks-button{    
-    color: #cbdbf9;
-}
 body[theme="dark"] .tasks-button{    
     color: #ebebeb;
+}
+
+@media screen and (max-width:760px){
+    .main-button.toggle{
+        min-width: 40px;
+    }
+    .main-button.toggle span{
+        display: none;
+    }
+}
+
+.task-list-showed .active-tab-procfile .task.new-task.show {
+    transform: translateY(-128px);
 }

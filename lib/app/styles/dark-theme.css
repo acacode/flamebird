@@ -1,6 +1,7 @@
 
 header {
     background: #3e3e3e;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.33);
 }
 
 .title {
@@ -11,11 +12,7 @@ body{
     background: #212121;
 }
 
-.menu-item {
-    border-color: #464646;
-}
-
-#tasks {
+.wrapper {
     background: #424242;
 }
 
@@ -78,3 +75,12 @@ button.tab.active, button.tab:active {
     background: #2f9a6a;
 }
 .stop{background: #8c4343;}
+
+.task.new-task .form input, .task.new-task .form textarea {
+    background: #333;
+    color: #dcdcdc;
+}
+.task.new-task .form button {
+    background: #2e7b58;
+    color: #b5e0cd;
+}
