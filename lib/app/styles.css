@@ -492,10 +492,14 @@ span.tabs {
 }
 .logo{
     position: absolute;
-    transform: scale(.2);
+    /* display: inline-block; */
+    width: 40px;
     z-index: -1;
-    left: -148px;
-    top: -90px;
+    left: -27px;
+    top: 2px;
+    padding: 0;
+    filter: hue-rotate(-26deg);
+    transform: rotate(-8deg);
 }
 .title {
     color: #1d1d1d;

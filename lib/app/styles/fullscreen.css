@@ -7,7 +7,7 @@ body {
 }
 
 header .title {
-    padding-left: 61px;
+    padding-left: 49px;
 }
 
 #tasks, .task.new-task {
@@ -27,12 +27,15 @@ span.tabs {
     z-index: 2;
 }
 .flying > .task-data {
-    top: 4.7%;
+    top: 48px;
 }
 
 button.tab {border-radius: 4px;}
 
 .logo {
-    left: -105px;
-    z-index: 1;
+    left: 3px;
+    z-index: 20;
+    top: 4px;
+    /* transform: rotate(30deg); */
+    width: 40px;
 }
