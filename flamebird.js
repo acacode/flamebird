@@ -45,6 +45,7 @@ program
     storage.set('actionArgs', args)
     require('./lib/envs').load(program.env)
     const taskfile = require('./lib/taskfile').load(program.procfile, args)
+    console.log(taskfile)
     processWorker.runAll(taskfile, args)
   })
 program
