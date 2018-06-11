@@ -1,7 +1,7 @@
 
 # Changelog
 
-## [1.8.0.2]
+## [1.8.02]
 
 ### Fixed
 - `web` - a small fixes in layout of the web page
