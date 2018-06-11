@@ -4,6 +4,11 @@
 ## [1.8.0]
 
 ### Fixed
+- `web` - a small fixes in layout of the web page
+
+## [1.8.0]
+
+### Fixed
 - maximum `killall` event listeners. The removing of the `killall` event listener if task is completed
 - `web` - more than one websocket clients
 - `web` - restart of the task has been fixed
