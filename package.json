@@ -1,6 +1,6 @@
 {
   "name": "flamebird",
-  "version": "1.8.02",
+  "version": "1.8.3",
   "description": "wonderful task manager for Procfile-based or npm-based applications",
   "main": "flamebird.js",
   "scripts": {
@@ -19,7 +19,21 @@
     "tasks",
     "procfile",
     "taskmanager",
-    "taskrunner"
+    "taskrunner",
+    "foreman",
+    "node-foreman",
+    "npm-package",
+    "js",
+    "task-manager",
+    "task-sheduler",
+    "job-sheduler",
+    "nodejs-utility",
+    "task-utility",
+    "node-process",
+    "process-manager",
+    "manager",
+    "process-runner",
+    "process-run"
   ],
   "author": "Sergey Volkov",
   "bin": {
