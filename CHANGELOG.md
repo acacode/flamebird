@@ -1,6 +1,12 @@
 
 # Changelog
 
+## [1.8.3--fix]
+
+### Fixed
+- `web` - bug with `Keyboard.connect is not a function`
+- absolute paths for npm tasks
+
 ## [1.8.02]
 
 ### Fixed
