@@ -14,6 +14,13 @@ process.env.FORCE_COLOR = true
 process.env.colors = true
 process.env.color = true
 
+function init(args, isWeb) {
+  args.web = !!isWeb
+  storage.set('actionArgs', args)
+  require('./lib/envs').load(program.env)
+  return require('./lib/taskfile').load(program.procfile, args)
+}
+
 process.once('SIGINT', function() {
   emitter.emit('killall', 'SIGINT')
   process.exit()
@@ -41,13 +48,7 @@ program
     'List of tasks which will be run flamebird ( example : --tasks start,start:dev,start-server )'
   )
   .description('Start the jobs in the Procfile/Package.json')
-  .action(function(args) {
-    storage.set('actionArgs', args)
-    require('./lib/envs').load(program.env)
-    const taskfile = require('./lib/taskfile').load(program.procfile, args)
-    console.log(taskfile)
-    processWorker.runAll(taskfile, args)
-  })
+  .action(args => processWorker.runAll(init(args), args))
 program
   .command('web')
   .usage('[Options]')
@@ -62,13 +63,9 @@ program
     'List of tasks which will be run flamebird ( example : --tasks start,start:dev,start-server )'
   )
   .description('Start the jobs in the Procfile/Package.json')
-  .action(function(args) {
-    args.web = true
-    storage.set('actionArgs', args)
-    require('./lib/envs').load(program.env)
-    const taskfile = require('./lib/taskfile').load(program.procfile, args)
-    server.start(taskfile, args.port, args)
-  })
+  .action(args =>
+    setTimeout(() => server.start(init(args, true), args.port, args), 8000)
+  )
 
 program.parse(process.argv)
 
