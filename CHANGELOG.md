@@ -1,6 +1,12 @@
 
 # Changelog
 
+
+## [1.8.4--fix]
+
+### Fixed
+- bugs with tasks using `cross-env` utility
+
 ## [1.8.3--fix]
 
 ### Fixed
