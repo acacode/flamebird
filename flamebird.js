@@ -63,9 +63,7 @@ program
     'List of tasks which will be run flamebird ( example : --tasks start,start:dev,start-server )'
   )
   .description('Start the jobs in the Procfile/Package.json')
-  .action(args =>
-    setTimeout(() => server.start(init(args, true), args.port, args), 8000)
-  )
+  .action(args => server.start(init(args, true), args.port, args))
 
 program.parse(process.argv)
 
