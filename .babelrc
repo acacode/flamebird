@@ -1,0 +1,35 @@
+{
+    "plugins": [
+      "transform-class-properties",
+      "transform-export-extensions",
+      "transform-object-rest-spread"
+    ],
+    "presets": [
+      [
+        "env",
+        {
+          "targets": {
+            "browsers": [
+              "last 2 versions",
+              "IE 11"
+            ]
+          },
+          "modules": false
+        }
+      ]
+    ],
+    "sourceMaps": "inline",
+    "env": {
+      "server": {
+        "plugins": [
+          "transform-class-properties",
+          "transform-export-extensions",
+          "transform-object-rest-spread"
+        ],
+        "presets": [
+          "es2015"
+        ],
+        "sourceMaps": "inline"
+      }
+    }
+  }

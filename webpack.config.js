@@ -47,7 +47,7 @@ function createBuildConfig(path, isForJsFiles) {
   const config = isForJsFiles ? jsConfig : cssConfig
   return {
     mode: 'production',
-    entry: getEntries(path, true),
+    entry: getEntries(path, isForJsFiles),
     output: {
       path: resolve(path),
       filename: '[name]' + (isForJsFiles ? '.js' : 'css'),
