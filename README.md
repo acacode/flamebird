@@ -49,7 +49,7 @@ Options:
 
     $ fb web [options]
 
-Launch web-applcation which is task-manager. This command has more opportunities then `start`. Web-application read `Procfile` and `package.json` together and adding ability switching between them
+Launch web-application which is task-manager. This command has more opportunities then `start`. Web-application read `Procfile` and `package.json` together and adding ability switching between them
 
 Options:
 - `-t, --tasks [tasks]` - list of tasks which will be managing in the `fb web` command ( example : `fb web --tasks start,start:dev,start-server` and this tasks will be showing in the web-application `start`,`start:dev`,`start-server` )
