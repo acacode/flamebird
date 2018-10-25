@@ -1,6 +1,6 @@
 {
   "name": "flamebird",
-  "version": "1.8.4--fix",
+  "version": "proto-1.8.5",
   "description": "wonderful task manager for Procfile-based or npm-based applications",
   "main": "flamebird.js",
   "scripts": {
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/js2me/flamebird.git"
+    "url": "https://github.com/acacode/flamebird.git"
   },
   "keywords": [
     "task",
@@ -73,7 +73,7 @@
     "lib": "lib"
   },
   "bugs": {
-    "url": "https://github.com/js2me/flamebird/issues"
+    "url": "https://github.com/acacode/flamebird/issues"
   },
-  "homepage": "https://github.com/js2me/flamebird"
+  "homepage": "https://github.com/acacode/flamebird"
 }
