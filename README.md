@@ -42,16 +42,16 @@ You can use command `fb start` or `fb web`
 Run tasks from `Procfile` or `package.json` 
 
 Options:
-- `-p, --package` - using package.json for the managing tasks. (WARNING: only command `start` run all tasks from `package.json`, for resolving it , please use option `-t`)
-- `-t, --tasks [tasks]` - list of tasks which will be run `fb start` ( example : `fb start --tasks start,start:dev,start-server` and will be run tasks `start`,`start:dev`,`start-server` )
+- `-p, --package` - using package.json for the managing tasks. (WARNING: with this option the command `start` run all tasks from `package.json`, for resolving it , please use option `-t`)
+- `-t, --tasks [tasks]` - list of tasks which needs to async run in `fb start` ( example : `fb start --tasks start,start:dev,start-server` and then tasks are `start`,`start:dev`,`start-server` will have been runned asynchronously )
 
 <h3 align="left">command: fb web</h2>
 
     $ fb web [options]
 
-Launch web-application which is task-manager. This command has more opportunities then `start`. Web-application read `Procfile` and `package.json` together and adding ability switching between them
+Launch web-application which is task-manager. That command has more abilities than `start`. Web-application is reading `Procfile` and `package.json` and adding ability to launch scripts inside this files together
 
 Options:
 - `-t, --tasks [tasks]` - list of tasks which will be managing in the `fb web` command ( example : `fb web --tasks start,start:dev,start-server` and this tasks will be showing in the web-application `start`,`start:dev`,`start-server` )
 - `-p, --port <PORT>` - sets the server port, by default `5050`
-- `-n, --name <NAME>` - sets the project name. Display name of the project in title and header.
+- `-n, --name <NAME>` - sets the project name. Display name of the project in title and header. By default using name of project inside `package.json` otherwise `flamebird`

@@ -6,6 +6,7 @@ header {
 
 .title {
     color: #eeeeee;
+    background: #3e3e3e;
 }
 
 body{
@@ -20,10 +21,6 @@ body{
     background: rgb(37, 37, 37);
     color: #ebebeb;
 }
-
-/* .task.active:not(.running):before {
-    background: transparent;
-} */
 
 .task {
     color: #a5a5a5;

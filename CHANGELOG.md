@@ -2,6 +2,23 @@
 # Changelog
 
 
+## [1.8.6]
+
+### Changed
+- `web` - [Internal] - migrated client code to ES6
+
+### Fixed
+- bug - [Cannot find module 'commander'](https://github.com/acacode/flamebird/issues/49)
+
+## [1.8.5]
+
+### Changed
+- replaced `var` operator to ES6 `const`/`let`
+
+### Fixed
+- text corrections in `README.md`
+- removed not needed dependencies and updated project version in `package-lock.json`
+
 ## [1.8.4--fix]
 
 ### Fixed
