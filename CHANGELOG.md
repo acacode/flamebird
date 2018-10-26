@@ -4,9 +4,11 @@
 
 ## [1.8.6]
 
+### Changed
+- `web` - [Internal] - migrated client code to ES6
+
 ### Fixed
 - bug - [Cannot find module 'commander'](https://github.com/acacode/flamebird/issues/49)
-
 
 ## [1.8.5]
 
