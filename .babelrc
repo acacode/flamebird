@@ -2,7 +2,13 @@
     "plugins": [
       "transform-class-properties",
       "transform-export-extensions",
-      "transform-object-rest-spread"
+      "transform-object-rest-spread",
+      [
+        "transform-runtime",
+        {
+          "polyfill": false
+        }
+      ]
     ],
     "presets": [
       [
@@ -24,7 +30,13 @@
         "plugins": [
           "transform-class-properties",
           "transform-export-extensions",
-          "transform-object-rest-spread"
+          "transform-object-rest-spread",
+          [
+            "transform-runtime",
+            {
+              "polyfill": false
+            }
+          ]
         ],
         "presets": [
           "es2015"
