@@ -2,21 +2,11 @@
 # Changelog
 
 
-## Unreleased
-
-### Added
-
-
-### Changed
-
+## [1.8.61] - 30.11.2018
 
 ### Fixed
-
-
-### Removed
-
-
-
+- `web` big line height between lines
+- `web` unique task ids
 
 ## [1.8.6]
 
