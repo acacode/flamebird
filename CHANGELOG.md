@@ -2,7 +2,7 @@
 # Changelog
 
 
-## [1.8.61] - 30.11.2018
+## [2.0.0] - 01.12.2018
 
 ### Changed
 - `web` replaced web http-client `axios` to `kinka`
@@ -10,6 +10,7 @@
 ### Fixed
 - `web` big line height between lines
 - `web` unique task ids
+- `web` unique websocket session ids
 
 ## [1.8.6]
 
