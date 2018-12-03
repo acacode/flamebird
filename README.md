@@ -7,8 +7,13 @@
 
 
   <br>
+<<<<<<< HEAD
+<a href="https://github.com/acacode/flamebird/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-red.svg?style=flat-square"></a><a href="https://www.npmjs.com/package/flamebird"><img src="https://img.shields.io/npm/v/flamebird.svg?style=flat-square"></a><a href="https://travis-ci.org/acacode/flamebird"><img src="https://img.shields.io/travis/acacode/flamebird.svg?style=flat-square"></a><a href="http://npm-stat.com/charts.html?package=flamebird"><img src="https://img.shields.io/npm/dm/flamebird.svg?style=flat-square"></a><a href="https://www.codefactor.io/repository/github/acacode/flamebird/overview/develop"><img src="https://www.codefactor.io/repository/github/acacode/flamebird/badge/develop?style=flat-square"></a>
+  <h1>Flamebird.js</h1>
+=======
 <a href="https://github.com/acacode/flamebird/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-red.svg?style=flat-square"></a><a href="https://www.npmjs.com/package/flamebird"><img src="https://img.shields.io/npm/v/flamebird.svg?style=flat-square"></a><a href="https://travis-ci.org/acacode/flamebird"><img src="https://img.shields.io/travis/acacode/flamebird.svg?style=flat-square"></a><a href="https://npmcharts.com/compare/flamebird?minimal=true"><img src="https://img.shields.io/npm/dm/flamebird.svg?style=flat-square" alt="Downloads per month on npm."></a><a href="https://npmcharts.com/compare/flamebird?minimal=true"><img src="https://img.shields.io/npm/dt/flamebird.svg?style=flat-square" alt="Total downloads on npm."></a>
 <h1>Flamebird.js</h1>
+>>>>>>> origin/master
   <p>
     Flamebird is a nodejs task manager for Procfile-based or npm-based applications
   </p>
