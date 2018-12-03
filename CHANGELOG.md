@@ -2,6 +2,21 @@
 # Changelog
 
 
+## Unreleased
+
+### Added
+
+
+### Changed
+
+
+### Fixed
+
+
+### Removed
+
+
+
 ## [2.0.0] - 01.12.2018
 
 ### Changed
