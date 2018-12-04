@@ -5,6 +5,7 @@
 ## Unreleased
 
 ### Added
+- `web` mobile version
 
 
 ### Changed
