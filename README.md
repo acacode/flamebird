@@ -10,7 +10,7 @@
 <a href="https://github.com/acacode/flamebird/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-red.svg?style=flat-square"></a><a href="https://www.npmjs.com/package/flamebird"><img src="https://img.shields.io/npm/v/flamebird.svg?style=flat-square"></a><a href="https://travis-ci.org/acacode/flamebird"><img src="https://img.shields.io/travis/acacode/flamebird.svg?style=flat-square"></a><a href="http://npm-stat.com/charts.html?package=flamebird"><img src="https://img.shields.io/npm/dm/flamebird.svg?style=flat-square"></a><a href="https://www.codefactor.io/repository/github/acacode/flamebird/overview/develop"><img src="https://www.codefactor.io/repository/github/acacode/flamebird/badge/develop?style=flat-square"></a>
   <h1>:fire: flamebird :fire:</h1>
   <p>
-    Flamebird is a nodejs task manager for Procfile-based or npm-based applications
+    Flamebird is the nodejs task manager for Procfile-based or npm-based applications
   </p>
 </div>
 
@@ -52,7 +52,7 @@ Options:
 
 hotkeys works only if ![hotkeys button](./assets/hotkeys_button.png) is triggered.
 
-key | action
+hotkey | action
 ------------ | -------------
 [QWERTYUI...BNM<>/] | Open task which assigned to specific key. ![example](./assets/task_button.png)
 [SHIFT] + [QWERTYUI...BNM<>/] | Run task which assigned to specific key.
