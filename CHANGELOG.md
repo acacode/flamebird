@@ -5,6 +5,8 @@
 ## Unreleased
 
 ### Added
+- `web` scroll logs via [arrowUp]/[arrowDown] keys
+- `web` delete logs via [del] key
 
 
 ### Changed
