@@ -10,10 +10,12 @@
 
 
 ### Changed
+- added emojis to `README.md`
+- added documentation for hotkeys
 
 
 ### Fixed
-
+- typo fixes in `README.md`
 
 ### Removed
 
