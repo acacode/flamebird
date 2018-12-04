@@ -5,6 +5,7 @@
 ## Unreleased
 
 ### Added
+- `web` browser notifications about updates of the running tasks
 
 
 ### Changed
