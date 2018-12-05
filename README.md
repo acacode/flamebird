@@ -54,12 +54,16 @@ hotkeys works only if ![hotkeys button](./assets/hotkeys_button.png) is triggere
 
 hotkey | action
 ------------ | -------------
-[QWERTYUI...BNM<>/] | Open task which assigned to specific key. ![example](./assets/task_button.png)
-[SHIFT] + [R] | Run/Stop selected task.
-[TAB] | Switch between `Procfile` and `package.json` tabs
-[DEL] | Clear logs in selected task
-[ARROW UP] | Scroll up in selected task
-[ARROW DOWN] | Scroll down in selected task
+<kbd>Q</kbd>,<kbd>W</kbd>,<kbd>E</kbd>...<kbd>M</kbd>,<kbd>&lt;</kbd>,<kbd>&gt;</kbd>,<kbd>/</kbd> | Open task which assigned to specific key. ![example](./assets/task_button.png)
+<kbd>SHIFT</kbd> + <kbd>R</kbd> | Run/Stop selected task.
+<kbd>TAB</kbd> | Switch between `Procfile` and `package.json` tabs
+<kbd>DEL</kbd> | Clear logs in selected task
+<kbd>&uparrow;</kbd> | Partially scroll up logs in selected task
+<kbd>&downarrow;</kbd> | Partially scroll down logs in selected task
+<kbd>SHIFT</kbd> + <kbd>&uparrow;</kbd> | Fully scroll up logs in selected task
+<kbd>SHIFT</kbd> + <kbd>&downarrow;</kbd> | Fully scroll down logs in selected task
+<kbd>SHIFT</kbd> + <kbd>A</kbd> | Run all tasks
+<kbd>SHIFT</kbd> + <kbd>S</kbd> | Stop all tasks
 
 <h2 align="left">:memo: License</h2>
 
