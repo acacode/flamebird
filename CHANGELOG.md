@@ -2,7 +2,7 @@
 # Changelog
 
 
-## Unreleased
+## [2.1.3] - 06.12.2018
 
 ### Added
 - `web` hotkey feautures
@@ -23,9 +23,6 @@
 
 ### Fixed
 - typo fixes in `README.md`
-
-### Removed
-
 
 
 ## [2.0.0] - 01.12.2018
