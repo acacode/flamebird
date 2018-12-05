@@ -58,8 +58,12 @@ hotkey | action
 <kbd>SHIFT</kbd> + <kbd>R</kbd> | Run/Stop selected task.
 <kbd>TAB</kbd> | Switch between `Procfile` and `package.json` tabs
 <kbd>DEL</kbd> | Clear logs in selected task
-<kbd>&uparrow;</kbd> | Scroll up in selected task
-<kbd>&downarrow;</kbd> | Scroll down in selected task
+<kbd>&uparrow;</kbd> | Partially scroll up logs in selected task
+<kbd>&downarrow;</kbd> | Partially scroll down logs in selected task
+<kbd>SHIFT</kbd> + <kbd>&uparrow;</kbd> | Fully scroll up logs in selected task
+<kbd>SHIFT</kbd> + <kbd>&downarrow;</kbd> | Fully scroll down logs in selected task
+<kbd>SHIFT</kbd> + <kbd>A</kbd> | Run all tasks
+<kbd>SHIFT</kbd> + <kbd>S</kbd> | Stop all tasks
 
 <h2 align="left">:memo: License</h2>
 
