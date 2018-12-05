@@ -207,6 +207,9 @@ header > * {
     background: rgb(241, 241, 241);
     z-index: 2;
 }
+.task.updated {
+    animation: highlight cubic-bezier(0.22, 0.61, 0.36, 1) .7s infinite;
+}
 .run:active {
     background: #21d483;
 }
@@ -564,3 +567,8 @@ span.tabs {
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+@keyframes highlight{
+    50%{
+        background: rgb(255, 247, 204);
+    }
+}
