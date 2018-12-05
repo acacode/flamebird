@@ -55,7 +55,7 @@ hotkeys works only if ![hotkeys button](./assets/hotkeys_button.png) is triggere
 hotkey | action
 ------------ | -------------
 [QWERTYUI...BNM<>/] | Open task which assigned to specific key. ![example](./assets/task_button.png)
-[SHIFT] + [QWERTYUI...BNM<>/] | Run task which assigned to specific key.
+[SHIFT] + [R] | Run/Stop selected task.
 [TAB] | Switch between `Procfile` and `package.json` tabs
 [DEL] | Clear logs in selected task
 [ARROW UP] | Scroll up in selected task
