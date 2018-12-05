@@ -62,6 +62,8 @@ hotkey | action
 <kbd>&downarrow;</kbd> | Partially scroll down logs in selected task
 <kbd>SHIFT</kbd> + <kbd>&uparrow;</kbd> | Fully scroll up logs in selected task
 <kbd>SHIFT</kbd> + <kbd>&downarrow;</kbd> | Fully scroll down logs in selected task
+<kbd>SHIFT</kbd> + <kbd>A</kbd> | Run all tasks
+<kbd>SHIFT</kbd> + <kbd>S</kbd> | Stop all tasks
 
 <h2 align="left">:memo: License</h2>
 
