@@ -62,7 +62,9 @@ program
     '-t, --tasks [tasks]',
     'List of tasks which will be run flamebird ( example : --tasks start,start:dev,start-server )'
   )
-  .description('Start the jobs in the Procfile/Package.json')
+  .description(
+    'Launch web application which will help to manage all tasks in your application'
+  )
   .action(args => server.start(init(args, true), args.port, args))
 
 program.parse(process.argv)

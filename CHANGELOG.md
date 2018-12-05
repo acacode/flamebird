@@ -5,13 +5,17 @@
 ## Unreleased
 
 ### Added
+- `web` scroll logs via [arrowUp]/[arrowDown] keys
+- `web` delete logs via [del] key
 
 
 ### Changed
+- added emojis to `README.md`
+- added documentation for hotkeys
 
 
 ### Fixed
-
+- typo fixes in `README.md`
 
 ### Removed
 
