@@ -1,0 +1,48 @@
+header .title{
+    display: none;
+}
+.main-buttons {
+    margin-left: auto;
+}
+
+.main-button:not(.toggle).run{
+    margin-left: 30px;
+}
+.main-button.toggle.hot-keys{
+    display: none;
+}
+
+.task-list-showed #task-logs{
+    width: 100%;
+}
+
+#tasks{
+    position: absolute;
+    z-index: 1;
+    height: calc(100% - 40px);
+    background: inherit;
+    transition: transform 289ms ease;
+}
+body #tasks,.task-list-showed #tasks{
+    width: 80%;
+}
+
+header{
+    height: 40px;
+}
+
+.tabs {
+    transition: left 289ms ease;
+    position: absolute;
+    left: -32px;
+    top: 292px;
+    transform: rotate(90deg);
+    z-index: 2;
+}
+
+.task-list-showed .tabs {
+    left: calc(80% + 6px);
+}
+.main-button.toggle.resize {
+    display: none;
+}
