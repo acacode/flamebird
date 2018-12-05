@@ -81,3 +81,13 @@ button.tab.active, button.tab:active {
     background: #2e7b58;
     color: #b5e0cd;
 }
+
+.task.updated{
+    animation-name: dark-highlight;
+}
+
+@keyframes dark-highlight{
+    50%{
+        background: rgb(79, 80, 63);
+    }
+}

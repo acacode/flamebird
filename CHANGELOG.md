@@ -13,6 +13,7 @@
     - <kbd>SHIFT</kbd> + <kbd>S</kbd> Stop all tasks
     - <kbd>SHIFT</kbd> + <kbd>&uparrow;</kbd> Fully scroll up logs in selected task
     - <kbd>SHIFT</kbd> + <kbd>&downarrow;</kbd> Fully scroll down logs in selected task
+- `web` browser notifications about updates of the running tasks
 
 ### Changed
 - added emojis to `README.md`

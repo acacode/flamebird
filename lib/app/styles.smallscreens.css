@@ -62,10 +62,6 @@ section#task-logs {
     top: 45px;
 }
 
-body[theme="dark"] .tasks-button{    
-    color: #ebebeb;
-}
-
 @media screen and (max-width:760px){
     .main-button.toggle{
         min-width: 40px;
