@@ -20,7 +20,7 @@
 
 <h2 align="left">:page_facing_up: Usage</h2>
 
-To start Flamebird simply type `fb` (or longer alias `flamebird`).<br>
+To start Flamebird you can use `fb [command] [options]` (or longer alias `flamebird [command] [options]`).<br>
 Application provides two commands: `fb start` and `fb web` (read below).
 
 Need help? Use command:
