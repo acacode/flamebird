@@ -33,6 +33,7 @@ process.once('SIGTERM', function() {
 })
 
 program.version(utils.getLogoWithVersion(), '-v, --version')
+program.usage('[command] [options]')
 program.option('-j, --procfile <FILE>', 'load procfile from file', 'Procfile')
 program.option(
   '-e, --env <FILE>',
