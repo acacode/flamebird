@@ -26,6 +26,8 @@ Application provides two commands: `fb start` and `fb web` (read below).
 Need help? Use command:
 
     $ fb --help
+    # or simply
+    $ fb
 
 <h2 align="left">:computer: Console version (<code>fb start</code>)</h2>
 
