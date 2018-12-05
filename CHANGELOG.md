@@ -5,9 +5,14 @@
 ## Unreleased
 
 ### Added
-- `web` scroll logs via [arrowUp]/[arrowDown] keys
-- `web` delete logs via [del] key
-
+- `web` hotkey feautures
+    - <kbd>DEL</kbd> Clear logs in selected task
+    - <kbd>&uparrow;</kbd> Partially scroll up logs in selected task
+    - <kbd>&downarrow;</kbd> Partially scroll down logs in selected task
+    - <kbd>SHIFT</kbd> + <kbd>A</kbd> Run all tasks
+    - <kbd>SHIFT</kbd> + <kbd>S</kbd> Stop all tasks
+    - <kbd>SHIFT</kbd> + <kbd>&uparrow;</kbd> Fully scroll up logs in selected task
+    - <kbd>SHIFT</kbd> + <kbd>&downarrow;</kbd> Fully scroll down logs in selected task
 
 ### Changed
 - added emojis to `README.md`
