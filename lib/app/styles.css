@@ -569,6 +569,6 @@ span.tabs {
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 @keyframes highlight{
     50%{
-        background: rgb(243, 240, 223);
+        background: rgb(255, 247, 204);
     }
 }
