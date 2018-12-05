@@ -435,7 +435,7 @@ button#procfile {
     content:'envs: ';
 }
 
-span.tabs {
+.tabs {
     position: absolute;
     left: -32px;
     top: 215px;

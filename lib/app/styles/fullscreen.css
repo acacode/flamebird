@@ -19,7 +19,7 @@ header .title {
     padding-left: 20px;
     padding-right: 20px;
 }
-span.tabs {
+.tabs {
     position: absolute;
     left: 332px;
     top: 2px;

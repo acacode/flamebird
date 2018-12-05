@@ -29,12 +29,12 @@ body {
 header .title {
     padding-left: 50px;
 }
-section#tasks {
+#tasks {
     transform: translateX(-100%);
     width: 0;
 }
 
-section#task-logs {
+#task-logs {
     width: 100%;
 }
 .task-list-showed #tasks {
@@ -52,7 +52,7 @@ section#task-logs {
 .task-list-showed #task-logs {
     width: 70%;
 }
-.task-list-showed span.tabs {
+.task-list-showed .tabs {
     position: absolute;
     left: 31.3%;
     top: 292px;

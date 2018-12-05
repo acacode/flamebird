@@ -18,18 +18,20 @@ header .title{
 
 #tasks{
     position: absolute;
-    width: 80% !important;
     z-index: 1;
     height: calc(100% - 40px);
     background: inherit;
     transition: transform 289ms ease;
+}
+body #tasks,.task-list-showed #tasks{
+    width: 80%;
 }
 
 header{
     height: 40px;
 }
 
-span.tabs {
+.tabs {
     transition: left 289ms ease;
     position: absolute;
     left: -32px;
@@ -38,7 +40,7 @@ span.tabs {
     z-index: 2;
 }
 
-.task-list-showed span.tabs {
+.task-list-showed .tabs {
     left: calc(80% + 6px);
 }
 .main-button.toggle.resize {
