@@ -2,32 +2,6 @@
 # Changelog
 
 
-## Unreleased
-
-### Added
-- `web` hotkey feautures
-    - <kbd>DEL</kbd> Clear logs in selected task
-    - <kbd>&uparrow;</kbd> Partially scroll up logs in selected task
-    - <kbd>&downarrow;</kbd> Partially scroll down logs in selected task
-    - <kbd>SHIFT</kbd> + <kbd>A</kbd> Run all tasks
-    - <kbd>SHIFT</kbd> + <kbd>S</kbd> Stop all tasks
-    - <kbd>SHIFT</kbd> + <kbd>&uparrow;</kbd> Fully scroll up logs in selected task
-    - <kbd>SHIFT</kbd> + <kbd>&downarrow;</kbd> Fully scroll down logs in selected task
-- `web` browser notifications about updates of the running tasks
-- `web` mobile version
-
-### Changed
-- added emojis to `README.md`
-- added documentation for hotkeys
-
-
-### Fixed
-- typo fixes in `README.md`
-
-### Removed
-
-
-
 ## [2.0.0] - 01.12.2018
 
 ### Changed
