@@ -2,7 +2,7 @@
 # Changelog
 
 
-## [2.1.3] - 06.12.2018
+## [2.1.4] - 06.12.2018
 
 ### Added
 - `web` hotkey feautures
