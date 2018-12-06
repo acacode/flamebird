@@ -8,17 +8,17 @@
 
   <br>
 <a href="https://github.com/acacode/flamebird/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-red.svg?style=flat-square"></a><a href="https://www.npmjs.com/package/flamebird"><img src="https://img.shields.io/npm/v/flamebird.svg?style=flat-square"></a><a href="https://travis-ci.org/acacode/flamebird"><img src="https://img.shields.io/travis/acacode/flamebird.svg?style=flat-square"></a><a href="http://npm-stat.com/charts.html?package=flamebird"><img src="https://img.shields.io/npm/dm/flamebird.svg?style=flat-square"></a><a href="https://www.codefactor.io/repository/github/acacode/flamebird/overview/develop"><img src="https://www.codefactor.io/repository/github/acacode/flamebird/badge/develop?style=flat-square"></a>
-  <h1>:fire: flamebird :fire:</h1>
+<h1>🔥 flamebird 🔥</h1>
   <p>
     the nodejs task manager for Procfile-based or npm-based applications
   </p>
 </div>
 
-<h2 align="left">:rocket: Installation</h2>
+## 🚀 Installation
 
     $ npm install -g flamebird
 
-<h2 align="left">:page_facing_up: Usage</h2>
+## 📄 Usage
 
 To start Flamebird you can use `fb [command] [options]` (or longer alias `flamebird [command] [options]`).<br>
 Application provides two commands: `fb start` and `fb web` (read below).
@@ -29,7 +29,7 @@ Need help? Use command:
     # or simply
     $ fb
 
-<h2 align="left">:computer: Console version (<code>fb start</code>)</h2>
+## 💻 Console version (`fb start`)
 
     $ fb start [options]
 
@@ -39,7 +39,7 @@ Options:
 - `-p, --package` - using package.json for the managing tasks. (:warning: with this option the command `start` run all tasks from `package.json`, for resolving it , please use option `-t`)
 - `-t, --tasks [tasks]` - list of tasks which needs to async run in `fb start` ( example : `fb start --tasks start,start:dev,start-server` and then tasks are `start`,`start:dev`,`start-server` will have been runned asynchronously )
 
-<h2 align="left">:computer: Web version (<code>fb web</code>)</h2>
+## 💻 Web version (`fb web`)
 
     $ fb web [options]
 
@@ -67,7 +67,7 @@ hotkey | action
 <kbd>SHIFT</kbd> + <kbd>A</kbd> | Run all tasks
 <kbd>SHIFT</kbd> + <kbd>S</kbd> | Stop all tasks
 
-<h2 align="left">:memo: License</h2>
+## 📝 License
 
 Licensed under the [MIT License](./LICENSE).
 
