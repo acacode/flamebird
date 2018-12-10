@@ -25,7 +25,6 @@ process.once('SIGINT', function() {
   emitter.emit('killall', 'SIGINT')
   process.exit()
 })
-
 // Kill All Child Processes & Exit on SIGTERM
 process.once('SIGTERM', function() {
   emitter.emit('killall', 'SIGTERM')
@@ -45,26 +44,25 @@ program
   .usage('[Options]')
   .option('-p, --package', 'Use package.json for managing tasks')
   .option(
-    '-t, --tasks [tasks]',
-    'List of tasks which will be run flamebird ( example : --tasks start,start:dev,start-server )'
+    '-t, --tasks <TASKS>',
+    'List of tasks which will be run in flamebird ( example: "fb start -t start,start:dev,start-server" )'
   )
   .description('Start the jobs in the Procfile/Package.json')
   .action(args => processWorker.runAll(init(args), args))
 program
   .command('web')
   .usage('[Options]')
-  .option('-p, --port <PORT>', 'sets the server port', 5050)
+  .option('-p, --port <PORT>', 'Sets the server port', 5050)
   .option(
     '-n, --name <NAME>',
-    'sets the project name',
-    "By default takes from 'package.json' else 'flamebird'"
+    'Sets the project name. By default name will takes from "package.json" else "flamebird"'
   )
   .option(
-    '-t, --tasks [tasks]',
-    'List of tasks which will be run flamebird ( example : --tasks start,start:dev,start-server )'
+    '-t, --tasks <TASKS>',
+    'List of tasks which will be run in flamebird ( example: "fb start -t start,start:dev,start-server" )'
   )
   .description(
-    'Launch web application which will help to manage all tasks in your application'
+    'Launch web GUI for managing your tasks from package.json or Procfile. Starting and stopping tasks via one click, more convenient than "fb start"'
   )
   .action(args => server.start(init(args, true), args.port, args))
 
