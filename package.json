@@ -1,7 +1,7 @@
 {
   "name": "flamebird",
   "version": "2.1.4",
-  "description": "wonderful task manager for Procfile-based or npm-based applications",
+  "description": "wonderful task manager for Procfile based or npm based applications",
   "main": "flamebird.js",
   "scripts": {
     "webpack": "node_modules/.bin/webpack",

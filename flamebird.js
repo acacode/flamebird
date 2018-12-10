@@ -48,7 +48,10 @@ program
     'List of tasks which will be run in flamebird ( example: "fb start -t start,start:dev,start-server" )'
   )
   .description('Start the jobs in the Procfile/Package.json')
-  .action(args => processWorker.runAll(init(args), args))
+  .action(args => {
+    // require('./lib/cmd').initCommandLine()
+    processWorker.runAll(init(args), args)
+  })
 program
   .command('web')
   .usage('[Options]')
