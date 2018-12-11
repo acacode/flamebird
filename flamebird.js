@@ -48,6 +48,12 @@ program
     '-t, --tasks [tasks]',
     'List of tasks which will be run flamebird ( example : --tasks start,start:dev,start-server )'
   )
+  .option(
+    '-a, --absolute-paths',
+    'Fix commands which use yarn or npm to set absolute local path of utils inside task' +
+      'otherwise will use global util (example: "npm run build-frontend"(webpack -p) -> "node ./node_modules/.bin/webpack -p")',
+    false
+  )
   .description('Start the jobs in the Procfile/Package.json')
   .action(args => processWorker.runAll(init(args), args))
 program
@@ -62,6 +68,12 @@ program
   .option(
     '-t, --tasks [tasks]',
     'List of tasks which will be run flamebird ( example : --tasks start,start:dev,start-server )'
+  )
+  .option(
+    '-a, --absolute-paths',
+    'Fix commands which use yarn or npm to set absolute local path of utils inside task' +
+      'otherwise will use global util (example: "npm run build-frontend"(webpack -p) -> "node ./node_modules/.bin/webpack -p")',
+    false
   )
   .description(
     'Launch web application which will help to manage all tasks in your application'
