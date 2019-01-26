@@ -510,6 +510,10 @@ button#procfile {
     font-weight: 500;
     padding-left: 6px;
     background: #f1f1f1;
+    max-height: 40px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 160px;
 }
 .project-version {
     color: #888888;
