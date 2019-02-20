@@ -29,7 +29,7 @@ function init(args, isWeb) {
     withoutBrowser: !!args.withoutBrowser,
     sortByName: !!args.sortByName,
   })
-  require('./lib/envs').load(program.env)
+  require('./lib/utils/envs').load(program.env)
   return require('./lib/taskfile').load(program.procfile)
 }
 
@@ -44,14 +44,16 @@ process.once('SIGTERM', function() {
   process.exit()
 })
 
-program.version(getLogo(), '-v, --version')
+program.version(getLogo(true), '-v, --version')
 program.usage('[command] [options]')
+
 program.option('-j, --procfile <FILE>', 'load procfile from file', 'Procfile')
 program.option(
   '-e, --env <FILE>',
   'load environment from file, a comma-separated list',
   '.env'
 )
+
 program
   .command('start')
   .usage('[Options]')
@@ -72,6 +74,7 @@ program
   )
   .description('Start the jobs in the Procfile/Package.json')
   .action(args => processWorker.runAll(init(args)))
+
 program
   .command('web')
   .usage('[Options]')
@@ -117,23 +120,23 @@ if (!process.argv.slice(2).length) {
   program.outputHelp()
 }
 
-function getLogo(onlyVersion) {
+function getLogo(displayOnlyVersion) {
   const packageJson = require('./package.json')
   const strings = []
-  if (!onlyVersion) {
-    strings.push('  ╔══╗ ╔╗   ╔══╗ ╔╗  ╔╗ ╔═══╗ ╔══╗  ╔══╗ ╔═══╗ ╔══╗ ')
-    strings.push('  ║╔═╝ ║║   ║╔╗║ ║║  ║║ ║╔══╝ ║╔╗║  ╚╗╔╝ ║╔═╗║ ║╔╗╚╗')
-    strings.push('  ║╚═╗ ║║   ║╚╝║ ║╚╗╔╝║ ║╚══╗ ║╚╝╚╗  ║║  ║╚═╝║ ║║╚╗║')
-    strings.push('  ║╔═╝ ║║   ║╔╗║ ║╔╗╔╗║ ║╔══╝ ║╔═╗║  ║║  ║╔╗╔╝ ║║ ║║')
-    strings.push('  ║║   ║╚═╗ ║║║║ ║║╚╝║║ ║╚══╗ ║╚═╝║ ╔╝╚╗ ║║║║  ║╚═╝║')
-    strings.push('  ╚╝   ╚══╝ ╚╝╚╝ ╚╝  ╚╝ ╚═══╝ ╚═══╝ ╚══╝ ╚╝╚╝  ╚═══╝')
-    strings.push('             - wonderful nodejs task manager        ')
+  if (!displayOnlyVersion) {
+    strings.push('\x1b[33m  ╔══╗ ╔╗   ╔══╗ ╔╗  ╔╗ ╔═══╗ ╔══╗  ╔══╗ ╔═══╗ ╔══╗ \x1b[0m')
+    strings.push('\x1b[31m  ║╔═╝\x1b[33m ║║   ║╔╗║ ║║  ║║ ║╔══╝ ║╔╗║  ╚╗╔╝ ║╔═╗║ \x1b[31m║╔╗╚╗ \x1b[0m')
+    strings.push('\x1b[31m  ║╚═╗ \x1b[33m║║   ║╚╝║ ║╚╗╔╝║ ║╚══╗ ║╚╝╚╗  ║║  ║╚═╝║\x1b[31m ║║╚╗║ \x1b[0m')
+    strings.push('\x1b[31m  ║╔═╝ ║║   ║╔╗║\x1b[33m ║╔╗╔╗║ ║╔══╝ ║╔═╗║  \x1b[31m║║  ║╔╗╔╝ ║║ ║║ \x1b[0m')
+    strings.push('\x1b[31m  ║║   ║╚═╗ ║║║║ \x1b[33m║║╚╝║║ ║╚══╗ ║╚═╝║\x1b[31m ╔╝╚╗ ║║║║  ║╚═╝║ \x1b[0m')
+    strings.push('\x1b[31m  ╚╝   ╚══╝ ╚╝╚╝ ╚╝  ╚╝ \x1b[33m╚═══╝\x1b[31m ╚═══╝ ╚══╝ ╚╝╚╝  ╚═══╝ \x1b[0m')
+    strings.push('            \x1b[90m - wonderful nodejs task manager \x1b[39m        ')
   }
   const v =
     packageJson.version + new Array(10 - packageJson.version.length).join(' ')
-  const commonSpace = onlyVersion ? '  ' : '                           '
-  strings.push(commonSpace + '╔═══════════════╗  ')
-  strings.push(commonSpace + '║    v' + v + ' ║  ')
-  strings.push(commonSpace + '╚═══════════════╝  ')
+  const commonSpace = displayOnlyVersion ? '  ' : '                           '
+  strings.push(commonSpace + '\x1b[31m╔═══════════════╗  \x1b[0m')
+  strings.push(commonSpace + '\x1b[31m║\x1b[0m    \x1b[33mv' + v + '\x1b[0m \x1b[31m║  \x1b[0m')
+  strings.push(commonSpace + '\x1b[31m╚═══════════════╝  \x1b[0m\r\n')
   return strings.join('\r\n')
 }
