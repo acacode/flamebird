@@ -8,6 +8,7 @@ const _ = require('lodash')
 const program = require('commander')
 const storage = require('./lib/utils/storage')
 const emitter = require('./lib/utils/emitter')
+const { yellow, red, grey, cyan } = require('./lib/utils/colors')
 const processWorker = require('./lib/processWorker')
 const server = require('./lib/server')
 
@@ -33,6 +34,7 @@ function init(args, isWeb) {
   return require('./lib/taskfile').load(program.procfile)
 }
 
+
 process.once('SIGINT', function() {
   emitter.emit('killall', 'SIGINT')
   process.exit()
@@ -43,6 +45,16 @@ process.once('SIGTERM', function() {
   emitter.emit('killall', 'SIGTERM')
   process.exit()
 })
+
+program.on('--help', function(){
+  console.log('\r\nExamples:');
+  console.log('  $ fb start -p -t start:dev, server:dev   - launch commands "start:dev" and "server:dev" (-t start:dev, server:dev) from package.json (-p)');
+  console.log('  $ fb start                               - launch all commands from Procfile and output logs to this command line');
+  console.log('  $ fb web                                 - launch web GUI which have contained all possible commands from grunt, gulp, package.json etc.');
+  console.log('  $ fb web -w -u yarn                      - launch web GUI without opening new tab in the browser (-w) and will use another package manager (-u yarn) for launching commands from package.json');
+  console.log('  $ fb web -i                              - launch web GUI which will launch tasks without yarn or npm (using absolute paths: webpack -> node_modules/.bin/webpack) (-i)');
+});
+
 
 program.version(getLogo(true), '-v, --version')
 program.usage('[command] [options]')
@@ -60,7 +72,7 @@ program
   .option('-p, --package', 'Use package.json for managing tasks')
   .option(
     '-i, --ignore-pms',
-    '[Ignore package managers] - Allows to launch tasks without yarn or npm ( use original paths: webpack -> node_modules/.bin/webpack )',
+    'Allows to launch tasks without yarn or npm ( using absolute paths: webpack -> node_modules/.bin/webpack )',
     false
   )
   .option(
@@ -72,7 +84,7 @@ program
     'Allows to use another package manager for launch tasks. By default will use npm ( For example: -y yarn )',
     'npm'
   )
-  .description('Start the jobs in the Procfile/Package.json')
+  .description('Launch commands from Procfile/package.json/Grunt/Gulp and output logs in the current command line')
   .action(args => processWorker.runAll(init(args)))
 
 program
@@ -109,7 +121,7 @@ program
     false
   )
   .description(
-    'Launch web application which will help to manage all tasks in your application'
+    'Launch '+ cyan('web application') + ' which will help to manage all commands from package.json/Procfile/Grunt/Gulp'
   )
   .action(args => server.start(init(args, true)))
 
@@ -124,19 +136,19 @@ function getLogo(displayOnlyVersion) {
   const packageJson = require('./package.json')
   const strings = []
   if (!displayOnlyVersion) {
-    strings.push('\x1b[33m  ╔══╗ ╔╗   ╔══╗ ╔╗  ╔╗ ╔═══╗ ╔══╗  ╔══╗ ╔═══╗ ╔══╗ \x1b[0m')
-    strings.push('\x1b[31m  ║╔═╝\x1b[33m ║║   ║╔╗║ ║║  ║║ ║╔══╝ ║╔╗║  ╚╗╔╝ ║╔═╗║ \x1b[31m║╔╗╚╗ \x1b[0m')
-    strings.push('\x1b[31m  ║╚═╗ \x1b[33m║║   ║╚╝║ ║╚╗╔╝║ ║╚══╗ ║╚╝╚╗  ║║  ║╚═╝║\x1b[31m ║║╚╗║ \x1b[0m')
-    strings.push('\x1b[31m  ║╔═╝ ║║   ║╔╗║\x1b[33m ║╔╗╔╗║ ║╔══╝ ║╔═╗║  \x1b[31m║║  ║╔╗╔╝ ║║ ║║ \x1b[0m')
-    strings.push('\x1b[31m  ║║   ║╚═╗ ║║║║ \x1b[33m║║╚╝║║ ║╚══╗ ║╚═╝║\x1b[31m ╔╝╚╗ ║║║║  ║╚═╝║ \x1b[0m')
-    strings.push('\x1b[31m  ╚╝   ╚══╝ ╚╝╚╝ ╚╝  ╚╝ \x1b[33m╚═══╝\x1b[31m ╚═══╝ ╚══╝ ╚╝╚╝  ╚═══╝ \x1b[0m')
-    strings.push('            \x1b[90m - wonderful nodejs task manager \x1b[39m        ')
+    strings.push(yellow('  ╔══╗ ╔╗   ╔══╗ ╔╗  ╔╗ ╔═══╗ ╔══╗  ╔══╗ ╔═══╗ ╔══╗ '))
+    strings.push(red('  ║╔═╝') + yellow(' ║║   ║╔╗║ ║║  ║║ ║╔══╝ ║╔╗║  ╚╗╔╝ ║╔═╗║ ') + red('║╔╗╚╗ '))
+    strings.push(red('  ║╚═╗ ') + yellow('║║   ║╚╝║ ║╚╗╔╝║ ║╚══╗ ║╚╝╚╗  ║║  ║╚═╝║') + red(' ║║╚╗║ '))
+    strings.push(red('  ║╔═╝ ║║   ║╔╗║') + yellow(' ║╔╗╔╗║ ║╔══╝ ║╔═╗║  ') + red('║║  ║╔╗╔╝ ║║ ║║ '))
+    strings.push(red('  ║║   ║╚═╗ ║║║║ ')+yellow('║║╚╝║║ ║╚══╗ ║╚═╝║') + red(' ╔╝╚╗ ║║║║  ║╚═╝║ '))
+    strings.push(red('  ╚╝   ╚══╝ ╚╝╚╝ ╚╝  ╚╝ ')+ yellow('╚═══╝') + red(' ╚═══╝ ╚══╝ ╚╝╚╝  ╚═══╝ '))
+    strings.push('            ' + grey(' - wonderful nodejs task manager ') + '        ')
   }
   const v =
     packageJson.version + new Array(10 - packageJson.version.length).join(' ')
   const commonSpace = displayOnlyVersion ? '  ' : '                           '
-  strings.push(commonSpace + '\x1b[31m╔═══════════════╗  \x1b[0m')
-  strings.push(commonSpace + '\x1b[31m║\x1b[0m    \x1b[33mv' + v + '\x1b[0m \x1b[31m║  \x1b[0m')
-  strings.push(commonSpace + '\x1b[31m╚═══════════════╝  \x1b[0m\r\n')
+  strings.push(commonSpace + red('╔═══════════════╗  '))
+  strings.push(commonSpace + red('║') + yellow('    v' + v + ' ') + red('║  '))
+  strings.push(commonSpace + red('╚═══════════════╝  ') + '\r\n')
   return strings.join('\r\n')
 }
