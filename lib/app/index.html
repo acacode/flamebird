@@ -40,11 +40,7 @@
                 <button class="main-button run" onclick="global.runAllTasks()"><span>run all</span></button>
                 <button class="main-button stop" onclick="global.stopAllTasks()"><span>stop all</span></button>
             </div>
-            <span class="tabs">
-                <button class="tab" id="npm" onclick="global.handleClickTab('npm')">npm</button>
-                <button class="tab active" id="procfile" onclick="global.handleClickTab('procfile')">procfile</button>
-                <!-- <button class="tab" id="grunt" onclick="global.handleClickTab('procfile')">grunt</button>
-                <button class="tab" id="gulp" onclick="global.handleClickTab('gulp')">gulp</button> -->
+            <span class="tabs" id="tabs">
             </span>
         </header>
 		<button class="tasks-button" onclick="global.showTaskList()">
@@ -62,7 +58,7 @@
             <i class="fas fa-angle-double-down"></i>
         </button>
     </div>
-    <script src="libs/kinka.js"></script>
+    <script src="libs/kinka.min.js"></script>
     <script src="libs/lodash.core.min.js"></script>
     <script src="libs/ansi_up.js"></script>
     <script src="libs/jquery.min.js"></script>
