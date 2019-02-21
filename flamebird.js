@@ -22,7 +22,7 @@ function init(args, isWeb) {
     ignorePms: !!args.ignorePms,
     name: args.name,
     port: +args.port,
-    tasks: _.compact(_.split(args.tasks, /[,]|[, ]/g)),
+    tasks: _.compact(_.split(args.tasks, /,/g)),
     useAnotherPm: args.useAnotherPm,
     useOnlyPackageJson: !!args.package,
     web: !!isWeb,
@@ -49,8 +49,8 @@ program.on('--help', function() {
   console.log(
     '  ' +
       grey('$') +
-      ' fb start -p -t start:dev, server:dev   ' +
-      '- launch commands "start:dev" and "server:dev" (-t start:dev, server:dev) from package.json (-p)\r\n' +
+      ' fb start -p -t start:dev,server:dev    ' +
+      '- launch commands "start:dev" and "server:dev" (-t start:dev,server:dev) from package.json (-p)\r\n' +
       '  ' +
       grey('$') +
       ' fb start                               ' +
