@@ -41,19 +41,19 @@ button.tab.active, button.tab:active {
     background: #454545;
     color: #c7c7c7;
 }
-#task-logs{
+.logs-container{
     color: #dcdcdc;
 }
 .ansi-red-fg {
     color: rgb(230, 78, 78);
 }
-#task-logs::-webkit-scrollbar-thumb {
+.logs-container::-webkit-scrollbar-thumb {
     background: #c1c1c1;
 }
-#task-logs::-webkit-scrollbar-thumb:hover {
+.logs-container::-webkit-scrollbar-thumb:hover {
     background: #9e9e9e; 
 }
-#task-logs{
+.logs-container{
     background: #060606;
 }
 .ansi-bright-black-fg {

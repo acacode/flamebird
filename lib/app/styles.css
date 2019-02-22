@@ -56,45 +56,50 @@ header {
     overflow-y: auto;
 }
 
-#tasks {
+#task-list {
     height: calc(100% - 40px);
     width: 28%;
     position: relative;
 }
 
-#tasks::-webkit-scrollbar {
+#task-list::-webkit-scrollbar {
     width: 10px;
 }
-#tasks::-webkit-scrollbar-track {
+#task-list::-webkit-scrollbar-track {
     background: #f1f1f1; 
 }
-#tasks::-webkit-scrollbar-thumb {
+#task-list::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.15);
 }
-#tasks::-webkit-scrollbar-thumb:hover {
+#task-list::-webkit-scrollbar-thumb:hover {
     background: rgba(0, 0, 0, 0.2); 
 }
 
-#task-logs {
+#task-logs{
     width: 72%;
+    height: calc(100% - 40px);
+    overflow: hidden;
+}
+
+.logs-container{
     background: #1e1e1e;
     word-break: break-all;
     text-align: justify;
-    height: calc(100% - 40px);
     color: #dedede;
     font-size: 13px;
     font-family: monospace;
     padding: 8px 0 27px 8px;
     position: relative;
     overflow-x: hidden;
+    height: 100%;
 }
-#task-logs::-webkit-scrollbar {
+.logs-container::-webkit-scrollbar {
     width: 10px;
 }
-#task-logs::-webkit-scrollbar-thumb {
+.logs-container::-webkit-scrollbar-thumb {
     background: #f1f1f1;
 }
-#task-logs::-webkit-scrollbar-thumb:hover {
+.logs-container::-webkit-scrollbar-thumb:hover {
     background: rgb(220, 220, 220); 
 }
 
@@ -331,11 +336,11 @@ header > * {
 .mocha-test {font-size: 16px;}
 .bold{font-weight: bold;}
 
-#task-logs > div > span.ansi-red-fg {
+.logs-container > div > span.ansi-red-fg {
     display: block;
 }
 
-#task-logs > div {
+.logs-container > div {
     padding-bottom: 3px;
     font-size: 14px;
 }
@@ -473,7 +478,7 @@ button#procfile {
     color: #ebebeb;
 }
 
-.flying > .task-data {
+.scrolling > .task-data {
     position: fixed;
     left: auto;
     right: auto;
@@ -526,7 +531,7 @@ button#procfile {
 
 
 
-#task-logs > * {
+.logs-container > * {
     font-family: monospace;
 }
 
@@ -547,7 +552,7 @@ button#procfile {
     transition: transform 239ms ease-out;
 }
 
-.flying > .task-data > span:not(:hover) {
+.scrolling > .task-data > span:not(:hover) {
     opacity: .5;
     background: rgba(235, 235, 235, 0.58);
     color: #1d1d1d;

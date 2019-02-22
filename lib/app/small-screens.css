@@ -16,14 +16,14 @@ header .title{
     width: 100%;
 }
 
-#tasks{
+#task-list{
     position: absolute;
     z-index: 1;
     height: calc(100% - 40px);
     background: inherit;
     transition: transform 289ms ease;
 }
-body #tasks,.task-list-showed #tasks{
+body #task-list,.task-list-showed #task-list{
     width: 80%;
 }
 

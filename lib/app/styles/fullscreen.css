@@ -10,7 +10,7 @@ header .title {
     padding-left: 49px;
 }
 
-#tasks, .task.new-task {
+#task-list, .task.new-task {
     width: 260px;
 }
 
@@ -26,7 +26,7 @@ header .title {
     transform: rotate(0deg);
     z-index: 2;
 }
-.flying > .task-data {
+.scrolling > .task-data {
     top: 48px;
 }
 

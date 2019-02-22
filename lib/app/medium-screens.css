@@ -29,7 +29,7 @@ body {
 header .title {
     padding-left: 50px;
 }
-#tasks {
+#task-list {
     transform: translateX(-100%);
     width: 0;
 }
@@ -37,10 +37,10 @@ header .title {
 #task-logs {
     width: 100%;
 }
-.task-list-showed #tasks {
+.task-list-showed #task-list {
     transform: translateX(0);
 }
-.task.new-task, .task-list-showed #tasks{
+.task.new-task, .task-list-showed #task-list{
     width: 30%;
 }
 .active-tab-procfile .task.new-task,.active-tab-procfile .task.new-task.show{
@@ -59,7 +59,7 @@ header .title {
     transform: rotate(90deg);
     z-index: 2;
 }
-.flying > .task-data {
+.scrolling > .task-data {
     top: 45px;
 }
 

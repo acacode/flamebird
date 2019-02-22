@@ -40,13 +40,12 @@
                 <button class="main-button run" onclick="global.runAllTasks()"><span>run all</span></button>
                 <button class="main-button stop" onclick="global.stopAllTasks()"><span>stop all</span></button>
             </div>
-            <span class="tabs" id="tabs">
-            </span>
+            <span class="tabs" id="tabs"></span>
         </header>
 		<button class="tasks-button" onclick="global.showTaskList()">
             <i class="fas"></i>
         </button>
-        <section id="tasks"></section>
+        <section id="task-list"></section>
         <section id="task-logs"></section>
         <button class="logs-button scroll-top" onclick="global.getLogger().scrollTo('top', '500')">
             <i class="fas fa-angle-double-down"></i>
