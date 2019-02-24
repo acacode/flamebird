@@ -13,6 +13,14 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="medium-screens.css" media="screen and (max-width: 923px)">
     <link rel="stylesheet" href="small-screens.css" media="screen and (max-width: 545px)">
+    <script>
+        window.tabs = [
+            { name: 'npm' },
+            { name: 'procfile', active: true },
+            { name: 'grunt' },
+            { name: 'gulp' },
+        ]
+    </script>
 </head>
 
 <body>
@@ -62,6 +70,7 @@
     <script src="libs/ansi_up.js"></script>
     <script src="libs/jquery.min.js"></script>
     <script src="scripts/dom_utils.js"></script>
+    <script src="scripts/tabs.js"></script>
     <script src="scripts/file_loader.js"></script>
     <script src="scripts/task_list.js"></script>
     <script src="scripts/weblogger.js"></script>
