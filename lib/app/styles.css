@@ -79,6 +79,8 @@ header {
     width: 72%;
     height: calc(100% - 40px);
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .logs-container{
@@ -557,6 +559,19 @@ button#procfile {
     opacity: .5;
     background: rgba(235, 235, 235, 0.58);
     color: #1d1d1d;
+}
+
+.logs-wrapper {
+    position: relative;
+    flex: 1;
+    overflow: auto;
+}
+
+.scroll-actions {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
 }
 
 
