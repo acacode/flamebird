@@ -12,6 +12,8 @@ const { yellow, red, grey, cyan } = require('./lib/utils/colors')
 const processWorker = require('./lib/processWorker')
 const server = require('./lib/server')
 
+process.title = 'flamebird (nodejs task manager)'
+
 /* special properties for colorizing output logs */
 process.env.FORCE_COLOR = true
 process.env.colors = true
