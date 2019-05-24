@@ -67,6 +67,12 @@ hotkey | action
 <kbd>SHIFT</kbd> + <kbd>A</kbd> | Run all tasks
 <kbd>SHIFT</kbd> + <kbd>S</kbd> | Stop all tasks
 
+
+<h3>How it looks:</h3>
+
+![](assets/web-ui-screen.png)
+
+
 ## 📝 License
 
 Licensed under the [MIT License](./LICENSE).
