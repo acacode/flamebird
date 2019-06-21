@@ -11,10 +11,11 @@ cache:
 before_install:
   - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
 install:
-  - yarn
+  - yarn install --frozen-lockfile
 script:
-  - yarn lint-js
-  - yarn build-prod
+  - npm audit
+  - yarn lint
+  - yarn build
 after_success:
   - if [ ${TRAVIS_BRANCH} = "master" ] && [ "${TRAVIS_PULL_REQUEST}" = "false" ];then
     npm publish;

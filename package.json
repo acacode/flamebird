@@ -5,9 +5,10 @@
   "main": "flamebird.js",
   "scripts": {
     "webpack": "node_modules/.bin/webpack",
-    "lint-js-fix": "yarn lint-js --fix",
     "lint-js": "eslint .",
-    "build-prod": "yarn webpack --config webpack.config.js -p",
+    "lint": "yarn lint-js",
+    "lint:fix": "yarn lint --fix",
+    "build": "yarn webpack --config webpack.config.js -p",
     "postinstall": "node postinstall.js"
   },
   "repository": {
