@@ -4,7 +4,7 @@
       "transform-export-extensions",
       "transform-object-rest-spread",
       [
-        "transform-runtime",
+        "@babel/plugin-transform-runtime",
         {
           "polyfill": false
         }
@@ -32,7 +32,7 @@
           "transform-export-extensions",
           "transform-object-rest-spread",
           [
-            "transform-runtime",
+            "@babel/plugin-transform-runtime",
             {
               "polyfill": false
             }
