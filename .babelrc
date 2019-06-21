@@ -2,13 +2,8 @@
     "plugins": [
       "transform-class-properties",
       "transform-export-extensions",
-      "transform-object-rest-spread",
-      [
-        "@babel/plugin-transform-runtime",
-        {
-          "polyfill": false
-        }
-      ]
+      "@babel/plugin-proposal-object-rest-spread",
+      "@babel/plugin-transform-runtime"
     ],
     "presets": [
       [
@@ -30,13 +25,8 @@
         "plugins": [
           "transform-class-properties",
           "transform-export-extensions",
-          "transform-object-rest-spread",
-          [
-            "@babel/plugin-transform-runtime",
-            {
-              "polyfill": false
-            }
-          ]
+          "@babel/plugin-proposal-object-rest-spread",
+          "@babel/plugin-transform-runtime"
         ],
         "presets": [
           "es2015"
