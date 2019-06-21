@@ -2,52 +2,53 @@ const fs = require('fs')
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
 const resolve = require('path').resolve
 
-function getEntries(path, isForJsFiles) {
+function getEntries(path, fileFormat) {
   return fs
     .readdirSync(path)
-    .filter(file => file.match(isForJsFiles ? /.*\.js$/ : /.*\.css$/))
+    .filter(file => file.match(new RegExp(`/.*\.${fileFormat}$/`))
     .map(file => {
       return {
-        name: file.substring(0, file.length - 3),
+        name: file.substring(0, file.length - fileFormat.length),
         path: path + file,
       }
-    })
+    }))
     .reduce((memo, file) => {
       memo[file.name] = file.path
       return memo
     }, {})
 }
 
-const jsConfig = {
-  rules: [
-    {
-      test: /\.js$/,
-      loader: 'babel-loader',
-      exclude: /node_modules/,
-    },
-  ],
+const buildConfig = {
+  js: {
+    rules: [
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+      },
+    ],
+  },
+  css: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [MiniCSSExtractPlugin.loader, 'css-loader?minimize=true'],
+      },
+    ],
+    plugins: [
+      new MiniCSSExtractPlugin('[name].css'), // css file will override generated js file
+    ],
+  }
 }
 
-const cssConfig = {
-  rules: [
-    {
-      test: /\.css$/,
-      use: [MiniCSSExtractPlugin.loader, 'css-loader?minimize=true'],
-    },
-  ],
-  plugins: [
-    new MiniCSSExtractPlugin('[name]css'), // css file will override generated js file
-  ],
-}
-
-function createBuildConfig(path, isForJsFiles) {
-  const config = isForJsFiles ? jsConfig : cssConfig
+function createBuildConfig(path, fileFormat) {
+  const config = buildConfig[fileFormat]
   return {
     mode: 'production',
-    entry: getEntries(path, isForJsFiles),
+    entry: getEntries(path, fileFormat),
     output: {
       path: resolve(path),
-      filename: '[name]' + (isForJsFiles ? '.js' : 'css'),
+      filename: `[name].${fileFormat}`,
     },
     module: {
       rules: config.rules,
@@ -57,8 +58,8 @@ function createBuildConfig(path, isForJsFiles) {
 }
 
 module.exports = [
-  createBuildConfig('./lib/app/', true),
-  createBuildConfig('./lib/app/scripts/', true),
-  createBuildConfig('./lib/app/'),
-  createBuildConfig('./lib/app/styles/'),
+  createBuildConfig('./lib/app/', 'js'),
+  createBuildConfig('./lib/app/scripts/', 'js'),
+  createBuildConfig('./lib/app/', 'css'),
+  createBuildConfig('./lib/app/styles/', 'css'),
 ]
