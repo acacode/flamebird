@@ -1,5 +1,5 @@
 const fs = require('fs')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
 const resolve = require('path').resolve
 
 function getEntries(path, isForJsFiles) {
@@ -32,14 +32,11 @@ const cssConfig = {
   rules: [
     {
       test: /\.css$/,
-      use: ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use: 'css-loader?minimize=true',
-      }),
+      use: [MiniCSSExtractPlugin.loader, 'css-loader?minimize=true'],
     },
   ],
   plugins: [
-    new ExtractTextPlugin('[name]css'), // css file will override generated js file
+    new MiniCSSExtractPlugin('[name]css'), // css file will override generated js file
   ],
 }
 
