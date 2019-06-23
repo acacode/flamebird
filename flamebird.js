@@ -6,11 +6,11 @@
 
 const _ = require('lodash')
 const program = require('commander')
-const storage = require('./lib/utils/storage')
-const emitter = require('./lib/utils/emitter')
-const { yellow, red, grey, cyan } = require('./lib/utils/colors')
-const processWorker = require('./lib/processWorker')
-const server = require('./lib/server')
+const storage = require('./server/utils/storage')
+const emitter = require('./server/utils/emitter')
+const { yellow, red, grey, cyan } = require('./server/utils/colors')
+const processWorker = require('./server/processWorker')
+const server = require('./server/server')
 
 process.title = 'flamebird (nodejs task manager)'
 
@@ -31,8 +31,8 @@ function init(args, isWeb) {
     withoutBrowser: !!args.withoutBrowser,
     sortByName: !!args.sortByName,
   })
-  require('./lib/utils/envs').load(program.env)
-  return require('./lib/taskfile').load(program.procfile)
+  require('./server/utils/envs').load(program.env)
+  return require('./server/taskfile').load(program.procfile)
 }
 
 process.once('SIGINT', function() {

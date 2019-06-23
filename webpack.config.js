@@ -1,16 +1,13 @@
 const fs = require('fs')
-const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
 const resolve = require('path').resolve
 
 function getEntries(path, fileFormat) {
   return fs
     .readdirSync(path)
-    .filter(file => file.match(new RegExp(`/.*\.${fileFormat}$/`))
-    .map(file => {
-      return {
-        name: file.substring(0, file.length - fileFormat.length),
-        path: path + file,
-      }
+    .filter(file => file.indexOf(`.${fileFormat}`) > -1)
+    .map(file => ({
+      name: file.substring(0, file.length - (fileFormat.length + 1)),
+      path: path + file,
     }))
     .reduce((memo, file) => {
       memo[file.name] = file.path
@@ -20,7 +17,8 @@ function getEntries(path, fileFormat) {
 
 const buildConfig = {
   js: {
-    rules: [
+    plugins: () => [],
+    rules: () => [
       {
         test: /\.js$/,
         loader: 'babel-loader',
@@ -29,37 +27,59 @@ const buildConfig = {
     ],
   },
   css: {
-    rules: [
+    plugins: () => [],
+    rules: () => [
       {
         test: /\.css$/,
-        use: [MiniCSSExtractPlugin.loader, 'css-loader?minimize=true'],
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+            },
+          },
+          { loader: 'extract-loader' },
+          'css-loader',
+        ],
       },
     ],
-    plugins: [
-      new MiniCSSExtractPlugin('[name].css'), // css file will override generated js file
+  },
+  html: {
+    rules: () => [
+      {
+        test: /\.html$/,
+        use: [ {
+          loader: 'html-loader',
+          options: {
+            minimize: true
+          }
+        }],
+      },
     ],
-  }
+  },
 }
 
 function createBuildConfig(path, fileFormat) {
   const config = buildConfig[fileFormat]
+  console.log('getEntries(path, fileFormat)', getEntries(path, fileFormat))
   return {
     mode: 'production',
     entry: getEntries(path, fileFormat),
     output: {
-      path: resolve(path),
+      path: resolve(`./dist/${fileFormat}`),
       filename: `[name].${fileFormat}`,
     },
     module: {
-      rules: config.rules,
+      rules: config.rules(),
     },
-    plugins: config.plugins,
+    plugins: config.plugins && config.plugins(),
   }
 }
 
 module.exports = [
-  createBuildConfig('./lib/app/', 'js'),
-  createBuildConfig('./lib/app/scripts/', 'js'),
-  createBuildConfig('./lib/app/', 'css'),
-  createBuildConfig('./lib/app/styles/', 'css'),
+  createBuildConfig('./client/', 'js'),
+  createBuildConfig('./client/scripts/', 'js'),
+  createBuildConfig('./client/', 'css'),
+  createBuildConfig('./client/styles/', 'css'),
+  createBuildConfig('./client/', 'html'),
 ]

@@ -1,4 +1,4 @@
-const { yellow } = require('./lib/utils/colors')
+const { yellow } = require('./server/utils/colors')
 
 let strings = []
 strings.push(yellow('╔═════════════════════════════════════╗'))

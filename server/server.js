@@ -1,4 +1,5 @@
 /* eslint-disable no-path-concat */
+const path = require('path')
 const express = require('express')
 const bodyParser = require('body-parser')
 const http = require('http')
@@ -15,9 +16,10 @@ function start(taskfile) {
   const options = storage.get('options')
   var app = express()
   app.use(bodyParser.json())
-  app.use(express.static(__dirname + '/app'))
-  app.get('/', (req, res) => res.sendFile(__dirname + '/app/index.html'))
-
+  app.use(express.static(path.resolve(__dirname, '../dist')))
+  app.get('/', (req, res) =>
+    res.sendFile(path.resolve(__dirname, '../dist/index.html'))
+  )
   app.get('/info', (req, res) =>
     res.send(
       _.merge(options, {

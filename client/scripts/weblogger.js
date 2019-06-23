@@ -8,9 +8,7 @@ window.WebLogger = (function() {// eslint-disable-line
   function scrollTo(direction, animate, scrollPixels) {
     const scrollTop = scrollPixels
       ? $(element).scrollTop()
-      : direction === 'bottom'
-      ? element.scrollHeight
-      : 0
+      : direction === 'bottom' ? element.scrollHeight : 0
     if (scrollPixels) {
       $(element).scrollTop(
         direction === 'bottom'
