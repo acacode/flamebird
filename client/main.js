@@ -264,9 +264,7 @@ window.global = (function() {
     updateFullscreen()
     updateHotkeys()
     updateNotifications()
-    const {
-      data: { name, commands },
-    } = await kinka.get('/info')
+    const { data: { name, commands } } = await kinka.get('/info')
     projectName = name
     if (projectName) {
       $('title').text(`${projectName} | fb`)

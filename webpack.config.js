@@ -1,85 +1,56 @@
 const fs = require('fs')
-const resolve = require('path').resolve
+const path = require('path')
 
-function getEntries(path, fileFormat) {
-  return fs
-    .readdirSync(path)
-    .filter(file => file.indexOf(`.${fileFormat}`) > -1)
-    .map(file => ({
-      name: file.substring(0, file.length - (fileFormat.length + 1)),
-      path: path + file,
-    }))
-    .reduce((memo, file) => {
-      memo[file.name] = file.path
-      return memo
-    }, {})
+function getEntries(dirPath) {
+  return fs.readdirSync(dirPath).map(file => {
+    const fileNameParts = file.split('.')
+    const fileFormat = fileNameParts.pop()
+
+    return {
+      fullName: file,
+      fileFormat: fileFormat === file ? 'dir' : fileFormat,
+      name: fileNameParts.join('.'),
+      relativePath: dirPath,
+      absolutePath: path.join(__dirname, dirPath),
+    }
+  })
 }
 
-const buildConfig = {
-  js: {
-    plugins: () => [],
-    rules: () => [
-      {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/,
-      },
-    ],
-  },
-  css: {
-    plugins: () => [],
-    rules: () => [
-      {
-        test: /\.css$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[name].[ext]',
-            },
-          },
-          { loader: 'extract-loader' },
-          'css-loader',
-        ],
-      },
-    ],
-  },
-  html: {
-    rules: () => [
-      {
-        test: /\.html$/,
-        use: [ {
-          loader: 'html-loader',
-          options: {
-            minimize: true
-          }
-        }],
-      },
-    ],
-  },
-}
+const createConfig = () => {
+  const srcPath = './client'
+  const distPath = './dist'
+  const entries = getEntries(srcPath).filter(
+    entry => entry.fileFormat !== 'dir'
+  )
 
-function createBuildConfig(path, fileFormat) {
-  const config = buildConfig[fileFormat]
-  console.log('getEntries(path, fileFormat)', getEntries(path, fileFormat))
-  return {
+  return entries.map(entry => ({
     mode: 'production',
-    entry: getEntries(path, fileFormat),
+    entry: `${entry.relativePath}/${entry.fullName}`,
     output: {
-      path: resolve(`./dist/${fileFormat}`),
-      filename: `[name].${fileFormat}`,
+      filename: `[name].${entry.fileFormat}`,
+      path: path.resolve(
+        __dirname,
+        entry.relativePath.replace(srcPath, distPath)
+      ),
     },
     module: {
-      rules: config.rules(),
+      rules: [
+        {
+          test: /\.js$/,
+          loader: 'babel-loader',
+          exclude: /node_modules/,
+        },
+        {
+          test: /\.(jpe?g|gif|png|svg|woff|ttf|wav|mp3)$/,
+          loader: 'file-loader',
+        },
+        {
+          test: /\.(html)$/,
+          loader: 'html-loader',
+        },
+      ],
     },
-    plugins: config.plugins && config.plugins(),
-  }
+  }))
 }
 
-module.exports = [
-  createBuildConfig('./client/', 'js'),
-  createBuildConfig('./client/scripts/', 'js'),
-  createBuildConfig('./client/', 'css'),
-  createBuildConfig('./client/styles/', 'css'),
-  createBuildConfig('./client/', 'html'),
-]
+module.exports = createConfig()

@@ -179,7 +179,7 @@ window.TaskList = (function() {
           const notification = new Notification(
             `"${task.name}" has been updated`,
             {
-              icon: '/logo2_small.png',
+              icon: 'assets/logo2_small.png',
               body:
                 `project: ${options.projectName}` +
                 `\r\ntaskfile: [${task.type}]` +
