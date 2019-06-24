@@ -6,9 +6,9 @@ const resolve = require('rollup-plugin-node-resolve')
 const replace = require('rollup-plugin-replace')
 const css = require('rollup-plugin-css-only')
 const { terser } = require('rollup-plugin-terser')
+const commonjs = require('rollup-plugin-commonjs')
 
 const DIST_PATH = './dist'
-// const commonjs = require('rollup-plugin-commonjs')
 
 // const productionBuildPlugins = [
 //   replace({
@@ -44,33 +44,37 @@ const entryConfig = {
     input: `${entry.relativePath}/${entry.fullName}`,
     output: {
       file: `${DIST_PATH}/${entry.fullName}`,
+      format: 'umd',
     },
     plugins: [
       resolve(),
+      commonjs({
+        include: 'node_modules/**',
+      }),
       babel({
         runtimeHelpers: true,
         exclude: 'node_modules/**',
       }),
     ],
   }),
-  css: entry => ({
-    input: `${entry.relativePath}/${entry.fullName}`,
-    output: {
-      file: `${DIST_PATH}/${entry.fullName}`,
-    },
-    plugins: [css({ output: entry.fullName })],
-  }),
+  // css: entry => ({
+  //   input: `${entry.relativePath}/${entry.fullName}`,
+  //   output: {
+  //     file: `${DIST_PATH}/${entry.fullName}`,
+  //   },
+  //   plugins: [css({ output: entry.fullName })],
+  // }),
   // html: () => ({}),
   other: () => false,
 }
 
-const rollupConfig = (() =>
+module.exports = (() =>
   [
     ...getEntries('./client'),
-    ...getEntries('./client/assets'),
-    ...getEntries('./client/libs'),
-    ...getEntries('./client/scripts'),
-    ...getEntries('./client/styles'),
+    // ...getEntries('./client/assets'),
+    // ...getEntries('./client/libs'),
+    // ...getEntries('./client/scripts'),
+    // ...getEntries('./client/styles'),
   ]
     .filter(entry => entry.fileFormat !== 'dir')
     .map(entry =>
@@ -79,8 +83,6 @@ const rollupConfig = (() =>
         : entryConfig.other(entry)
     )
     .filter(Boolean))()
-
-module.exports = rollupConfig
 
 // [
 //   ...rollupConfig,

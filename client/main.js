@@ -1,4 +1,12 @@
+import _ from 'lodash'
+import $ from 'jquery'
+import kinka from 'kinka'
+import TaskList from './scripts/task_list'
 import WebLogger from './scripts/weblogger'
+import FileLoader from './scripts/file_loader'
+import HotKeys from './scripts/hot_keys'
+import { toggleClass, el, createSpan } from './scripts/dom_utils'
+import Tabs from './scripts/tabs'
 
 window.global = (function() {
   let watchTaskLogsScrollTop = true
@@ -137,7 +145,7 @@ window.global = (function() {
   function setTheme(newTheme) {
     localStorage.setItem('theme', newTheme)
     if (newTheme !== 'white') {
-      FileLoader(newTheme + '-theme.css')
+      FileLoader.loadFile(newTheme + '-theme.css')
     }
     document.body.setAttribute('theme', newTheme)
     theme = newTheme
@@ -146,7 +154,7 @@ window.global = (function() {
   function switchTheme() {
     const newTheme = theme === 'dark' ? 'white' : 'dark'
     if (theme !== 'white') {
-      FileLoader(`${theme}-theme.css`, true)
+      FileLoader.unloadFile(`${theme}-theme.css`)
     }
     setTheme(newTheme)
   }
@@ -181,8 +189,8 @@ window.global = (function() {
       window.HotKeys = null
     }
     toggleClass(el('.main-button.hot-keys'), 'active', hotKeysEnabled)
-    FileLoader('hot_keys-shortcuts.css', !hotKeysEnabled)
-    FileLoader('hot_keys.js', !hotKeysEnabled)
+    FileLoader.loadFile('hot_keys-shortcuts.css', !hotKeysEnabled)
+    FileLoader.loadFile('hot_keys.js', !hotKeysEnabled)
     if (hotKeysEnabled) {
       localStorage.setItem('hotkeys', true)
     } else {
@@ -192,7 +200,7 @@ window.global = (function() {
 
   function updateFullscreen() {
     toggleClass(el('.main-button.resize'), 'active', fullscreen)
-    FileLoader('fullscreen.css', !fullscreen, {
+    FileLoader.loadFile('fullscreen.css', !fullscreen, {
       media: 'screen and (min-width: 923px)',
     })
     if (fullscreen) {

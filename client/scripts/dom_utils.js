@@ -1,4 +1,13 @@
-window.createButton = function(classes, icon, onClick, asJqElement, innerText) {
+import $ from 'jquery'
+import _ from 'lodash'
+
+export const createButton = function(
+  classes,
+  icon,
+  onClick,
+  asJqElement,
+  innerText
+) {
   let button
   if (asJqElement) {
     button = $('<button></button>')
@@ -28,11 +37,11 @@ window.createButton = function(classes, icon, onClick, asJqElement, innerText) {
   return button
 }
 
-window.createSpan = function(classes, text) {
+export const createSpan = function(classes, text) {
   return '<span class="' + (classes || '') + '">' + text + '</span>'
 }
 
-window.funcToStr = function(func) {
+export const funcToStr = function(func) {
   var args = _.slice(arguments, 1)
   return (
     func.name +
@@ -51,7 +60,7 @@ window.funcToStr = function(func) {
   )
 }
 
-window.createDiv = function(
+export const createDiv = function(
   classes,
   innerText,
   icon,
@@ -78,7 +87,7 @@ window.createDiv = function(
   return element
 }
 
-window.createEnvsInput = function(key, value) {
+export const createEnvsInput = function(key, value) {
   return (
     '<input class="env-value ansi-bright-blue-fg" onkeypress="this.style.width = ((this.value.length + 1) * 8) + \'px\';" key="' +
     key +
@@ -90,19 +99,19 @@ window.createEnvsInput = function(key, value) {
   )
 }
 
-window.toggleClass = (element, className, isShow) =>
+export const toggleClass = (element, className, isShow) =>
   element && element.classList[isShow ? 'add' : 'remove'](className)
 
-window.addClass = (element, className) =>
+export const addClass = (element, className) =>
   element && element.classList.add(className)
 
-window.removeClass = (element, className) =>
+export const removeClass = (element, className) =>
   element && element.classList.remove(className)
 
-window.el = (query, asList) =>
+export const el = (query, asList) =>
   document[`querySelector${asList ? 'All' : ''}`](query)
 
-window.createEl = (tag, options) => {
+export const createEl = (tag, options) => {
   const element = document.createElement(tag)
   _.each(options, (option, name) => {
     if (name !== 'parent') element[name] = option

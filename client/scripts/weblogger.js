@@ -1,6 +1,8 @@
-// window.WebLogger = ()()
+import $ from 'jquery'
+import AnsiUp from 'ansi_up'
 
-class WebLogger {
+
+export default class WebLogger {
   watchTaskLogsScrollTop = true
   autoScrollButton
   loggerId
@@ -139,5 +141,3 @@ class WebLogger {
     this.ansiUp.escape_for_html = false
   }
 }
-
-export default WebLogger

@@ -1,10 +1,13 @@
-window.FileLoader = (function() {
-  const setAttribute = (element, attribute) => {
+import _ from 'lodash'
+import { createEl, el } from './dom_utils'
+
+export default new (class FileLoader {
+  setAttribute = (element, attribute) => {
     var key = _.first(_.keys(attribute))
     element.setAttribute(key, attribute[key])
   }
 
-  function createLink(filename, attribute) {
+  createLink(filename, attribute) {
     const link = createEl('link', {
       type: 'text/css',
       rel: 'stylesheet',
@@ -14,7 +17,7 @@ window.FileLoader = (function() {
     return link
   }
 
-  function createScript(filename, attribute) {
+  createScript(filename, attribute) {
     const script = createEl('script', {
       src: `scripts/${filename}`,
     })
@@ -22,13 +25,13 @@ window.FileLoader = (function() {
     return script
   }
 
-  function appendTo(tagName, appendElement) {
+  appendTo(tagName, appendElement) {
     setTimeout(function() {
       el(tagName).appendChild(appendElement)
     }, 0)
   }
 
-  function removeFile(filename) {
+  removeFile(filename) {
     setTimeout(function() {
       let element = null
       if (filename.includes('.css')) {
@@ -43,14 +46,14 @@ window.FileLoader = (function() {
     }, 0)
   }
 
-  return function(filename, toRemove, attribute) {
-    if (toRemove) removeFile(filename)
+  loadFile(filename, toRemove, attribute) {
+    if (toRemove) this.removeFile(filename)
     else {
       if (filename.includes('.css')) {
-        appendTo('head', createLink(filename, attribute))
+        this.appendTo('head', this.createLink(filename, attribute))
       }
       if (filename.includes('.js')) {
-        appendTo('body', createScript(filename, attribute))
+        this.appendTo('body', this.createScript(filename, attribute))
       }
     }
   }

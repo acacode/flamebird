@@ -9,28 +9,6 @@ plugins:
   - standard
   - prettier
 
-globals:
-  _: true
-  $: true
-  addClass: true
-  createButton: true
-  createEl: true
-  createSpan: true
-  el: true
-  FileLoader: true
-  global: true
-  HotKeys: true
-  kinka: true
-  removeClass: true
-  tabs: true
-  Tabs: true
-  TaskList: true
-  createEnvsInput: true
-  taskList: true
-  toggleClass: true
-  AnsiUp: true
-  WebLogger: true
-
 env:
   browser: true
 
