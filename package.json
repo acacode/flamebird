@@ -9,6 +9,7 @@
     "lint": "yarn lint-js",
     "lint:fix": "yarn lint --fix",
     "build": "yarn webpack --config webpack.config.js -p",
+    "build-rollup": "rollup -c",
     "postinstall": "node postinstall.js"
   },
   "repository": {
@@ -83,8 +84,16 @@
     "eslint-plugin-standard": "^4.0.0",
     "extract-loader": "^3.1.0",
     "file-loader": "^4.0.0",
+    "handlebars-loader": "^1.7.1",
     "html-loader": "^0.5.5",
+    "mini-css-extract-plugin": "^0.7.0",
     "prettier": "^1.18.2",
+    "rollup": "^1.16.2",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-copy": "^3.0.0",
+    "rollup-plugin-node-resolve": "^5.0.4",
+    "rollup-plugin-replace": "^2.2.0",
+    "rollup-plugin-terser": "^5.0.0",
     "style-loader": "^0.23.1",
     "webpack": "^4.35.0",
     "webpack-cli": "^3.3.4"
