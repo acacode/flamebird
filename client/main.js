@@ -1,3 +1,5 @@
+import WebLogger from './scripts/weblogger'
+
 window.global = (function() {
   let watchTaskLogsScrollTop = true
   let theme
@@ -264,7 +266,9 @@ window.global = (function() {
     updateFullscreen()
     updateHotkeys()
     updateNotifications()
-    const { data: { name, commands } } = await kinka.get('/info')
+    const {
+      data: { name, commands },
+    } = await kinka.get('/info')
     projectName = name
     if (projectName) {
       $('title').text(`${projectName} | fb`)

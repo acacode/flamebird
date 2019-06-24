@@ -50,8 +50,6 @@ class FlamebirdTabs {
     }
     this.wrapper.className = `wrapper active-tab-${nextTab.name}`
     return nextTab
-    // }
-    // return null
   }
 
   setNextAsActive() {

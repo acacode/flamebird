@@ -4,10 +4,6 @@ window.TaskList = (function() {
     npm: [],
     procfile: [],
   }
-  // let tabElements = {
-  //   npm: null,
-  //   procfile: null,
-  // }
   let activeTaskByTab = {
     npm: [],
     procfile: [],
@@ -16,8 +12,6 @@ window.TaskList = (function() {
 
   function init(taskListContainer, tasks) {
     element = taskListContainer
-    // tabElements.npm = document.getElementById('npm')
-    // tabElements.procfile = document.getElementById('procfile')
     taskList = _.reduce(
       tasks,
       (taskList, task) => {
@@ -36,16 +30,10 @@ window.TaskList = (function() {
         activeTaskByTab[tab.name] = [tasks[0].id]
         if (!activeTab || tab.name === 'procfile') {
           activeTab = tab
-          // tasks[0].isActive = true
-          // changeTab(tab.name)
         }
       } else {
         if (taskList[tab.name]) delete taskList[tab.name]
         Tabs.removeTab(tab)
-        // if (tabElements[tab.name]) {
-        //   tabElements[tab.name].remove()
-        //   delete tabElements[tab.name]
-        // }
       }
     })
     Tabs.listenChanges(onChangeTab)
@@ -94,17 +82,6 @@ window.TaskList = (function() {
         createButton('run-task', 'play', `global.runTask('${id}')`) +
         createButton('stop-task', 'stop', `global.stopTask('${id}')`)
       element.appendChild(task)
-      // if (
-      //   isActive &&
-      //   activeTab.name === type &&
-      //   activeTaskByTab[activeTab.name] !== id
-      // ) {
-      //   // const activeTaskId = id
-      //   setTimeout(() => {
-      //     // getTask(activeTaskId)
-      //     task.click()
-      //   }, 0)
-      // }
     })
   }
 

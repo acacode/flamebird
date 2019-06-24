@@ -4,7 +4,10 @@ const path = require('path')
 const babel = require('rollup-plugin-babel')
 const resolve = require('rollup-plugin-node-resolve')
 const replace = require('rollup-plugin-replace')
+const css = require('rollup-plugin-css-only')
 const { terser } = require('rollup-plugin-terser')
+
+const DIST_PATH = './dist'
 // const commonjs = require('rollup-plugin-commonjs')
 
 // const productionBuildPlugins = [
@@ -36,39 +39,49 @@ function getEntries(dirPath) {
   })
 }
 
-const rollupConfig = (() => {
-  const entries = [
+const entryConfig = {
+  js: entry => ({
+    input: `${entry.relativePath}/${entry.fullName}`,
+    output: {
+      file: `${DIST_PATH}/${entry.fullName}`,
+    },
+    plugins: [
+      resolve(),
+      babel({
+        runtimeHelpers: true,
+        exclude: 'node_modules/**',
+      }),
+    ],
+  }),
+  css: entry => ({
+    input: `${entry.relativePath}/${entry.fullName}`,
+    output: {
+      file: `${DIST_PATH}/${entry.fullName}`,
+    },
+    plugins: [css({ output: entry.fullName })],
+  }),
+  // html: () => ({}),
+  other: () => false,
+}
+
+const rollupConfig = (() =>
+  [
     ...getEntries('./client'),
     ...getEntries('./client/assets'),
     ...getEntries('./client/libs'),
     ...getEntries('./client/scripts'),
     ...getEntries('./client/styles'),
-  ].filter(entry => entry.fileFormat !== 'dir')
-
-  return entries.map(entry => {
-    const inputPath = entry.relativePath
-    const outputPath = './dist'
-    return {
-      input: `${inputPath}/${entry.fullName}`,
-      output: {
-        file: `${outputPath}/${entry.fullName}`,
-      },
-      plugins: [
-        // resolve({
-        //   jsnext: true,
-        // }),
-        // babel({
-        //   exclude: 'node_modules/**',
-        // }),
-        // replace({
-        //   'process.env.NODE_ENV': JSON.stringify('development'),
-        // }),
-      ],
-    }
-  })
-})()
+  ]
+    .filter(entry => entry.fileFormat !== 'dir')
+    .map(entry =>
+      entryConfig[entry.fileFormat]
+        ? entryConfig[entry.fileFormat](entry)
+        : entryConfig.other(entry)
+    )
+    .filter(Boolean))()
 
 module.exports = rollupConfig
+
 // [
 //   ...rollupConfig,
 //   {

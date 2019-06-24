@@ -1,29 +1,33 @@
-window.WebLogger = (function() {// eslint-disable-line
-  let watchTaskLogsScrollTop = true
-  let autoScrollButton
-  let loggerId
-  let element
-  let ansiUp
+// window.WebLogger = ()()
 
-  function scrollTo(direction, animate, scrollPixels) {
+class WebLogger {
+  watchTaskLogsScrollTop = true
+  autoScrollButton
+  loggerId
+  element
+  ansiUp
+
+  scrollTo(direction, animate, scrollPixels) {
     const scrollTop = scrollPixels
-      ? $(element).scrollTop()
-      : direction === 'bottom' ? element.scrollHeight : 0
+      ? $(this.element).scrollTop()
+      : direction === 'bottom'
+      ? this.element.scrollHeight
+      : 0
     if (scrollPixels) {
-      $(element).scrollTop(
+      $(this.element).scrollTop(
         direction === 'bottom'
           ? scrollTop - scrollPixels
           : scrollTop + scrollPixels
       )
     } else if (animate) {
-      $(element).animate({ scrollTop }, animate)
+      $(this.element).animate({ scrollTop }, animate)
     } else {
-      element.scrollTop = scrollTop
+      this.element.scrollTop = scrollTop
     }
   }
 
-  function createHTMLLog(logData) {
-    const log = ansiUp.ansi_to_html(
+  createHTMLLog(logData) {
+    const log = this.ansiUp.ansi_to_html(
       logData.replace(/\n/g, '<br>').replace(/ /g, '&ensp;')
     )
     if (log.includes('Warning:')) {
@@ -44,18 +48,18 @@ window.WebLogger = (function() {// eslint-disable-line
       )
   }
 
-  function push(log, isRaw) {
-    element.insertAdjacentHTML(
+  push(log, isRaw) {
+    this.element.insertAdjacentHTML(
       'beforeend',
       isRaw ? log : this.createHTMLLog(log)
     )
   }
-  function clear() {
-    while (element.lastChild) {
-      element.removeChild(element.lastChild)
+  clear() {
+    while (this.element.lastChild) {
+      this.element.removeChild(this.element.lastChild)
     }
   }
-  function updateEnvs(envs) {
+  updateEnvs(envs) {
     if (_.keys(envs).length) {
       const container = document.createElement('div')
       container.classList.add('envs-log')
@@ -71,27 +75,27 @@ window.WebLogger = (function() {// eslint-disable-line
         createButton('logs-button', 'edit', 'global.enableEnvsForm()') +
         createButton('logs-button cancel', 'times', 'global.cancelEnvs()') +
         createButton('logs-button apply', 'check', 'global.updateEnvs()')
-      element.appendChild(container)
+      this.element.appendChild(container)
     }
   }
-  function updateDescription(description) {
+  updateDescription(description) {
     const container = createEl('div', { className: 'task-data' })
     const span = createEl('span', { innerText: description })
     container.appendChild(span)
-    element.appendChild(container)
+    this.element.appendChild(container)
   }
 
-  function onScroll() {
+  onScroll() {
     toggleClass(this, 'scrolling', this.scrollTop > 70)
   }
 
-  function triggerScrollWatcher() {
+  triggerScrollWatcher() {
     scrollTo('bottom', '1500')
-    watchTaskLogsScrollTop = !watchTaskLogsScrollTop
-    toggleClass(autoScrollButton, 'active', watchTaskLogsScrollTop)
+    this.watchTaskLogsScrollTop = !this.watchTaskLogsScrollTop
+    toggleClass(this.autoScrollButton, 'active', this.watchTaskLogsScrollTop)
   }
 
-  function createScrollActions(parent) {
+  createScrollActions(parent) {
     const scrollActions = createEl('div', {
       className: 'scroll-actions',
       parent,
@@ -104,43 +108,36 @@ window.WebLogger = (function() {// eslint-disable-line
     })
     createEl('button', {
       className: 'logs-button clear',
-      onclick: () => window.global.clearLogs(loggerId),
+      onclick: () => window.global.clearLogs(this.loggerId),
       innerHTML: '<i class="fas fa-eraser"></i>',
       parent: scrollActions,
     })
-    autoScrollButton = createEl('button', {
+    this.autoScrollButton = createEl('button', {
       className: `logs-button autoscroll ${
-        watchTaskLogsScrollTop ? 'active' : ''
+        this.watchTaskLogsScrollTop ? 'active' : ''
       }`,
-      onclick: () => triggerScrollWatcher(),
+      onclick: () => this.triggerScrollWatcher(),
       innerHTML: '<i class="fas fa-angle-double-down"></i>',
       parent: scrollActions,
     })
   }
 
-  return function WebLogger(logsContainer, id) {
-    loggerId = id
+  constructor(logsContainer, id) {
+    this.loggerId = id
     const wrapper = createEl('div', {
       className: 'logs-wrapper',
       parent: logsContainer,
     })
-    createScrollActions(wrapper)
-    element = createEl('div', {
+    this.createScrollActions(wrapper)
+    this.element = createEl('div', {
       className: 'logs-container',
       parent: wrapper,
-      onscroll: onScroll,
+      onscroll: this.onScroll,
     })
-    // element.addEventListener('scroll', onScroll)
-    ansiUp = new AnsiUp()
-    ansiUp.use_classes = true
-    ansiUp.escape_for_html = false
-    return {
-      scrollTo: scrollTo,
-      createHTMLLog: createHTMLLog,
-      push: push,
-      clear: clear,
-      updateEnvs: updateEnvs,
-      updateDescription: updateDescription,
-    }
+    this.ansiUp = new AnsiUp()
+    this.ansiUp.use_classes = true
+    this.ansiUp.escape_for_html = false
   }
-})()
+}
+
+export default WebLogger
