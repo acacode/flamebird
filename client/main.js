@@ -5,172 +5,167 @@ import TaskList from './scripts/task_list'
 import WebLogger from './scripts/weblogger'
 import FileLoader from './scripts/file_loader'
 import HotKeys from './scripts/hot_keys'
-import { toggleClass, el, createSpan } from './scripts/dom_utils'
+import Theme from './scripts/theme'
+import { toggleClass, el as getEl, createSpan } from './scripts/dom_utils'
+import { el } from 'redom'
 import Tabs from './scripts/tabs'
 
-window.global = (function() {
-  let watchTaskLogsScrollTop = true
-  let theme
-  let logger
-  let taskList
-  let previousEnvs = null
-  let hotKeysEnabled = false
-  let notificationsEnabled = false
-  let fullscreen = false
-  let projectName = 'flamebird'
+class Global {
+  watchTaskLogsScrollTop = true
+  theme
+  logger
+  taskList
+  previousEnvs = null
+  hotKeysEnabled = false
+  notificationsEnabled = false
+  fullscreen = false
+  projectName = 'flamebird'
+  pageIsNotActive = false
 
-  function showTaskList() {
+  showTaskList() {
     $(document.body).toggleClass('task-list-showed')
   }
 
-  function runAllTasks() {
+  runAllTasks() {
     _.each(
-      taskList.getAllFromActiveTab({ isRun: false }),
+      this.taskList.getAllFromActiveTab({ isRun: false }),
       ({ isRun, id, isActive }) => {
-        taskList.updateTask(id, isRun, isActive, true, false)
+        this.taskList.updateTask(id, isRun, isActive, true, false)
         kinka.post(`/run/${id}`)
       }
     )
   }
 
-  function stopAllTasks() {
+  stopAllTasks() {
     _.each(
-      taskList.getAllFromActiveTab({ isRun: true }),
+      this.taskList.getAllFromActiveTab({ isRun: true }),
       ({ isRun, id, isActive }) => {
-        taskList.updateTask(id, isRun, isActive, false, true)
+        this.taskList.updateTask(id, isRun, isActive, false, true)
         kinka.post(`/stop/${id}`)
       }
     )
   }
 
-  function clearLogs(activeTask) {
+  clearLogs(activeTask) {
     if (!activeTask) {
-      activeTask = taskList.getActive()
+      activeTask = this.taskList.getActive()
     }
     if (_.isString(activeTask)) {
-      activeTask = taskList.getTask(activeTask)
+      activeTask = this.taskList.getTask(activeTask)
     }
     kinka.post(`/clear-logs/${activeTask.id}`)
     activeTask.logs = []
-    logger.clear()
-    logger.updateDescription(activeTask.task)
-    logger.updateEnvs(activeTask.envs)
+    this.logger.clear()
+    this.logger.updateDescription(activeTask.task)
+    this.logger.updateEnvs(activeTask.envs)
   }
 
-  function triggerScrollWatcher(e) {
-    logger.scrollTo('bottom', '1500')
-    watchTaskLogsScrollTop = !watchTaskLogsScrollTop
-    $('.logs-button.autoscroll').toggleClass('active', watchTaskLogsScrollTop)
+  triggerScrollWatcher(e) {
+    this.logger.scrollTo('bottom', '1500')
+    this.watchTaskLogsScrollTop = !this.watchTaskLogsScrollTop
+    $('.logs-button.autoscroll').toggleClass(
+      'active',
+      this.watchTaskLogsScrollTop
+    )
   }
 
-  function handleClickTab(tab) {
+  handleClickTab(tab) {
     if (tab !== Tabs.getActive().name) {
       Tabs.setActive(tab)
     }
   }
 
-  function enableEnvsForm() {
-    el('.envs-log').classList.add('active')
-    previousEnvs = _.clone(taskList.getActive().envs)
+  enableEnvsForm() {
+    getEl('.envs-log').classList.add('active')
+    this.previousEnvs = _.clone(this.taskList.getActive().envs)
   }
 
-  function updateEnvs() {
-    el('.envs-log').classList.remove('active')
-    const activeTask = taskList.getActive()
-    _.each(el('.envs-log > input', true), function(el) {
+  updateEnvs() {
+    getEl('.envs-log').classList.remove('active')
+    const activeTask = this.taskList.getActive()
+    _.each(getEl('.envs-log > input', true), function(el) {
       const input = $(el)
-      previousEnvs[input.attr('key')] = input.val()
+      this.previousEnvs[input.attr('key')] = input.val()
     })
-    activeTask.envs = _.clone(previousEnvs)
-    clearLogs(activeTask)
+    activeTask.envs = _.clone(this.previousEnvs)
+    this.clearLogs(activeTask)
     kinka.post('/update-envs', {
       id: activeTask.id,
-      envs: _.clone(previousEnvs),
+      envs: _.clone(this.previousEnvs),
     })
-    taskList.updateTask(activeTask.id, true, activeTask.isActive, true, false)
-    previousEnvs = null
+    this.taskList.updateTask(
+      activeTask.id,
+      true,
+      activeTask.isActive,
+      true,
+      false
+    )
+    this.previousEnvs = null
   }
 
-  function cancelEnvs() {
-    el('.envs-log').classList.remove('active')
-    _.each(el('.envs-log > input', true), el => {
+  cancelEnvs() {
+    getEl('.envs-log').classList.remove('active')
+    _.each(getEl('.envs-log > input', true), el => {
       const input = $(el)
-      input.val(previousEnvs[input.attr('key')])
+      input.val(this.previousEnvs[input.attr('key')])
     })
-    taskList.getActive().envs = _.clone(previousEnvs)
-    previousEnvs = null
+    this.taskList.getActive().envs = _.clone(this.previousEnvs)
+    this.previousEnvs = null
   }
 
-  async function updateTaskLogs({ task, envs, id }) {
-    logger.clear()
+  async updateTaskLogs({ task, envs, id }) {
+    this.logger.clear()
     const { data: rawLogs } = await kinka.get(`/logs/${id}`)
-    logger.updateDescription(task)
-    logger.updateEnvs(envs)
-    const logs = _.map(rawLogs, logger.createHTMLLog).join('')
+    this.logger.updateDescription(task)
+    this.logger.updateEnvs(envs)
+    const logs = _.map(rawLogs, this.logger.createHTMLLog).join('')
     setTimeout(function() {
-      logger.push(logs, true)
-      logger.scrollTo('bottom')
+      this.logger.push(logs, true)
+      this.logger.scrollTo('bottom')
     }, 0)
   }
 
-  function openTask(id) {
-    // const active = taskList.getActive()
+  openTask(id) {
+    // const active = this.taskList.getActive()
     // if (!active || id !== active.id) {
-    const task = taskList.getTask(id)
+    const task = this.taskList.getTask(id)
     if (task.id) {
-      if (notificationsEnabled) taskList.setUpdated(id, false)
-      taskList.setActive(task)
-      updateTaskLogs(task)
+      if (this.notificationsEnabled) this.taskList.setUpdated(id, false)
+      this.taskList.setActive(task)
+      this.updateTaskLogs(task)
     }
     // }
   }
-  function runTask(id) {
+  runTask(id) {
     window.event.stopPropagation()
-    const task = taskList.getTask(id)
+    const task = this.taskList.getTask(id)
     if (!task.isLaunching && !task.isRun) {
-      taskList.setActive(task, true)
-      updateTaskLogs(task)
+      this.taskList.setActive(task, true)
+      this.updateTaskLogs(task)
       kinka.post('/run/' + task.id)
     }
   }
-  function stopTask(id) {
+  stopTask(id) {
     window.event.stopPropagation()
-    const task = taskList.getTask(id)
+    const task = this.taskList.getTask(id)
     if (!task.isLaunching && task.isRun) {
-      taskList.updateTask(task.id, false, task.isActive, false, true)
+      this.taskList.updateTask(task.id, false, task.isActive, false, true)
       kinka.post('/stop/' + task.id)
     }
   }
 
-  function setTheme(newTheme) {
-    localStorage.setItem('theme', newTheme)
-    if (newTheme !== 'white') {
-      FileLoader.loadFile(newTheme + '-theme.css')
-    }
-    document.body.setAttribute('theme', newTheme)
-    theme = newTheme
+  toggleNotifications() {
+    this.notificationsEnabled = !this.notificationsEnabled
+    this.updateNotifications()
   }
 
-  function switchTheme() {
-    const newTheme = theme === 'dark' ? 'white' : 'dark'
-    if (theme !== 'white') {
-      FileLoader.unloadFile(`${theme}-theme.css`)
-    }
-    setTheme(newTheme)
-  }
-
-  function toggleNotifications() {
-    notificationsEnabled = !notificationsEnabled
-    updateNotifications()
-  }
-
-  function updateNotifications() {
+  updateNotifications() {
     toggleClass(
-      el('.main-button.notifications'),
+      getEl('.main-button.notifications'),
       'active',
-      notificationsEnabled
+      this.notificationsEnabled
     )
-    if (notificationsEnabled) {
+    if (this.notificationsEnabled) {
       localStorage.setItem('notifications', true)
     } else {
       delete localStorage['notifications']
@@ -178,137 +173,127 @@ window.global = (function() {
     }
   }
 
-  function toggleHotKeys() {
-    hotKeysEnabled = !hotKeysEnabled
-    updateHotkeys()
+  toggleHotKeys() {
+    this.hotKeysEnabled = !this.hotKeysEnabled
+    this.updateHotkeys()
   }
 
-  function updateHotkeys() {
-    if (!hotKeysEnabled && window.HotKeys) {
+  updateHotkeys() {
+    if (!this.hotKeysEnabled && window.HotKeys) {
       HotKeys.setEnabled(false)
       window.HotKeys = null
     }
-    toggleClass(el('.main-button.hot-keys'), 'active', hotKeysEnabled)
-    FileLoader.loadFile('hot_keys-shortcuts.css', !hotKeysEnabled)
-    FileLoader.loadFile('hot_keys.js', !hotKeysEnabled)
-    if (hotKeysEnabled) {
+    toggleClass(getEl('.main-button.hot-keys'), 'active', this.hotKeysEnabled)
+    FileLoader.loadFile('hot_keys-shortcuts.css', !this.hotKeysEnabled)
+    FileLoader.loadFile('hot_keys.js', !this.hotKeysEnabled)
+    if (this.hotKeysEnabled) {
       localStorage.setItem('hotkeys', true)
     } else {
       delete localStorage['hotkeys']
     }
   }
 
-  function updateFullscreen() {
-    toggleClass(el('.main-button.resize'), 'active', fullscreen)
-    FileLoader.loadFile('fullscreen.css', !fullscreen, {
+  updateFullscreen() {
+    toggleClass(getEl('.main-button.resize'), 'active', this.fullscreen)
+    FileLoader.loadFile('fullscreen.css', !this.fullscreen, {
       media: 'screen and (min-width: 923px)',
     })
-    if (fullscreen) {
+    if (this.fullscreen) {
       localStorage.setItem('fullscreen', true)
     } else {
       delete localStorage['fullscreen']
     }
   }
 
-  function toggleResize() {
-    fullscreen = !fullscreen
-    updateFullscreen()
+  toggleResize() {
+    this.fullscreen = !this.fullscreen
+    this.updateFullscreen()
   }
 
-  let pageIsNotActive = false
-  $(window).focus(function() {
-    pageIsNotActive = false
-    if (notificationsEnabled) {
-      taskList.setUpdated(taskList.getActive().id, false)
-    }
-  })
-
-  $(window).blur(function() {
-    pageIsNotActive = true
-  })
-  const receiveWsMessage = ({ data }) => {
+  receiveWsMessage = ({ data }) => {
     const { name, id, isRun, isLaunching, isStopping, log } = JSON.parse(data)
     if (name) {
-      const isActive = id === taskList.getActive().id
-      taskList.updateTask(id, isRun, isActive, isLaunching, isStopping)
+      const isActive = id === this.taskList.getActive().id
+      this.taskList.updateTask(id, isRun, isActive, isLaunching, isStopping)
       if (log) {
         if (isActive) {
-          logger.push(log)
-          if (watchTaskLogsScrollTop) logger.scrollTo('bottom')
-          if (notificationsEnabled && pageIsNotActive) {
-            taskList.setUpdated(id, true, {
-              notify: notificationsEnabled,
-              projectName,
+          this.logger.push(log)
+          if (this.watchTaskLogsScrollTop) this.logger.scrollTo('bottom')
+          if (this.notificationsEnabled && this.pageIsNotActive) {
+            this.taskList.setUpdated(id, true, {
+              notify: this.notificationsEnabled,
+              projectName: this.projectName,
               log,
             })
           }
-        } else if (notificationsEnabled) {
-          taskList.setUpdated(id, true, {
-            notify: notificationsEnabled,
+        } else if (this.notificationsEnabled) {
+          this.taskList.setUpdated(id, true, {
+            notify: this.notificationsEnabled,
             log,
-            projectName,
+            projectName: this.projectName,
           })
         }
       }
     }
   }
 
-  async function showProjectVersion() {
+  async showProjectVersion() {
     const { data: version } = await kinka.get('/project-version')
     if (version) {
       $('header > .title').html(
-        projectName + createSpan('project-version', version)
+        this.projectName + createSpan('project-version', version)
       )
     }
   }
 
-  function hideProjectVersion() {
-    $('header > .title').text(projectName)
+  hideProjectVersion() {
+    $('header > .title').text(this.projectName)
   }
 
-  $(document).ready(async function() {
-    setTheme(localStorage.getItem('theme') || 'white')
-    fullscreen = !!localStorage.getItem('fullscreen')
-    hotKeysEnabled = !!localStorage.getItem('hotkeys')
-    notificationsEnabled = !!localStorage.getItem('notifications')
-    updateFullscreen()
-    updateHotkeys()
-    updateNotifications()
-    const {
-      data: { name, commands },
-    } = await kinka.get('/info')
-    projectName = name
-    if (projectName) {
-      $('title').text(`${projectName} | fb`)
-      $('header > .title')
-        .text(projectName)
-        .on('mouseover', showProjectVersion)
-        .on('mouseleave', hideProjectVersion)
-    }
-    taskList = window.taskList = new TaskList(el('#task-list'), commands)
-    logger = new WebLogger(el('#task-logs'))
-    const ws = new WebSocket(`ws://${location.host}`)
-    ws.onmessage = receiveWsMessage
-  })
+  getLogger = () => this.logger
+  getTaskList = () => this.taskList
 
-  return {
-    cancelEnvs: cancelEnvs,
-    clearLogs: clearLogs,
-    enableEnvsForm: enableEnvsForm,
-    handleClickTab: handleClickTab,
-    openTask: openTask,
-    runAllTasks: runAllTasks,
-    runTask: runTask,
-    showTaskList: showTaskList,
-    stopAllTasks: stopAllTasks,
-    stopTask: stopTask,
-    switchTheme: switchTheme,
-    getLogger: () => logger,
-    getTaskList: () => taskList,
-    toggleHotKeys: toggleHotKeys,
-    toggleNotifications: toggleNotifications,
-    toggleResize: toggleResize,
-    triggerScrollWatcher: triggerScrollWatcher,
-    updateEnvs: updateEnvs,
+  constructor() {
+    $(window).focus(() => {
+      this.pageIsNotActive = false
+      if (this.notificationsEnabled) {
+        this.taskList.setUpdated(this.taskList.getActive().id, false)
+      }
+    })
+
+    $(window).blur(() => {
+      this.pageIsNotActive = true
+    })
+
+    $(document).ready(async () => {
+      Theme.setTheme(localStorage.getItem('theme') || 'white')
+      this.fullscreen = !!localStorage.getItem('fullscreen')
+      this.hotKeysEnabled = !!localStorage.getItem('hotkeys')
+      this.notificationsEnabled = !!localStorage.getItem('notifications')
+      this.updateFullscreen()
+      this.updateHotkeys()
+      this.updateNotifications()
+      const {
+        data: { name, commands },
+      } = await kinka.get('/info')
+      this.projectName = name
+      if (this.projectName) {
+        $('title').text(`${this.projectName} | fb`)
+        $('header > .title')
+          .text(this.projectName)
+          .on('mouseover', this.showProjectVersion)
+          .on('mouseleave', this.hideProjectVersion)
+      }
+      this.taskList = window.taskList = new TaskList(
+        getEl('#task-list'),
+        commands
+      )
+      this.logger = new WebLogger(getEl('#task-logs'))
+      const ws = new WebSocket(`ws://${location.host}`)
+      ws.onmessage = this.receiveWsMessage
+    })
   }
-})()
+}
+
+// eslint-disable-next-line no-new
+new Global()
