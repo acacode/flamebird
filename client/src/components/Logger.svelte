@@ -1,6 +1,8 @@
 
 
 <script>
+    import reduce from 'lodash-es/reduce'
+
     const tasks = []
 
 </script>
