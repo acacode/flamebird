@@ -7,8 +7,8 @@
 		"mocha": true
 	},
 	"extends": [
-        "eslint:recommended",
-        "prettier",
+		"eslint:recommended",
+		"prettier",
 		"plugin:import/errors",
 		"plugin:import/warnings"
 	],
@@ -20,11 +20,14 @@
     "overrides": [
         {
             "files": "*.svelte",
-            "processor": "svelte3/svelte3"
+						"processor": "svelte3/svelte3"
         }
     ],
 	"settings": {
 		"import/core-modules": ["svelte"]
+	},
+	"globals": {
+		"config": true
 	},
 	"rules": {
 		"indent": [2, "tab", { "SwitchCase": 1 }],
@@ -45,9 +48,9 @@
 		"prefer-arrow-callback": 2,
 		"prefer-const": [2, { "destructuring": "all" }],
 		"arrow-spacing": 2,
-        "no-inner-declarations": 0,
-        "no-trailing-spaces": [2],
-        "no-irregular-whitespace": [2, { "skipTemplates": true }],
-        "no-multi-spaces": [2]
+		"no-inner-declarations": 0,
+		"no-trailing-spaces": [2],
+		"no-irregular-whitespace": [2, { "skipTemplates": true }],
+		"no-multi-spaces": [2]
 	}
 }

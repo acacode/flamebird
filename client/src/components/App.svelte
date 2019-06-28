@@ -2,11 +2,16 @@
   import Header from './Header.svelte'
   import Taskbar from './Taskbar.svelte'
   import Logger from './Logger.svelte'
+  import store from '../store'
 
-  export let name = 'asd'
+  // TODO: probably unused
+  const DEFAULT_TAB_CLASS_NAME = 'procfile'
+
+  $: activeTab = store.modules.tasks.state.activeTab
+
 </script>
 
-<div class="wrapper active-tab-procfile">
+<div class="wrapper active-tab-{activeTab ? activeTab.name : DEFAULT_TAB_CLASS_NAME}">
   <Header />
   <Taskbar />                                        
   <Logger />

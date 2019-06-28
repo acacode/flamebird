@@ -43,6 +43,18 @@
 
 
 <style>
+  header {
+      background: #f1f1f1;
+      box-shadow: 0 2px 2px rgba(0, 0, 0, 0.09);
+      color: rgb(99, 99, 99);
+      display: flex;
+      font-size: 18px;
+      font-weight: 900;
+      justify-content: space-between;
+      position: relative;
+      width: 100%;
+      z-index: 5;
+  }
   .logo{
       position: absolute;
       width: 40px;
@@ -58,5 +70,12 @@
       font-weight: 500;
       padding-left: 6px;
       background: #f1f1f1;
+  }
+  
+  .project-version {
+      color: #888888;
+      margin-left: 5px;
+      font-size: 12px;
+      pointer-events: none;
   }
 </style>

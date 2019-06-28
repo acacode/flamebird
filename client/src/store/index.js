@@ -1,7 +1,8 @@
 import {StonexStore} from 'stonex'
+import Tasks from './Tasks'
 
 const store = new StonexStore({
-    tasks: Tasks
+	tasks: Tasks
 })
 
 export default store
