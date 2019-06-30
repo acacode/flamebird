@@ -1,4 +1,5 @@
 import find from 'lodash-es/find'
+import findIndex from 'lodash-es/findIndex'
 
 export default {
 	state: {
@@ -26,5 +27,13 @@ export default {
 		const index = +!!activeTab && tabs.findIndex(tab => tab.name === activeTab.name)
 		const nextTab = tabs[index + 1] || tabs[0]
 		this.setActiveTab(nextTab.name)
+	},
+	removeTab(name) {
+		const tabs = [...this.state.tabs]
+		const removeTabIndex = findIndex(tabs, tab => tab.name === name)
+		if(removeTabIndex > -1) {
+			tabs.splice(removeTabIndex, 1)
+		}
+		this.setState({...this.state, tabs})
 	}
 }

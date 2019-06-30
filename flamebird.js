@@ -10,7 +10,7 @@ const storage = require('./server/utils/storage')
 const emitter = require('./server/utils/emitter')
 const { yellow, red, grey, cyan } = require('./server/utils/colors')
 const processWorker = require('./server/processWorker')
-const server = require('./server/server')
+const api = require('./server/api')
 
 process.title = 'flamebird (nodejs task manager)'
 
@@ -143,7 +143,7 @@ program
       cyan('web application') +
       ' which will help to manage all commands from package.json/Procfile/Grunt/Gulp'
   )
-  .action(args => server.start(init(args, true)))
+  .action(args => api.start(init(args, true)))
 
 program.parse(process.argv)
 

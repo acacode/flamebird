@@ -10,7 +10,8 @@
     "lint:fix": "yarn lint --fix",
     "build": "yarn webpack --config webpack.config.js -p",
     "build-rollup": "rollup -c",
-    "postinstall": "node postinstall.js"
+    "postinstall": "node postinstall.js",
+	"self-run": "node flamebird.js web"
   },
   "repository": {
     "type": "git",

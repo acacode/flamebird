@@ -1,3 +1,5 @@
+root: true
+
 extends:
   - standard
   - prettier
@@ -10,7 +12,7 @@ plugins:
   - prettier
 
 env:
-  browser: true
+  browser: false
 
 rules:
   # no-undef: 0

@@ -23,6 +23,7 @@
   "dependencies": {
     "kinka": "^2.5.6",
     "lodash-es": "^4.17.11",
+    "serializy": "0.0.1-beta",
     "sirv-cli": "^0.4.4",
     "stonex": "^0.1.3"
   },

@@ -2,12 +2,12 @@
   import Header from './Header.svelte'
   import Taskbar from './Taskbar.svelte'
   import Logger from './Logger.svelte'
-  import store from '../store'
+  import { tabs } from '../store'
 
   // TODO: probably unused
   const DEFAULT_TAB_CLASS_NAME = 'procfile'
 
-  $: activeTab = store.modules.tasks.state.activeTab
+  $: activeTab = console.log(tabs.state.activeTab) || tabs.state.activeTab
 
 </script>
 

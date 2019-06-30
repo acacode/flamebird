@@ -1,14 +1,16 @@
 <script>
-  import store from '../store'
+  // import store from '../store'
 
-  export let id
-  export let name
-  export let charCode
+  export let task
+  export let index
 
-  $: {} = store.modules.
+  const charCode = 0
+  // export let charCode
+
 // TODO: replace task-num-1 class
 
   function handleClickOnTask(e) {
+  	console.log(e)
   	// global.openTask
   	/*
 
@@ -57,13 +59,13 @@
 
 
 <div
-  class="task {isRun && 'running'} {isLaunching && 'clicked'} {isActive && 'active'}"
-  id={id}
+  class="task {task.isRun && 'running'} {task.isLaunching && 'clicked'} {task.isActive && 'active'}"
+  id={task.id}
   on:click={handleClickOnTask}
   char-code={charCode}
 >
   <i class="fas fa-cog"></i>
-  <span class="task-name">autobuild</span>
+  <span class="task-name">{task.name}</span>
   <button
     on:click={handleClickOnRunButton}
     class="run-task">
@@ -78,6 +80,43 @@
 
 
 <style type="text/scss">
+
+
+
+  .task {
+      padding: 0 0 0 9px;
+      background: rgba(119, 119, 119, 0.05);
+      color: #7b7b7b;
+      cursor: pointer;
+      display: flex;
+      position: relative;
+      transition: all 250ms ease;
+      z-index: 0;
+  }
+
+  .task > button{
+      border: none;
+      background: none;
+      cursor: pointer;
+      height: 42px;
+      font-size: 15px;
+      width: 32px;
+      position: absolute;
+      left: -32px;
+      transition: left 69ms linear;
+  }
+
+  .task:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 32px;
+      height: 100%;
+      background: transparent;
+      z-index: 0;
+      opacity: .9;
+  }
   .task > .stop-task {
       display: none;
       color: #a93333;
@@ -153,18 +192,6 @@
       padding: 9px 0;
       transition: transform 199ms cubic-bezier(0.18, 0.89, 0.32, 1.28) !important;
   }
-
-  .task:before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 32px;
-      height: 100%;
-      background: transparent;
-      z-index: 0;
-      opacity: .9;
-  }
   .task:hover button {
       transition: left 199ms cubic-bezier(0.18, 0.89, 0.32, 1.28) !important;
       left: 0;
@@ -205,5 +232,15 @@
 
   .task:hover > span {
       transform: translateX(6px);
+  }
+
+  @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+  @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+  @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+  @keyframes highlight{
+    50%{
+        background: rgb(255, 247, 204);
+    }
   }
 </style>
