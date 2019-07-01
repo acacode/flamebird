@@ -10,23 +10,24 @@
 
 
 
-<span class="tabs">
+<div class="tabs">
   {#each tabs as tab}
     <button class="tab {tab.name === activeTab.name && 'active'}" id={tab.name} on:click={() => handleClickTab(tab)}>
       {tab.name}
     </button>
   {/each}
-</span>
+</div>
 
 
 <style>
   
   .tabs {
     position: absolute;
-    left: -70px;
-    top: 215px;
-    transform: rotate(-90deg);
+    left: -24px;
+    bottom: 70%;
     z-index: 0;
+    transform-origin: 0 0;
+    transform: rotate(-90deg) translateX(-50%);
   }
   
   .tab {

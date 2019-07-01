@@ -19,8 +19,8 @@
 	},
     "overrides": [
         {
-            "files": "*.svelte",
-						"processor": "svelte3/svelte3"
+            "files": "*.html",
+			"processor": "svelte3/svelte3"
         }
     ],
 	"settings": {
