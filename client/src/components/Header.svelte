@@ -1,6 +1,6 @@
 <script>
-  import { app, tabs } from '../store'
-  $: projectName = 'flamebird'
+  import { app } from '../store'
+  $: projectName = app.state.projectName
   $: appVersion = 'asdasd'
 
   const noop = e => { console.log(e) }
@@ -30,7 +30,8 @@
         <span>{ label }</span>
       </button>
     {/each}
-    <!-- <button class="main-button toggle color" onclick="global.switchTheme()">
+    <!-- 
+    <button class="main-button toggle color" onclick="global.switchTheme()">
       <i class="fas fa-adjust" />
       <span>theme</span>
     </button>
@@ -51,12 +52,9 @@
     </button>
     <button class="main-button stop" onclick="global.stopAllTasks()">
       <span>stop all</span>
-    </button> -->
+    </button>
+    -->
   </div>
-  <span class="tabs">
-    <button class="tab" id="npm" onclick="global.handleClickTab('npm')">npm</button>
-    <button class="tab active" id="procfile" onclick="global.handleClickTab('procfile')">procfile</button>
-  </span>
 </header>
 
 
@@ -72,6 +70,8 @@
       position: relative;
       width: 100%;
       z-index: 5;
+      min-height: 40px;
+      align-items: center;
   }
   .logo{
       position: absolute;
@@ -123,6 +123,20 @@
       color: #5d5d5d;
       padding: 2px 15px;
   }
+  
+  .main-button.run{
+      background: #2eb97a;
+      /* margin-right: 5px; */
+      right: 12px;
+      color: #d5ffec;
+  }
+
+  .main-button.stop {
+    background: #b55d5d;
+    color: #ffd5d5;
+    right: -7px;
+    padding-right: 27px;
+  }
 
   .main-button.toggle.hot-keys {
       margin-right: 60px;
@@ -137,18 +151,15 @@
       margin: 0 0 0 -20px;
       overflow:hidden;
       position:relative;
-      -webkit-transform: skew(-20deg);
-      -moz-transform: skew(-20deg);
-      -o-transform: skew(-20deg);
       transform: skew(-20deg);
+      height: 40px;
   }
 
   .main-button:not(.toggle) > span {
-      -webkit-transform: skew(20deg);
-      -moz-transform: skew(20deg);
-      -o-transform: skew(20deg);
       transform: skew(20deg);
       position: relative;
       display: block;
   }
+
+
 </style>

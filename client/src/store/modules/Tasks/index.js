@@ -15,10 +15,11 @@ export default {
 		let activeTabName = null
 		each(tasksMap, (tasks, tabName) => {
 			if (tasks.length) {
+				this.modules.tabs.createTab(tabName)
 				if (!activeTabName || tabName === 'procfile') {
 					activeTabName = tabName
 				}
-			} else this.modules.tabs.removeTab(tabName)
+			}
 		})
 		if (activeTabName) this.modules.tabs.setActiveTab(activeTabName)
 		const activeTask = tasksMap[activeTabName][0]

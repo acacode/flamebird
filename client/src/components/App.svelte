@@ -2,6 +2,7 @@
   import Header from './Header.svelte'
   import Taskbar from './Taskbar.svelte'
   import Logger from './Logger.svelte'
+  import Tabs from './Tabs.svelte'
   import { tabs } from '../store'
 
   // TODO: probably unused
@@ -13,6 +14,7 @@
 
 <div class="wrapper active-tab-{activeTab ? activeTab.name : DEFAULT_TAB_CLASS_NAME}">
   <Header />
+  <Tabs />
   <Taskbar />                                        
   <Logger />
 </div>

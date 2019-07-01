@@ -4,7 +4,7 @@ import Command from './Command'
 const AppInfo = {
 	commands: fieldArray('commands', Command),
 	ignorePms: field('ignorePms', 'boolean'),
-	name: field('name', 'string'),
+	projectName: field('name', 'string'),
 	port: field('port', 'integer'),
 	sortByName: field('sortByName', 'boolean'),
 	tasks: fieldArray('tasks', 'string'),

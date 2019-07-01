@@ -3,17 +3,16 @@ import findIndex from 'lodash-es/findIndex'
 
 export default {
 	state: {
-		tabs: [
-			{ name: 'procfile' },
-			{ name: 'npm' },
-			{ name: 'grunt' },
-			{ name: 'gulp' },
-		],
+		tabs: [],
 		activeTab: null,
 	},
 	setActiveTab(name) {
 		const activeTab = this.getTab(name)
 		this.setState({...this.state, activeTab })
+	},
+	createTab(name) {
+		const tabs = [...this.state.tabs, { name }]
+		this.setState({...this.state, tabs})
 	},
 	getTab(name) {
 		return find(this.state.tabs, { name })
@@ -34,6 +33,7 @@ export default {
 		if(removeTabIndex > -1) {
 			tabs.splice(removeTabIndex, 1)
 		}
+		console.log('tabs', tabs)
 		this.setState({...this.state, tabs})
 	}
 }

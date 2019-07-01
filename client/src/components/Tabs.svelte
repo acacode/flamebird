@@ -1,3 +1,52 @@
-<script></script>
+<script>
+  import store from '../store'
+
+  $: tabs = store.modules.tabs.state.tabs
+  $: activeTab = console.log('store.modules.tabs.state.tabs', store.modules.tabs.state.tabs) || store.modules.tabs.state.activeTab
+  
+  const handleClickTab = (tab) => store.modules.tabs.setActiveTab(tab.name)
+
+</script>
 
 
+
+<span class="tabs">
+  {#each tabs as tab}
+    <button class="tab {tab.name === activeTab.name && 'active'}" id={tab.name} on:click={() => handleClickTab(tab)}>
+      {tab.name}
+    </button>
+  {/each}
+</span>
+
+
+<style>
+  
+  .tabs {
+    position: absolute;
+    left: -70px;
+    top: 215px;
+    transform: rotate(-90deg);
+    z-index: 0;
+  }
+  
+  .tab {
+    border-top-left-radius: 10px;
+    user-select: none;
+    border-top-right-radius: 10px;
+    border: none;
+    padding: 1px 10px 3px;
+    z-index: -50;
+    color: #a7a7a7;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    background: rgb(239, 239, 239);
+    cursor: pointer;
+    transition: background 269ms cubic-bezier(0, 0, 0.2, 1);
+  }
+
+  .tab.active, .tab:active {
+    z-index: 3;
+    background: #f6f7d8;
+    font-weight: 500;
+    color: #565656;
+  }
+</style>
