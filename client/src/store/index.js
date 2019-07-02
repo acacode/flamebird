@@ -4,18 +4,11 @@ import Tasks from './modules/Tasks'
 import App from './modules/App'
 import { writable } from 'svelte/store'
 
-
-// TODO: add middleware which will update svelte application
-// https://github.com/lukechinworth/codenames/blob/svelte/src/index.js
 const store = new StonexStore({
 	app: App,
 	tabs: Tabs,
 	tasks: Tasks,
 })
-
-export const app = store.modules.app
-export const tabs = store.modules.tabs
-export const tasks = store.modules.tasks
 
 export const actions = Object.keys(store.modules).reduce((acc, key) => {
 	const module = store.modules[key]

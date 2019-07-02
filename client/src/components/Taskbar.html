@@ -1,10 +1,8 @@
 <script>
-    import { tasks, tabs } from '../store'
     import TaskButton from './TaskButton.html'
+    import { useState, actions } from '../store'
 
-
-    console.log('tasks.getTasksByTab(tabs.state.activeTab.name)', tasks.getTasksByTab(tabs.state.activeTab))
-    $: activeTabTasks = tasks.getTasksByTab(tabs.state.activeTab)
+    $: state = useState()
 
 </script>
 
@@ -12,7 +10,7 @@
 
 
 <section class="tasks-list">
-	{#each activeTabTasks as task, index}
+	{#each actions.tasks.getTasksByTab($state.tabs.activeTab) as task, index}
 		<TaskButton {task} {index}/>
 	{/each}
 </section>

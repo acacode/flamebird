@@ -1,5 +1,5 @@
 <script>
-  // import store from '../store'
+  import { actions } from '../store'
 
   export let task
   export let index
@@ -11,7 +11,8 @@
 
   function handleClickOnTask(e) {
   	console.log(e)
-  	// global.openTask
+    // global.openTask
+    actions.tasks.setActive(task)  
   	/*
 
     const task = this.taskList.getTask(id)

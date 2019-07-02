@@ -3,17 +3,13 @@
   import Taskbar from './Taskbar.html'
   import Logger from './Logger.html'
   import Tabs from './Tabs.html'
-  import { tabs } from '../store'
   import { useState } from '../store'
-
-  // TODO: probably unused
-  const DEFAULT_TAB_CLASS_NAME = 'procfile'
 
   $: state = useState()
 
 </script>
 
-<div class="wrapper active-tab-{$state.tabs.activeTab ? $state.tabs.activeTab.name : DEFAULT_TAB_CLASS_NAME}">
+<div class="wrapper active-tab-{$state.tabs.activeTab && $state.tabs.activeTab.name}">
   <Header />
   <Tabs />
   <Taskbar />                                        
@@ -29,9 +25,5 @@
     margin-right: auto;
     max-width: 876px;
     position: relative;
-  }
-  .wrapper > section{
-      float: left;
-      overflow-y: auto;
   }
 </style>

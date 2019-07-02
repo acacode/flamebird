@@ -1,4 +1,5 @@
 import each from 'lodash-es/each'
+import findIndex from 'lodash-es/findIndex'
 import { createTasksMap, getTasksByTab } from './helpers'
 
 export default {
@@ -7,7 +8,7 @@ export default {
 			// npm: [],
 			// procfile:[],
 		},
-		activeTask: null,
+		activeTaskIndex: null,
 	},
 	getTasksByTab(tab) { return getTasksByTab(tab, this.state.tasks) },
 	createTasks(commands) {
@@ -22,7 +23,16 @@ export default {
 			}
 		})
 		if (activeTabName) this.modules.tabs.setActiveTab(activeTabName)
-		const activeTask = tasksMap[activeTabName][0]
-		this.setState({ ...this.state, tasks: tasksMap, activeTask })
+		this.setState({ ...this.state, tasks: tasksMap })
+		this.setActive(tasksMap[activeTabName][0])
+	},
+	getTaskIndex({ id, type }) {
+		return findIndex(this.state.tasks[type], task => task.id === id)
+	},
+	setActive(task) {
+		const state = {...this.state}
+		const activeTaskIndex = this.getTaskIndex(task)
+		state.tasks[task.type][activeTaskIndex].isActive = true
+		this.setState({...state, activeTaskIndex })
 	}
 }

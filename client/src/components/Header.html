@@ -1,7 +1,6 @@
 <script>
-  import { app } from '../store'
-  $: projectName = app.state.projectName
-  $: appVersion = 'asdasd'
+  import { useState } from '../store'
+  $: state = useState()
 
   const noop = e => { console.log(e) }
 
@@ -17,9 +16,9 @@
 
 <header>
   <span class="title">
-    {projectName}
-    {#if appVersion}
-      <span class="project-version">{appVersion}</span>
+    {$state.app.projectName}
+    {#if $state.app.appVersion}
+      <span class="project-version">{$state.app.appVersion}</span>
     {/if} 
   </span>  
   <img src="logo2_small.png" alt="flamebird" class="logo" />
