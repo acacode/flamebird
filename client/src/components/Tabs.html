@@ -1,23 +1,21 @@
 <script>
-  import store from '../store'
+  import { getContext } from 'svelte'
+  import store, { useState, actions } from '../store'
 
-  $: tabs = store.modules.tabs.state.tabs
-  $: activeTab = console.log('store.modules.tabs.state.tabs', store.modules.tabs.state.tabs) || store.modules.tabs.state.activeTab
-  
-  const handleClickTab = (tab) => store.modules.tabs.setActiveTab(tab.name)
+  $: state = useState()
+
+  const handleClickTab = (tab) => actions.tabs.setActiveTab(tab.name)
 
 </script>
 
 
-
 <div class="tabs">
-  {#each tabs as tab}
-    <button class="tab {tab.name === activeTab.name && 'active'}" id={tab.name} on:click={() => handleClickTab(tab)}>
+  {#each $state.tabs.tabs as tab}
+    <button class="tab {tab.name === $state.tabs.activeTab.name && 'active'}" id={tab.name} on:click={() => handleClickTab(tab)}>
       {tab.name}
     </button>
   {/each}
 </div>
-
 
 <style>
   

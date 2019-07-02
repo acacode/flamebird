@@ -4,15 +4,16 @@
   import Logger from './Logger.html'
   import Tabs from './Tabs.html'
   import { tabs } from '../store'
+  import { useState } from '../store'
 
   // TODO: probably unused
   const DEFAULT_TAB_CLASS_NAME = 'procfile'
 
-  $: activeTab = console.log(tabs.state.activeTab) || tabs.state.activeTab
+  $: state = useState()
 
 </script>
 
-<div class="wrapper active-tab-{activeTab ? activeTab.name : DEFAULT_TAB_CLASS_NAME}">
+<div class="wrapper active-tab-{$state.tabs.activeTab ? $state.tabs.activeTab.name : DEFAULT_TAB_CLASS_NAME}">
   <Header />
   <Tabs />
   <Taskbar />                                        
