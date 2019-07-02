@@ -51,6 +51,7 @@
 		"no-inner-declarations": 0,
 		"no-trailing-spaces": [2],
 		"no-irregular-whitespace": [2, { "skipTemplates": true }],
-		"no-multi-spaces": [2]
+		"no-multi-spaces": [2],
+		"max-len": [2, 70]
 	}
 }

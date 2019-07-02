@@ -1,5 +1,8 @@
+import each from 'lodash-es/each'
 import find from 'lodash-es/find'
 import findIndex from 'lodash-es/findIndex'
+
+const PRIORITY_FIRST_ACTIVE_TAB = 'procfile'
 
 export default {
 	state: {
@@ -13,6 +16,18 @@ export default {
 	createTab(name) {
 		const tabs = [...this.state.tabs, { name }]
 		this.setState({...this.state, tabs})
+	},
+	createTabs(tasksMap) {
+		let activeTabName = null
+		each(tasksMap, (tasks, tabName) => {
+			if (tasks.length) {
+				this.createTab(tabName)
+				if (!activeTabName || tabName === PRIORITY_FIRST_ACTIVE_TAB) {
+					activeTabName = tabName
+				}
+			}
+		})
+		if (activeTabName) this.setActiveTab(activeTabName)
 	},
 	getTab(name) {
 		return find(this.state.tabs, { name })
