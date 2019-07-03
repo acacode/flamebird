@@ -33,6 +33,7 @@
     "dev": "run-p start:dev autobuild",
     "start": "sirv public --single",
     "start:dev": "sirv public --single --dev",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "lint:fix": "npm run lint -- --fix"
   }
 }
