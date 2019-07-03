@@ -3,9 +3,9 @@
   import Taskbar from './Taskbar.html'
   import Logger from './Logger.html'
   import Tabs from './Tabs.html'
-  import { useState } from '../store'
+  import { getState } from '../store'
 
-  $: state = useState()
+  $: state = getState()
 
 </script>
 

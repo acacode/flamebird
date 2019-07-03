@@ -10,7 +10,6 @@
 // TODO: replace task-num-1 class
 
   function handleClickOnTask(e) {
-  	console.log(e)
     // global.openTask
     actions.tasks.setActive(task)  
   	/*
@@ -63,7 +62,7 @@
   class="task {task.isRun && 'running'} {task.isLaunching && 'clicked'} {task.isActive && 'active'}"
   id={task.id}
   on:click={handleClickOnTask}
-  char-code={charCode}
+  char-code={index}
 >
   <i class="fas fa-cog"></i>
   <span class="task-name">{task.name}</span>

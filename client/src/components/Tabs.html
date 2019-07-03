@@ -1,17 +1,28 @@
 <script>
   import { getContext } from 'svelte'
-  import store, { useState, actions } from '../store'
+  import store, { getState, actions } from '../store'
 
-  $: state = useState()
+  $: state = getState()
 
-  const handleClickTab = (tab) => actions.tabs.setActiveTab(tab.name)
+  const handleClickTab = (tab) => {
+    actions.tabs.setActive(tab.name)
+    const activeTask = actions.tasks.getActiveTaskByTab(tab)
+
+    if(!activeTask){
+      actions.tasks.setActive(actions.tasks.getTasksByTab(tab)[0])
+    }
+
+  }
 
 </script>
 
 
 <div class="tabs">
   {#each $state.tabs.tabs as tab}
-    <button class="tab {tab.name === $state.tabs.activeTab.name && 'active'}" id={tab.name} on:click={() => handleClickTab(tab)}>
+    <button
+      class="tab {tab.name === $state.tabs.activeTab.name && 'active'}"
+      id={tab.name}
+      on:click={() => handleClickTab(tab)}>
       {tab.name}
     </button>
   {/each}

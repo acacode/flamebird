@@ -9,7 +9,7 @@ export default {
     tabs: [],
     activeTab: null
   },
-  setActiveTab(name) {
+  setActive(name) {
     const activeTab = this.getTab(name)
     this.setState({ ...this.state, activeTab })
   },
@@ -27,7 +27,7 @@ export default {
         }
       }
     })
-    if (activeTabName) this.setActiveTab(activeTabName)
+    if (activeTabName) this.setActive(activeTabName)
   },
   getTab(name) {
     return find(this.state.tabs, { name })
@@ -41,7 +41,7 @@ export default {
     const index =
       +!!activeTab && tabs.findIndex(tab => tab.name === activeTab.name)
     const nextTab = tabs[index + 1] || tabs[0]
-    this.setActiveTab(nextTab.name)
+    this.setActive(nextTab.name)
   },
   removeTab(name) {
     const tabs = [...this.state.tabs]

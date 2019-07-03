@@ -1,16 +1,16 @@
 <script>
-  import { useState } from '../store'
-  $: state = useState()
+  import { getState, actions } from '../store'
+  $: state = getState()
 
   const noop = e => { console.log(e) }
 
-  const actions = [
-  	{ className: 'color', isToggle: true, icon: 'adjust', onClick: noop, label: 'theme' },
-  	{ className: 'resize', isToggle: true, icon: 'expand-arrows-alt', onClick: noop, label: 'fullscreen' },
-  	{ className: 'notifications', isToggle: true, icon: 'exclamation', onClick: noop, label: 'notifications' },
-  	{ className: 'hot-keys', isToggle: true, icon: 'keyboard', onClick: noop, label: 'hotkeys' },
-  	{ className: 'run', onClick: noop, label: 'run all' },
-  	{ className: 'stop', onClick: noop, label: 'stop all' },
+  const mainButtons = [
+  	{ className: 'color', isToggle: true, icon: 'adjust', onClick: actions.extensions.toggleTheme, name: 'theme' },
+  	{ className: 'resize', isToggle: true, icon: 'expand-arrows-alt', onClick: actions.extensions.toggleFullscreen, name: 'fullscreen' },
+  	{ className: 'notifications', isToggle: true, icon: 'exclamation', onClick: actions.extensions.toggleNotifications, name: 'notifications' },
+  	{ className: 'hot-keys', isToggle: true, icon: 'keyboard', onClick: actions.extensions.toggleHotkeys, name: 'hotkeys' },
+  	{ className: 'run', onClick: noop, name: 'run all' },
+  	{ className: 'stop', onClick: noop, name: 'stop all' },
   ]
 </script>
 
@@ -21,12 +21,12 @@
       <span class="project-version">{$state.app.appVersion}</span>
     {/if} 
   </span>  
-  <img src="logo2_small.png" alt="flamebird" class="logo" />
+  <img src="logo/logo2_small.png" alt="flamebird" class="logo" />
   <div class="main-buttons">
-    {#each actions as { icon, label, isToggle, className, onClick }}
-      <button class="main-button {isToggle && 'toggle'} {className}" on:click={onClick}>
+    {#each mainButtons as { icon, name, isToggle, className, onClick }}
+      <button class="main-button {isToggle && 'toggle'} {isToggle && $state.extensions[name] && 'active'} {className}" on:click={onClick}>
         {#if icon} <i class="fas fa-{icon}" /> {/if}
-        <span>{ label }</span>
+        <span>{ name }</span>
       </button>
     {/each}
     <!-- 
@@ -85,8 +85,11 @@
   .title {
       color: #1d1d1d;
       font-weight: 500;
-      padding-left: 6px;
+      padding: 8px 10px 5px 6px;
       background: #f1f1f1;
+      min-height: inherit;
+      align-items: center;
+      display: flex;
   }
   
   .project-version {
