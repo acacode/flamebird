@@ -3,13 +3,13 @@
   import Taskbar from './Taskbar.html'
   import Logger from './Logger.html'
   import Tabs from './Tabs.html'
-  import { getState } from '../store'
+  // import { getState } from '../store'
 
-  $: state = getState()
-
+  // $: state = getState()
+//  active-tab-{$state.tabs.activeTab && $state.tabs.activeTab.name}
 </script>
 
-<div class="wrapper active-tab-{$state.tabs.activeTab && $state.tabs.activeTab.name}">
+<div class="wrapper">
   <Header />
   <Tabs />
   <Taskbar />                                        
@@ -25,5 +25,9 @@
     margin-right: auto;
     max-width: 876px;
     position: relative;
+  }
+
+  :global([theme="dark"]) .wrapper {
+    background: #424242;
   }
 </style>

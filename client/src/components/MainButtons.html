@@ -1,0 +1,50 @@
+
+
+<script>
+    import { getState, actions } from '../store'
+    import MainButton from './MainButton.html'
+
+    $: state = getState()
+      
+    const noop = e => { console.log(e) }
+
+    const { toggleTheme, toggleFullscreen, toggleNotifications, toggleHotkeys } = actions.extensions
+                
+    const toggleButtons = [       
+        { className: 'color', icon: 'adjust', onClick: toggleTheme, name: 'theme' },
+        { className: 'resize', icon: 'expand-arrows-alt', onClick: toggleFullscreen, name: 'fullscreen' },
+        { className: 'notifications', icon: 'exclamation', onClick: toggleNotifications, name: 'notifications' },
+        { className: 'hot-keys', icon: 'keyboard', onClick: toggleHotkeys, name: 'hotkeys' }
+    ]
+
+    const runAllTasks = noop
+    const stopAllTasks = noop
+</script>
+
+
+
+<div class="main-buttons">
+    {#each toggleButtons as { icon, name, className, onClick }}
+        <MainButton
+            className={className}
+            onClick={onClick}
+            toggleIcon={icon}
+            isActive={$state.extensions[name]}>
+            { name }
+        </MainButton>
+    {/each}
+    <MainButton className="run" onClick={runAllTasks}>run all</MainButton>
+    <MainButton className="stop" onClick={stopAllTasks}>stop all</MainButton>
+</div>
+
+
+<style>
+
+  .main-buttons {
+      padding: 0;
+      display: flex;
+      overflow: hidden;
+      padding-left: 43px;
+  }
+  
+</style>

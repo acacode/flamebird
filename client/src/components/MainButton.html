@@ -1,0 +1,107 @@
+
+
+<script>
+
+    export let isActive
+    export let onClick
+    export let className
+    export let toggleIcon
+</script>
+
+
+<button class="main-button {toggleIcon && 'toggle'} {className} {toggleIcon && isActive && 'active'}" on:click={onClick}>
+    {#if toggleIcon}<i class="fas fa-{toggleIcon}" />{/if}
+    <span><slot></slot></span>
+</button>
+
+
+<style>
+
+    
+  .main-button {
+      border: 0;
+      color: #f1f1f1;
+      font-size: 15px;
+      cursor: pointer;
+      padding: 1px 20px;
+      min-width: 88px;
+      line-height: 1;
+  }
+  
+  .main-button.toggle {
+    margin: auto 5px;
+    border-radius: 25px;
+    background: #d8d8d8;
+    color: #5d5d5d;
+    padding: 2px 15px;
+    /* transition: all 239ms ease-out; */
+    transition: all 189ms ease-out;
+  }
+  
+  .main-button.run{
+    background: #2eb97a;
+    right: 12px;
+    color: #d5ffec;
+  }
+
+  .main-button.stop {
+    background: #b55d5d;
+    color: #ffd5d5;
+    right: -7px;
+    padding-right: 27px;
+  }
+
+
+:global([theme="dark"]) .main-button.run{
+    background: #2f9a6a;
+}
+:global([theme="dark"]) .main-button.stop{
+    background: #8c4343;
+}
+
+
+  .main-button.toggle.hot-keys {
+    margin-right: 60px;
+  }
+
+  .main-button.toggle:not(.color).active {
+    background: #2eb97a;
+    color: #dbffef;
+  }
+
+  .main-button:not(.toggle){
+      margin: 0 0 0 -20px;
+      overflow:hidden;
+      position:relative;
+      transform: skew(-20deg);
+      height: 40px;
+  }
+
+  .main-button:not(.toggle) > span {
+      transform: skew(20deg);
+      position: relative;
+      display: block;
+  }
+
+
+  .toggle.color .fas {
+      transition: transform 239ms ease-out;
+  }
+
+
+  
+  :global([theme="dark"]) .toggle.color .fas {
+      transform: scaleX(-1);
+  }
+
+  :global([theme="dark"]) .main-button.toggle {
+    background: #333333;
+    color: #929292;
+  }
+
+  :global([theme="dark"]) .main-button.toggle:not(.color).active {
+    background: #2e7b58;
+    color: #b5e0cd;
+  }
+
+</style>

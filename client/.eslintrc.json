@@ -12,7 +12,10 @@
 		"plugin:import/errors",
 		"plugin:import/warnings"
 	],
-	"plugins": ["eslint-plugin-prettier","svelte3"],
+	"plugins": [
+		"eslint-plugin-prettier",
+		"svelte3"
+	],
 	"parserOptions": {
 		"ecmaVersion": 9,
 		"sourceType": "module"
@@ -30,7 +33,8 @@
 		"config": true
 	},
 	"rules": {
-		"prettier/prettier": [2, { 
+		"prettier/prettier": [2, {
+			"singleQuote": true,
 			"semi": false
 		}]
 	}

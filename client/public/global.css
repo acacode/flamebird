@@ -28,3 +28,9 @@ button{
 body * {
 	font-family: 'Roboto', sans-serif;
 }
+
+
+
+body[theme="dark"]{
+	background: #212121;
+}

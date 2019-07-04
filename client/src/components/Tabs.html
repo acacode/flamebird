@@ -9,7 +9,7 @@
     const activeTask = actions.tasks.getActiveTaskByTab(tab)
 
     if(!activeTask){
-      actions.tasks.setActive(actions.tasks.getTasksByTab(tab)[0])
+      actions.tasks.setActive(actions.tasks.getTasksByTab(tab)[0])  
     }
 
   }
@@ -66,4 +66,5 @@
     font-weight: 500;
     color: #565656;
   }
+
 </style>

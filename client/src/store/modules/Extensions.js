@@ -4,22 +4,22 @@ export default {
     fullscreen: false,
     notifications: false,
     hotkeys: false
-  },
-
-  toggleProp(propName) {
-    this.setState({ ...this.state, [propName]: !this.state[propName] })
+    // activeTheme: 'white'
   },
 
   toggleTheme() {
-    this.toggleProp("theme")
+    const theme = !this.state.theme
+    const activeTheme = theme ? 'dark' : 'white'
+    this.setState({ ...this.state, theme })
+    document.body.setAttribute('theme', activeTheme)
   },
   toggleFullscreen() {
-    this.toggleProp("fullscreen")
+    this.setState({ ...this.state, fullscreen: !this.state.fullscreen })
   },
   toggleNotifications() {
-    this.toggleProp("notifications")
+    this.setState({ ...this.state, notifications: !this.state.notifications })
   },
   toggleHotkeys() {
-    this.toggleProp("hotkeys")
+    this.setState({ ...this.state, hotkeys: !this.state.hotkeys })
   }
 }
