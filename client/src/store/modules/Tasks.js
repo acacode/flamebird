@@ -1,6 +1,7 @@
-import findIndex from "lodash-es/findIndex"
+import findIndex from 'lodash-es/findIndex'
 
 export default {
+  notifyTaskTimers: {},
   state: {
     tasks: {
       // npm: [],
@@ -31,25 +32,53 @@ export default {
     return findIndex(this.state.tasks[type], task => task.id === id)
   },
   setActive(task) {
-    const activeTabName = this.modules.tabs.state.activeTab.name
-    const state = { ...this.state }
-    const prevActiveIndex = findIndex(
-      state.tasks[activeTabName],
-      t => t.isActive
-    )
-
-    if (prevActiveIndex > -1) {
-      state.tasks[activeTabName][prevActiveIndex].isActive = false
-      // TODO: server update
+    this.updateTask(this.getActiveTask(), { isActive: false })
+    this.updateTask(task, { isActive: true })
+  },
+  updateTask(task, changes) {
+    if (!task || !task.id) {
+      return
     }
+    const taskIndex = this.getTaskIndex(task)
 
-    const activeTaskIndex = this.getTaskIndex(task)
-
-    if (activeTaskIndex > -1) {
-      state.tasks[task.type][activeTaskIndex].isActive = true
-      // TODO: server update
+    if (taskIndex > -1) {
+      const state = { ...this.state }
+      state.tasks[task.type][taskIndex] = {
+        ...task,
+        ...(changes || {})
+      }
+      this.setState(state)
     }
-
-    this.setState(state)
+  },
+  notifyTaskUpdated(task, isUpdated, options) {
+    if (!this.modules.extensions.state.notifications) return
+    const activeTab = this.modules.tabs.getActive()
+    if (!options) options = {}
+    if (task.type === activeTab.name)
+      this.updateTask(task, { isUpdated: !!isUpdated })
+    if (Notification && options.notify && isUpdated) {
+      if (this.notifyTaskTimers[task.id]) {
+        clearTimeout(this.notifyTaskTimers[task.id])
+        delete this.notifyTaskTimers[task.id]
+      }
+      this.notifyTaskTimers[task.id] = setTimeout(() => {
+        const createNotification = () => {
+          const notification = new Notification(
+            `"${task.name}" has been updated`,
+            {
+              icon: 'logo/logo2_small.png',
+              body:
+                `project: ${options.projectName}` +
+                `\r\ntaskfile: [${task.type}]` +
+                '\r\nlatest message: ' +
+                options.log
+            }
+          )
+          notification.onclick = () => window.document.body.focus()
+        }
+        if (Notification.permission === 'granted') createNotification()
+        else Notification.requestPermission().then(createNotification)
+      }, 1800)
+    }
   }
 }

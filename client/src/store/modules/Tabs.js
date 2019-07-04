@@ -1,13 +1,16 @@
-import each from "lodash-es/each"
-import find from "lodash-es/find"
-import findIndex from "lodash-es/findIndex"
+import each from 'lodash-es/each'
+import find from 'lodash-es/find'
+import findIndex from 'lodash-es/findIndex'
 
-const PRIORITY_FIRST_ACTIVE_TAB = "procfile"
+const PRIORITY_FIRST_ACTIVE_TAB = 'procfile'
 
 export default {
   state: {
     tabs: [],
     activeTab: null
+  },
+  getActive() {
+    return this.state.activeTab
   },
   setActive(name) {
     const activeTab = this.getTab(name)
@@ -49,7 +52,7 @@ export default {
     if (removeTabIndex > -1) {
       tabs.splice(removeTabIndex, 1)
     }
-    console.log("tabs", tabs)
+    console.log('tabs', tabs)
     this.setState({ ...this.state, tabs })
   }
 }

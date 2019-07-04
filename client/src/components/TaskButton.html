@@ -11,11 +11,14 @@
 
   function handleClickOnTask(e) {
     // global.openTask
-    actions.tasks.setActive(task)  
+    actions.tasks.notifyTaskUpdated(task, false)
+    actions.tasks.setActive(task)
+    // this.updateTaskLogs(task)
   	/*
 
     const task = this.taskList.getTask(id)
     if (task.id) {
+      actions.tasks.
       if (this.notificationsEnabled) this.taskList.setUpdated(id, false)
       this.taskList.setActive(task)
       this.updateTaskLogs(task)
@@ -59,7 +62,7 @@
 
 
 <div
-  class="task {task.isRun && 'running'} {task.isLaunching && 'clicked'} {task.isActive && 'active'}"
+  class="task {task.isRun && 'running'} {task.isLaunching && 'clicked'} {task.isActive && 'active'} {task.isUpdated && 'updated'}"
   id={task.id}
   on:click={handleClickOnTask}
   char-code={index}

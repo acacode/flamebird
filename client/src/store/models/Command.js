@@ -7,7 +7,8 @@ const Command = {
   name: field('name', 'string'),
   rawTask: field('rawTask', 'string'),
   task: field('task', 'string'),
-  type: field('type', 'string')
+  type: field('type', 'string'),
+  isUpdated: field(() => false, () => ({}))
 }
 
 export default model(Command)

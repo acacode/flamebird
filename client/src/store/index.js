@@ -1,9 +1,9 @@
-import { StonexStore } from "stonex"
-import Tabs from "./modules/Tabs"
-import Tasks from "./modules/Tasks"
-import App from "./modules/App"
-import Extensions from "./modules/Extensions"
-import { writable } from "svelte/store"
+import { StonexStore } from 'stonex'
+import Tabs from './modules/Tabs'
+import Tasks from './modules/Tasks'
+import App from './modules/App'
+import Extensions from './modules/Extensions'
+import { writable } from 'svelte/store'
 
 const store = new StonexStore({
   app: App,
@@ -17,7 +17,7 @@ export const actions = Object.keys(store.modules).reduce(
     const module = store.modules[moduleName]
     modulesMap[moduleName] = Object.keys(module).reduce(
       (actions, actionName) => {
-        if (typeof module[actionName] === "function") {
+        if (typeof module[actionName] === 'function') {
           actions[actionName] = module[actionName]
         }
         return actions
