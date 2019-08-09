@@ -1,10 +1,11 @@
-var fs = require('fs')
+const fs = require('fs')
 const resolve = require('path').resolve
 const _ = require('lodash')
 const storage = require('./utils/storage')
 const commands = require('./utils/commands')
 
 let LIB_PATHS = null
+
 const createLibPaths = () => {
   const [utilFormat, utilDir] =
     process.platform === 'win32'
@@ -26,7 +27,7 @@ const createLibPaths = () => {
  */
 function load(procfilePath) {
   const options = storage.get('options')
-  let allCommands = []
+  const allCommands = []
   if (options.web || options.useOnlyPackageJson) {
     try {
       const packageJson = JSON.parse(fs.readFileSync('package.json').toString())
@@ -69,7 +70,7 @@ function load(procfilePath) {
 
 function setAbsolutePathsToTask(command, commandsWithoutPms) {
   const spaceChar = ' '
-  let fixedTaskData = []
+  const fixedTaskData = []
   const words = command.task.split(spaceChar)
   for (let x = 0; x < words.length; ) {
     const word = words[x]
@@ -94,6 +95,7 @@ function setAbsolutePathsToTask(command, commandsWithoutPms) {
 
 function updateCommands(commands) {
   const options = storage.get('options')
+
   if (options.ignorePms) {
     if (LIB_PATHS === null) createLibPaths()
     _.reduce(

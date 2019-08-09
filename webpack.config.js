@@ -45,8 +45,21 @@ const createConfig = () => {
           loader: 'file-loader',
         },
         {
+          test: /\.css$/,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                name: '[name].[ext]',
+              },
+            },
+            { loader: 'extract-loader' },
+            'css-loader',
+          ],
+        },
+        {
           test: /\.(html)$/,
-          loader: 'html-loader',
+          use: ['extract-loader', 'html-loader'],
         },
       ],
     },

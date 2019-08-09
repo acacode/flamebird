@@ -6,15 +6,18 @@ const {
   createProcess,
 } = require('./utils/processes')
 const { getCommandById, updateCommand } = require('./utils/commands')
-let colors = require('colors')
-colors.enabled = true
+
+const colors = require('colors')
 const kill = require('tree-kill')
 const storage = require('./utils/storage')
+
+colors.enabled = true
 
 function stop(command) {
   if (_.isString(command)) {
     command = getCommandById(command)
   }
+
   killProcess(command.id)
   updateCommand(command.id, { isStopping: true })
 }
@@ -30,6 +33,7 @@ function run(command) {
 
   if (isWeb) {
     updateCommand(taskId, { isRun: true })
+
     proc.stdout.on('data', rawLog =>
       updateCommand(taskId, {
         log: rawLog.toString(),
@@ -56,6 +60,7 @@ function run(command) {
         log: 'Failed to execute command',
       })
     })
+
     attachKillListener(taskId)
   } else {
     const defaultOutputHandler = log => {
@@ -70,6 +75,7 @@ function run(command) {
 function reRun(taskId) {
   const isLaunching = true
   const proc = getProcessById(taskId)
+
   if (proc) {
     kill(proc.pid, 'SIGINT', () => {
       updateCommand(taskId, { isLaunching })

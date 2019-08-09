@@ -5,6 +5,10 @@ const storage = require('./storage')
 const kill = require('tree-kill')
 const isWin = require('os').platform() === 'win32'
 
+const processConfig = {
+  file: isWin ? process.env.comspec || 'cmd.exe' : '/bin/sh',
+  args: isWin ? ['/s', '/c'] : ['-c'],
+}
 const processes = {}
 const killAllListenerRefs = {}
 
@@ -12,10 +16,13 @@ const deleteProcess = taskId => {
   processes[taskId].pid = null
   processes[taskId] = null
   delete processes[taskId]
+
   const emitterListeners = emitter._events.killall
+
   if (emitterListeners && emitterListeners instanceof Array) {
     emitterListeners.splice(killAllListenerRefs[taskId], 1)
   }
+
   delete killAllListenerRefs[taskId]
 }
 
@@ -35,23 +42,18 @@ function getProcessById(taskId) {
   return processes[taskId]
 }
 
-function createProcess(command) {
-  const processConfig = isWin
-    ? {
-        file: process.env.comspec || 'cmd.exe',
-        args: ['/s', '/c', command.rawTask],
-      }
-    : {
-        file: '/bin/sh',
-        args: ['-c', command.rawTask],
-      }
-  return (processes[command.id] = prog.spawn(
+/**
+ * @param {object} command { id, rawTask, envs }
+ * @returns spawned process
+ */
+function createProcess({ id, rawTask, envs }) {
+  return (processes[id] = prog.spawn(
     processConfig.file,
-    processConfig.args,
+    [...processConfig.args, rawTask],
     {
       stdio: 'pipe',
       windowsVerbatimArguments: isWin,
-      env: _.assign({}, process.env, storage.get('envFile'), command.envs),
+      env: _.assign({}, process.env, storage.get('envFile'), envs),
     }
   ))
 }

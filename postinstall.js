@@ -1,6 +1,6 @@
 const { yellow } = require('./server/utils/colors')
 
-let strings = []
+const strings = []
 strings.push(yellow('╔═════════════════════════════════════╗'))
 strings.push(yellow('║    Thanks for using Flamebird.js    ║'))
 strings.push(yellow('╚═════════════════════════════════════╝'))

@@ -12,14 +12,20 @@ const pw = require('./processWorker')
 const { getCommandById } = require('./utils/commands')
 const connectToWebSocket = require('./ws').create
 
+const paths = {
+  frontendRoot: path.resolve(__dirname, '../dist'),
+  frontendHtml: path.resolve(__dirname, '../dist/main.html'),
+}
+
 function start(taskfile) {
   const options = storage.get('options')
-  var app = express()
+  const app = express()
+
   app.use(bodyParser.json())
-  app.use(express.static(path.resolve(__dirname, '../dist')))
-  app.get('/', (req, res) =>
-    res.sendFile(path.resolve(__dirname, '../dist/index.html'))
-  )
+  app.use(express.static(paths.frontendRoot))
+
+  app.get('/', (req, res) => res.sendFile(paths.frontendHtml))
+
   app.get('/info', (req, res) =>
     res.send(
       _.merge(options, {
@@ -32,30 +38,41 @@ function start(taskfile) {
 
   app.post('/run-all', (req, res) => {
     pw.runAll(storage.get('commands'))
+
     res.send('ok')
   })
 
   app.post('/stop-all', (req, res) => {
     pw.stopAll(storage.get('commands'))
+
     res.send('ok')
   })
 
   app.post('/update-envs', (req, res) => {
-    const currentCommand = getCommandById(req.body.id)
+    const { id, envs } = req.body
+
+    const currentCommand = getCommandById(id)
     currentCommand.logs = []
-    currentCommand.envs = req.body.envs
-    pw.reRun(req.body.id)
+    currentCommand.envs = envs
+
+    pw.reRun(id)
+
     res.send('ok')
   })
 
   app.post('/clear-logs/:taskId', (req, res) => {
-    getCommandById(req.params.taskId).logs = []
+    const { taskId } = req.params
+
+    getCommandById(taskId).logs = []
+
     res.send('ok')
   })
 
-  app.get('/logs/:taskId', (req, res) =>
-    res.send(getCommandById(req.params.taskId).logs)
-  )
+  app.get('/logs/:taskId', (req, res) => {
+    const { taskId } = req.params
+
+    res.send(getCommandById(taskId).logs)
+  })
 
   app.get('/project-version', (req, res) => {
     try {
@@ -67,12 +84,18 @@ function start(taskfile) {
   })
 
   app.post('/run/:taskId', (req, res) => {
-    pw.run(req.params.taskId)
+    const { taskId } = req.params
+
+    pw.run(taskId)
+
     res.send('ok')
   })
 
   app.post('/stop/:taskId', (req, res) => {
-    pw.stop(req.params.taskId)
+    const { taskId } = req.params
+
+    pw.stop(taskId)
+
     res.send('ok')
   })
 
@@ -81,7 +104,7 @@ function start(taskfile) {
   connectToWebSocket(server)
 
   server.listen(options.port, '0.0.0.0', () => {
-    console.log('Server started on port ' + options.port)
+    console.log(`Flamebird launched on port ${options.port}`)
     if (!options.withoutBrowser)
       try {
         opn('http://localhost:' + options.port, {

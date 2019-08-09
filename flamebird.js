@@ -153,7 +153,7 @@ if (!process.argv.slice(2).length) {
 }
 
 function getLogo(displayOnlyVersion) {
-  const packageJson = require('./package.json')
+  const { version } = require('./package.json')
   const strings = []
   if (!displayOnlyVersion) {
     strings.push(yellow('  ╔══╗ ╔╗   ╔══╗ ╔╗  ╔╗ ╔═══╗ ╔══╗  ╔══╗ ╔═══╗ ╔══╗ '))
@@ -186,8 +186,7 @@ function getLogo(displayOnlyVersion) {
       '            ' + grey(' - wonderful nodejs task manager ') + '        '
     )
   }
-  const v =
-    packageJson.version + new Array(10 - packageJson.version.length).join(' ')
+  const v = version + new Array(10 - version.length).join(' ')
   const commonSpace = displayOnlyVersion ? '  ' : '                           '
   strings.push(commonSpace + red('╔═══════════════╗  '))
   strings.push(commonSpace + red('║') + yellow('    v' + v + ' ') + red('║  '))

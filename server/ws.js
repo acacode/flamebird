@@ -6,8 +6,10 @@ const sessions = {}
 
 function create(server) {
   const ws = new WebSocket.Server({ server })
+
   ws.on('connection', session => {
     session.send(JSON.stringify({ status: 'ok' }))
+
     const sessionId = uuidv1()
     sessions[sessionId] = session
 
