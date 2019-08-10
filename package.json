@@ -7,7 +7,7 @@
     "lint-js": "eslint .",
     "lint": "npm run lint-js",
     "lint:fix": "npm run lint -- --fix",
-    "build": "webpack --config webpack.config.js -p",
+    "build": "rimraf dist && webpack --config webpack.config.js -p",
     "build-rollup": "rollup -c",
     "postinstall": "node postinstall.js",
     "self-run": "node flamebird.js web -p 7733"
@@ -92,6 +92,7 @@
     "html-loader": "^0.5.5",
     "mini-css-extract-plugin": "^0.7.0",
     "prettier": "^1.18.2",
+    "rimraf": "^2.6.3",
     "rollup": "^1.16.2",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.0.0",

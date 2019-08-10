@@ -23,11 +23,13 @@ const createConfig = () => {
     entry => entry.fileFormat !== 'dir'
   )
 
+  console.log('entries', entries)
+
   return entries.map(entry => ({
     mode: 'production',
     entry: `${entry.relativePath}/${entry.fullName}`,
     output: {
-      filename: `[name].${entry.fileFormat}`,
+      filename: `${entry.fullName}`,
       path: path.resolve(
         __dirname,
         entry.relativePath.replace(srcPath, distPath)
@@ -37,29 +39,28 @@ const createConfig = () => {
       rules: [
         {
           test: /\.js$/,
-          loader: 'babel-loader',
+          use: ['file-loader?name=[name].[ext]', 'babel-loader'],
           exclude: /node_modules/,
         },
         {
           test: /\.(jpe?g|gif|png|svg|woff|ttf|wav|mp3)$/,
-          loader: 'file-loader',
+          loader: 'file-loader?name=[name].[ext]',
         },
         {
           test: /\.css$/,
           use: [
-            {
-              loader: 'file-loader',
-              options: {
-                name: '[name].[ext]',
-              },
-            },
-            { loader: 'extract-loader' },
+            'file-loader?name=[name].[ext]',
+            'extract-loader',
             'css-loader',
           ],
         },
         {
           test: /\.(html)$/,
-          use: ['extract-loader', 'html-loader'],
+          use: [
+            'file-loader?name=[name].[ext]',
+            'extract-loader',
+            'html-loader',
+          ],
         },
       ],
     },
