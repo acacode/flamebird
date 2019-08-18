@@ -1,67 +1,77 @@
-<!doctype html>
+<!DOCTYPE html>
 <html class="no-js" lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <title>flamebird</title>
     <link rel="shortcut icon" href="assets/logo.png" />
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- jss-insertion-point-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,500i|Source+Sans+Pro:600">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="medium-screens.css">
-    <link rel="stylesheet" href="small-screens.css">
-    <script>
-        window.tabs = [
-            { name: 'npm' },
-            { name: 'procfile', active: true },
-            { name: 'grunt' },
-            { name: 'gulp' },
-        ]
-    </script>
-</head>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,500i|Source+Sans+Pro:600"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
+      integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="medium-screens.css" />
+    <link rel="stylesheet" href="small-screens.css" />
+  </head>
 
-<body>
+  <body>
     <div class="wrapper active-tab-procfile">
-        <header>
-            <span class="title">flamebird</span>
-            <img src="assets/logo2_small.png" alt="flamebird" class="logo"/>
-            <div class="main-buttons">
-                <button class="main-button toggle color" onclick="Theme.switchTheme()">
-                    <i class="fas fa-adjust"></i>
-                    <span>theme</span>
-                </button>
-                <button class="main-button toggle resize" onclick="global.toggleResize()">
-                    <i class="fas fa-expand-arrows-alt"></i>
-                    <span>fullscreen</span>
-                </button>
-                <button class="main-button toggle notifications" onclick="global.toggleNotifications()">
-                    <i class="fas fa-exclamation"></i>
-                    <span>notifications</span>
-                </button>
-                <button class="main-button toggle hot-keys" onclick="global.toggleHotKeys()">
-                    <i class="far fa-keyboard"></i>
-                    <span>hotkeys</span>
-                </button>
-                <button class="main-button run" onclick="global.runAllTasks()"><span>run all</span></button>
-                <button class="main-button stop" onclick="global.stopAllTasks()"><span>stop all</span></button>
-            </div>
-            <span class="tabs" id="tabs"></span>
-        </header>
-		<button class="tasks-button" onclick="global.showTaskList()">
-            <i class="fas"></i>
-        </button>
-        <section id="task-list"></section>
-        <section id="task-logs"></section>
+      <header>
+        <span class="title">flamebird</span>
+        <img src="assets/logo2_small.png" alt="flamebird" class="logo" />
+        <div class="main-buttons">
+          <button
+            class="main-button toggle color"
+            onclick="Theme.switchTheme()"
+          >
+            <i class="fas fa-adjust"></i>
+            <span>theme</span>
+          </button>
+          <button
+            class="main-button toggle resize"
+            onclick="global.toggleResize()"
+          >
+            <i class="fas fa-expand-arrows-alt"></i>
+            <span>fullscreen</span>
+          </button>
+          <button
+            class="main-button toggle notifications"
+            onclick="global.toggleNotifications()"
+          >
+            <i class="fas fa-exclamation"></i>
+            <span>notifications</span>
+          </button>
+          <button
+            class="main-button toggle hot-keys"
+            onclick="global.toggleHotKeys()"
+          >
+            <i class="far fa-keyboard"></i>
+            <span>hotkeys</span>
+          </button>
+          <button class="main-button run" onclick="global.runAllTasks()">
+            <span>run all</span>
+          </button>
+          <button class="main-button stop" onclick="global.stopAllTasks()">
+            <span>stop all</span>
+          </button>
+        </div>
+        <span class="tabs" id="tabs"></span>
+      </header>
+      <button class="tasks-button" onclick="global.showTaskList()">
+        <i class="fas"></i>
+      </button>
+      <section id="task-list"></section>
+      <section id="task-logs"></section>
     </div>
-    <script src="scripts/dom_utils.js"></script>
-    <script src="scripts/tabs.js"></script>
-    <script src="scripts/file_loader.js"></script>
-    <script src="scripts/task_list.js"></script>
-    <script src="scripts/weblogger.js"></script>
     <script src="global.js"></script>
-</body>
-
+  </body>
 </html>

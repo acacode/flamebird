@@ -2,7 +2,7 @@ import WindowAttached from '../helpers/WindowAttached'
 
 const THEMES = {
   WHITE: 'white',
-  DARK: 'вфкл',
+  DARK: 'dark',
 }
 
 export default new (class ThemeSwitcher extends WindowAttached('Theme') {

@@ -116,6 +116,8 @@ export default new (class HotKeys {
 
   connect() {
     window.addEventListener('keydown', this.onKeyClick, false)
+    localStorage.setItem('hotkeys', true)
+    document.body.setAttribute('hotkeys', 'true')
     _.each(
       document.querySelectorAll(TASK_LIST_ELEMENTS_QUERY),
       (element, keycodeIndex) => {
@@ -126,6 +128,8 @@ export default new (class HotKeys {
 
   disconnect() {
     window.removeEventListener('keydown', this.onKeyClick, false)
+    delete localStorage['hotkeys']
+    document.body.removeAttribute('hotkeys')
     _.each(document.querySelectorAll(TASK_LIST_ELEMENTS_QUERY), element => {
       element.removeAttribute('char-code')
     })

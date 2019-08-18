@@ -1,39 +1,42 @@
-.wrapper {
-    max-width: 98.2%;
-}
-
-body {
-    padding: 0.9% 0;
-}
-
-header .title {
-    padding-left: 49px;
-}
-
-#task-list, .task.new-task {
-    width: 260px;
-}
-
-#task-logs {
-    width: calc(100% - 260px);
-    padding-left: 20px;
-    padding-right: 20px;
-}
-.tabs {
-    position: absolute;
-    left: 332px;
-    top: 2px;
-    transform: rotate(0deg);
-    z-index: 2;
-}
-.scrolling > .task-data {
-    top: 48px;
-}
-
-button.tab {border-radius: 4px;}
-
-.logo {
-    left: 3px;
-    z-index: 20;
-    top: 4px;
+@media screen and (min-width: 923px) {
+    [fullscreen="true"] .wrapper {
+        max-width: 98.2%;
+    }
+    
+    [fullscreen="true"] body {
+        padding: 0.9% 0;
+    }
+    
+    [fullscreen="true"] header .title {
+        padding-left: 49px;
+    }
+    
+    [fullscreen="true"] #task-list,[fullscreen="true"] .task.new-task {
+        width: 260px;
+    }
+    
+    [fullscreen="true"] #task-logs {
+        width: calc(100% - 260px);
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    [fullscreen="true"] .tabs {
+        position: absolute;
+        left: 332px;
+        top: 2px;
+        transform: rotate(0deg);
+        z-index: 2;
+    }
+    [fullscreen="true"] .scrolling > .task-data {
+        top: 48px;
+    }
+    
+    [fullscreen="true"] button.tab {border-radius: 4px;}
+    
+    [fullscreen="true"] .logo {
+        left: 3px;
+        z-index: 20;
+        top: 4px;
+    }
+    
 }

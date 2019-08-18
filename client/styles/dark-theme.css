@@ -94,7 +94,7 @@
 [theme="dark"] .stop{background: #8c4343;}
 
 
-[theme="dark"] .task.new-task .form input, .task.new-task .form textarea {
+[theme="dark"] .task.new-task .form input,[theme="dark"] .task.new-task .form textarea {
     background: #333;
     color: #dcdcdc;
 }
@@ -109,13 +109,12 @@
     animation-name: dark-highlight;
 }
 
+[theme="dark"] .toggle.color .fas {
+    transform: scaleX(-1);
+}
+
 @keyframes dark-highlight{
     50%{
         background: rgb(79, 80, 63);
     }
-}
-
-
-[theme="dark"] .toggle.color .fas {
-    transform: scaleX(-1);
 }

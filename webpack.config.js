@@ -43,7 +43,7 @@ const createConfig = entryHtmlFile => {
               options: {
                 minimize: true,
                 root: path.resolve(__dirname, './src'),
-                attrs: ['img:src', 'link:href', 'script:src'],
+                attrs: ['img:src', 'link:href'],
               },
             },
           ],

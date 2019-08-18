@@ -2,15 +2,14 @@ import _ from 'lodash'
 import $ from 'jquery'
 import kinka from 'kinka'
 import TaskList from './scripts/task_list'
-import WebLogger from './scripts/weblogger'
-import FileLoader from './scripts/FileLoader'
+import WebLogger from './scripts/WebLogger'
 import HotKeys from './scripts/HotKeys'
 import ThemeSwitcher from './scripts/ThemeSwitcher'
 import { toggleClass, el as getEl, createSpan } from './helpers/dom_utils'
 import Tabs from './scripts/Tabs'
 import WindowAttached from './helpers/WindowAttached'
 
-class Global extends WindowAttached('global') {
+export default new (class Global extends WindowAttached('global') {
   watchTaskLogsScrollTop = true
   theme
   logger
@@ -179,28 +178,17 @@ class Global extends WindowAttached('global') {
   }
 
   updateHotkeys() {
-    if (!this.hotKeysEnabled && window.HotKeys) {
-      HotKeys.setEnabled(false)
-      window.HotKeys = null
-    }
     toggleClass(getEl('.main-button.hot-keys'), 'active', this.hotKeysEnabled)
-    FileLoader.loadFile('hot_keys-shortcuts.css', !this.hotKeysEnabled)
-    FileLoader.loadFile('hot_keys.js', !this.hotKeysEnabled)
-    if (this.hotKeysEnabled) {
-      localStorage.setItem('hotkeys', true)
-    } else {
-      delete localStorage['hotkeys']
-    }
+    HotKeys.setEnabled(this.hotKeysEnabled)
   }
 
   updateFullscreen() {
     toggleClass(getEl('.main-button.resize'), 'active', this.fullscreen)
-    FileLoader.loadFile('fullscreen.css', !this.fullscreen, {
-      media: 'screen and (min-width: 923px)',
-    })
     if (this.fullscreen) {
       localStorage.setItem('fullscreen', true)
+      document.body.setAttribute('fullscreen', 'true')
     } else {
+      document.body.removeAttribute('fullscreen')
       delete localStorage['fullscreen']
     }
   }
@@ -294,7 +282,4 @@ class Global extends WindowAttached('global') {
       ws.onmessage = this.receiveWsMessage
     })
   }
-}
-
-// eslint-disable-next-line no-new
-new Global()
+})()

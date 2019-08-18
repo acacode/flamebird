@@ -1,5 +1,13 @@
 import $ from 'jquery'
 import AnsiUp from 'ansi_up'
+import _ from 'lodash'
+import {
+  createSpan,
+  toggleClass,
+  createEl,
+  createButton,
+  createEnvsInput,
+} from '../helpers/dom_utils'
 
 export default class WebLogger {
   watchTaskLogsScrollTop = true
