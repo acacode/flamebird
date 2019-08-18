@@ -1,7 +1,6 @@
 import $ from 'jquery'
 import AnsiUp from 'ansi_up'
 
-
 export default class WebLogger {
   watchTaskLogsScrollTop = true
   autoScrollButton

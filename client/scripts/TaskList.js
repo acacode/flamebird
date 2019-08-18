@@ -1,18 +1,32 @@
-window.TaskList = (function() {
-  let element
-  let taskList = {
-    npm: [],
-    procfile: [],
-  }
-  let activeTaskByTab = {
-    npm: [],
-    procfile: [],
-  }
-  let notifyTaskTimers = {}
+import _ from 'lodash'
+import Tabs from './Tabs'
+import HotKeys from './HotKeys'
+import {
+  toggleClass,
+  addClass,
+  removeClass,
+  createSpan,
+  createButton,
+  el,
+  createEl,
+} from '../helpers/dom_utils'
+import WindowAttached from '../helpers/WindowAttached'
 
-  function init(taskListContainer, tasks) {
-    element = taskListContainer
-    taskList = _.reduce(
+export default new (class TaskList extends WindowAttached('taskList') {
+  element
+  taskList = {
+    npm: [],
+    procfile: [],
+  }
+  activeTaskByTab = {
+    npm: [],
+    procfile: [],
+  }
+  notifyTaskTimers = {}
+
+  init(taskListContainer, tasks) {
+    this.element = taskListContainer
+    this.taskList = _.reduce(
       tasks,
       (taskList, task) => {
         taskList[task.type].push(task)
@@ -25,40 +39,40 @@ window.TaskList = (function() {
     )
     let activeTab = null
     _.each(Tabs.getAll(), tab => {
-      const tasks = getTasksByTab(tab)
+      const tasks = this.getTasksByTab(tab)
       if (tasks) {
-        activeTaskByTab[tab.name] = [tasks[0].id]
+        this.activeTaskByTab[tab.name] = [tasks[0].id]
         if (!activeTab || tab.name === 'procfile') {
           activeTab = tab
         }
       } else {
-        if (taskList[tab.name]) delete taskList[tab.name]
+        if (this.taskList[tab.name]) delete this.taskList[tab.name]
         Tabs.removeTab(tab)
       }
     })
-    Tabs.listenChanges(onChangeTab)
+    Tabs.listenChanges(this.onChangeTab)
     if (activeTab) Tabs.setActive(activeTab.name)
   }
 
-  function onChangeTab(name) {
-    clear()
-    updateTaskList(name)
+  onChangeTab = name => {
+    this.clear()
+    this.updateTaskList(name)
 
     setTimeout(function() {
       const { name: currentName } = Tabs.getActive()
       if (name !== currentName) {
         name = currentName
       }
-      if (activeTaskByTab[name].length) {
-        el(`#${activeTaskByTab[name][0]}`).click()
+      if (this.activeTaskByTab[name].length) {
+        el(`#${this.activeTaskByTab[name][0]}`).click()
       } else {
         global.getLogger().clear()
       }
     }, 0)
   }
 
-  function updateTaskList(tabName) {
-    _.forEach(taskList[tabName], function(
+  updateTaskList(tabName) {
+    _.forEach(this.taskList[tabName], function(
       { isRun, isLaunching, isActive, name, type, id },
       index
     ) {
@@ -81,14 +95,14 @@ window.TaskList = (function() {
         createSpan('task-name', name) +
         createButton('run-task', 'play', `global.runTask('${id}')`) +
         createButton('stop-task', 'stop', `global.stopTask('${id}')`)
-      element.appendChild(task)
+      this.element.appendChild(task)
     })
   }
 
-  const getTask = id => _.find(_.concat.apply(null, _.values(taskList)), { id })
+  getTask = id => _.find(_.concat.apply(null, _.values(this.taskList)), { id })
 
-  function updateTask(id, isRun, isActive, isLaunching, isStopping) {
-    const task = getTask(id)
+  updateTask(id, isRun, isActive, isLaunching, isStopping) {
+    const task = this.getTask(id)
     const taskElem = document.getElementById(task.id)
     task.isRun = isRun
     task.isLaunching = !!isLaunching
@@ -98,13 +112,13 @@ window.TaskList = (function() {
     if (task.isActive) {
       const prevActiveTask = document.querySelector('.task.active')
       if (prevActiveTask) {
-        const prevTaskId = activeTaskByTab[task.type][0]
+        const prevTaskId = this.activeTaskByTab[task.type][0]
         if (prevTaskId !== task.id) {
-          getTask(prevTaskId).isActive = false
+          this.getTask(prevTaskId).isActive = false
           removeClass(prevActiveTask, 'active')
         }
       }
-      activeTaskByTab[task.type] = [task.id]
+      this.activeTaskByTab[task.type] = [task.id]
       addClass(taskElem, 'active')
     }
     toggleClass(taskElem, 'stopping', isStopping)
@@ -113,12 +127,13 @@ window.TaskList = (function() {
     return task
   }
 
-  function clear() {
-    while (element.lastChild) element.removeChild(element.lastChild)
+  clear() {
+    while (this.element.lastChild)
+      this.element.removeChild(this.element.lastChild)
   }
 
-  function setActive(task, isLaunching, isStopping) {
-    updateTask(
+  setActive(task, isLaunching, isStopping) {
+    this.updateTask(
       task.id,
       task.isRun,
       true,
@@ -127,31 +142,31 @@ window.TaskList = (function() {
     )
   }
 
-  const getTasksByTab = tab => {
-    const tasks = taskList[tab.name]
+  getTasksByTab = tab => {
+    const tasks = this.taskList[tab.name]
     return tasks && tasks.length && tasks
   }
 
-  function getAllFromActiveTab(filter) {
-    const tasks = getTasksByTab(Tabs.getActive())
+  getAllFromActiveTab(filter) {
+    const tasks = this.getTasksByTab(Tabs.getActive())
     return filter ? _.filter(tasks, filter) : tasks
   }
 
-  const getActive = () => getTask(activeTaskByTab[Tabs.getActive().name][0])
+  getActive = () => this.getTask(this.activeTaskByTab[Tabs.getActive().name][0])
 
-  function setTaskUpdated(taskId, isUpdated, options) {
-    const task = getTask(taskId)
+  setTaskUpdated(taskId, isUpdated, options) {
+    const task = this.getTask(taskId)
     const activeTab = Tabs.getActive()
     if (!options) options = {}
     if (task.type === activeTab.name)
       el(`#${taskId}`).classList[isUpdated ? 'add' : 'remove']('updated')
     if (Notification && options.notify && isUpdated) {
-      if (notifyTaskTimers[taskId]) {
-        clearTimeout(notifyTaskTimers[taskId])
-        notifyTaskTimers[taskId] = null
+      if (this.notifyTaskTimers[taskId]) {
+        clearTimeout(this.notifyTaskTimers[taskId])
+        this.notifyTaskTimers[taskId] = null
       }
-      notifyTaskTimers[taskId] = setTimeout(() => {
-        const task = getTask(taskId)
+      this.notifyTaskTimers[taskId] = setTimeout(() => {
+        const task = this.getTask(taskId)
         if (Notification.permission === 'granted') {
           const notification = new Notification(
             `"${task.name}" has been updated`,
@@ -164,22 +179,14 @@ window.TaskList = (function() {
                 options.log,
             }
           )
-          notification.onclick = window.focus
+          notification.onclick = () => window.focus()
         } else Notification.requestPermission()
       }, 1800)
     }
   }
 
-  return function(taskListContainer, tasks) {
-    init(taskListContainer, tasks)
-    return {
-      clear: clear,
-      getTask: getTask,
-      updateTask: updateTask,
-      setActive: setActive,
-      getActive: getActive,
-      setUpdated: setTaskUpdated,
-      getAllFromActiveTab: getAllFromActiveTab,
-    }
+  constructor(taskListContainer, tasks) {
+    super()
+    this.init(taskListContainer, tasks)
   }
 })()

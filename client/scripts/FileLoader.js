@@ -1,9 +1,9 @@
 import _ from 'lodash'
-import { createEl, el } from './dom_utils'
+import { createEl, el } from '../helpers/dom_utils'
 
 export default new (class FileLoader {
   setAttribute = (element, attribute) => {
-    var key = _.first(_.keys(attribute))
+    const key = _.first(_.keys(attribute))
     element.setAttribute(key, attribute[key])
   }
 
@@ -13,7 +13,7 @@ export default new (class FileLoader {
       rel: 'stylesheet',
       href: `styles/${filename}`,
     })
-    if (attribute) setAttribute(link, attribute)
+    if (attribute) this.setAttribute(link, attribute)
     return link
   }
 
@@ -21,7 +21,7 @@ export default new (class FileLoader {
     const script = createEl('script', {
       src: `scripts/${filename}`,
     })
-    if (attribute) setAttribute(script, attribute)
+    if (attribute) this.setAttribute(script, attribute)
     return script
   }
 

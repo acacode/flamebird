@@ -13,7 +13,7 @@ export const createButton = function(
     button = $('<button></button>')
     button.addClass(classes)
     if (icon) {
-      var iconEl = $('<i class="fas fa-' + icon + '"></i>')
+      const iconEl = $('<i class="fas fa-' + icon + '"></i>')
       button.html(iconEl)
     }
     if (innerText) {
@@ -42,7 +42,7 @@ export const createSpan = function(classes, text) {
 }
 
 export const funcToStr = function(func) {
-  var args = _.slice(arguments, 1)
+  const args = _.slice(arguments, 1)
   return (
     func.name +
     '(' +
@@ -68,7 +68,7 @@ export const createDiv = function(
   onClick,
   asJqElement
 ) {
-  var element =
+  let element =
     '<div ' +
     (id ? "id='" + id + "'" : '') +
     (onClick && !asJqElement ? 'onclick="' + onClick + '"' : '') +

@@ -547,10 +547,6 @@ button#procfile {
     color: #dbffef;
 }
 
-[theme="dark"] .toggle.color .fas {
-    transform: scaleX(-1);
-}
-
 .toggle.color .fas {
     transition: transform 239ms ease-out;
 }

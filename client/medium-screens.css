@@ -1,77 +1,79 @@
-.wrapper {
-    max-width: 100%;
-}
-
-body {
-    padding: 0;
-}
-
-.tasks-button{
-    position: absolute;
-    left: 0;
-    top: 0;
-    display: block;
-    background: transparent;
-    border: none;
-    padding: 6px 10px;
-    border-radius: 0;
-    color: #4e4e4e;
-    font-size: 24px;
-    cursor:pointer;
-    z-index: 10;
-}
-.tasks-button > .fas:before{
-    content: "\f0c9";
-}
-.task-list-showed .tasks-button > .fas:before{
-    content: "\f00d";
-}
-header .title {
-    padding-left: 50px;
-}
-#task-list {
-    transform: translateX(-100%);
-    width: 0;
-}
-
-#task-logs {
-    width: 100%;
-}
-.task-list-showed #task-list {
-    transform: translateX(0);
-}
-.task.new-task, .task-list-showed #task-list{
-    width: 30%;
-}
-.active-tab-procfile .task.new-task,.active-tab-procfile .task.new-task.show{
-    transform: scaleY(.6) translateY(58px);
-}
-.task-list-showed .active-tab-procfile .task.new-task{
-    transform: none
-}
-.task-list-showed #task-logs {
-    width: 70%;
-}
-.task-list-showed .tabs {
-    position: absolute;
-    left: 31.3%;
-    top: 292px;
-    transform: rotate(90deg);
-    z-index: 2;
-}
-.scrolling > .task-data {
-    top: 45px;
-}
-
-@media screen and (max-width:760px){
-    .main-button.toggle{
-        min-width: 40px;
+@media screen and (max-width: 923px) {
+    .wrapper {
+        max-width: 100%;
     }
-    .main-button.toggle span{
-        display: none;
+    
+    body {
+        padding: 0;
     }
-}
-
-.task-list-showed .active-tab-procfile .task.new-task.show {
-    transform: translateY(-128px);
+    
+    .tasks-button{
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: block;
+        background: transparent;
+        border: none;
+        padding: 6px 10px;
+        border-radius: 0;
+        color: #4e4e4e;
+        font-size: 24px;
+        cursor:pointer;
+        z-index: 10;
+    }
+    .tasks-button > .fas:before{
+        content: "\f0c9";
+    }
+    .task-list-showed .tasks-button > .fas:before{
+        content: "\f00d";
+    }
+    header .title {
+        padding-left: 50px;
+    }
+    #task-list {
+        transform: translateX(-100%);
+        width: 0;
+    }
+    
+    #task-logs {
+        width: 100%;
+    }
+    .task-list-showed #task-list {
+        transform: translateX(0);
+    }
+    .task.new-task, .task-list-showed #task-list{
+        width: 30%;
+    }
+    .active-tab-procfile .task.new-task,.active-tab-procfile .task.new-task.show{
+        transform: scaleY(.6) translateY(58px);
+    }
+    .task-list-showed .active-tab-procfile .task.new-task{
+        transform: none
+    }
+    .task-list-showed #task-logs {
+        width: 70%;
+    }
+    .task-list-showed .tabs {
+        position: absolute;
+        left: 31.3%;
+        top: 292px;
+        transform: rotate(90deg);
+        z-index: 2;
+    }
+    .scrolling > .task-data {
+        top: 45px;
+    }
+    
+    @media screen and (max-width:760px){
+        .main-button.toggle{
+            min-width: 40px;
+        }
+        .main-button.toggle span{
+            display: none;
+        }
+    }
+    
+    .task-list-showed .active-tab-procfile .task.new-task.show {
+        transform: translateY(-128px);
+    }
 }

@@ -1,88 +1,111 @@
 
-header {
+
+[theme="dark"] header {
     background: #3e3e3e;
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.33);
 }
 
-.title {
+
+[theme="dark"] .title {
     color: #eeeeee;
     background: #3e3e3e;
 }
 
-body{
+
+[theme="dark"] body{
     background: #212121;
 }
 
-.wrapper {
+
+[theme="dark"] .wrapper {
     background: #424242;
 }
 
-.task.active {
+
+[theme="dark"] .task.active {
     background: rgb(37, 37, 37);
     color: #ebebeb;
 }
 
-.task {
+
+[theme="dark"] .task {
     color: #a5a5a5;
 }
 
-.task:hover {
+
+[theme="dark"] .task:hover {
     background: rgb(37, 37, 37);
     color: #ebebeb;
 }
 
 
-button.tab {
+
+[theme="dark"] button.tab {
     color: #696969;
     background: rgb(33, 33, 33);
 }
 
-button.tab.active, button.tab:active {
+
+[theme="dark"] button.tab.active, 
+[theme="dark"] button.tab:active {
     background: #454545;
     color: #c7c7c7;
 }
-.logs-container{
+
+[theme="dark"] .logs-container{
     color: #dcdcdc;
 }
-.ansi-red-fg {
+
+[theme="dark"] .ansi-red-fg {
     color: rgb(230, 78, 78);
 }
-.logs-container::-webkit-scrollbar-thumb {
+
+[theme="dark"] .logs-container::-webkit-scrollbar-thumb {
     background: #c1c1c1;
 }
-.logs-container::-webkit-scrollbar-thumb:hover {
+
+[theme="dark"] .logs-container::-webkit-scrollbar-thumb:hover {
     background: #9e9e9e; 
 }
-.logs-container{
+
+[theme="dark"] .logs-container{
     background: #060606;
 }
-.ansi-bright-black-fg {
+
+[theme="dark"] .ansi-bright-black-fg {
     color: #909090;
 }
-.main-button.toggle {
+
+[theme="dark"] .main-button.toggle {
     background: #333333;
     color: #929292;
 }
-.main-button.toggle.active {
+
+[theme="dark"] .main-button.toggle.active {
     background: #2e7b58;
     color: #b5e0cd;
 }
 
-.run{
+
+[theme="dark"] .run{
     background: #2f9a6a;
 }
-.stop{background: #8c4343;}
 
-.task.new-task .form input, .task.new-task .form textarea {
+[theme="dark"] .stop{background: #8c4343;}
+
+
+[theme="dark"] .task.new-task .form input, .task.new-task .form textarea {
     background: #333;
     color: #dcdcdc;
 }
-.task.new-task .form button {
+
+[theme="dark"] .task.new-task .form button {
     background: #2e7b58;
     color: #b5e0cd;
 }
 
-.task.updated{
+
+[theme="dark"] .task.updated{
     animation-name: dark-highlight;
 }
 
@@ -90,4 +113,9 @@ button.tab.active, button.tab:active {
     50%{
         background: rgb(79, 80, 63);
     }
+}
+
+
+[theme="dark"] .toggle.color .fas {
+    transform: scaleX(-1);
 }

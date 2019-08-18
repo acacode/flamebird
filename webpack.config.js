@@ -1,70 +1,104 @@
-const fs = require('fs')
 const path = require('path')
+const TerserJSPlugin = require('terser-webpack-plugin')
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const dree = require('dree')
 
-function getEntries(dirPath) {
-  return fs.readdirSync(dirPath).map(file => {
-    const fileNameParts = file.split('.')
-    const fileFormat = fileNameParts.pop()
+const srcFolder = process.env.SRC_DIR || path.resolve(__dirname, './client')
+const destFolder = process.env.DEST_DIR || path.resolve(__dirname, './public')
 
-    return {
-      fullName: file,
-      fileFormat: fileFormat === file ? 'dir' : fileFormat,
-      name: fileNameParts.join('.'),
-      relativePath: dirPath,
-      absolutePath: path.join(__dirname, dirPath),
-    }
-  })
+const options = {
+  stat: false,
+  normalize: true,
+  followLinks: true,
+  size: true,
+  hash: true,
+  depth: 1,
+  extensions: ['html'],
 }
 
-const createConfig = () => {
-  const srcPath = './client'
-  const distPath = './dist'
-  const entries = getEntries(srcPath).filter(
-    entry => entry.fileFormat !== 'dir'
+const createConfig = entryHtmlFile => {
+  const entryHtmlFileAbsolutePath = path.resolve(
+    srcFolder,
+    `./${entryHtmlFile}`
   )
 
-  console.log('entries', entries)
-
-  return entries.map(entry => ({
-    mode: 'production',
-    entry: `${entry.relativePath}/${entry.fullName}`,
+  return {
+    target: 'web',
+    entry: {
+      'index.html': path.resolve(srcFolder, './index.html'),
+    },
     output: {
-      filename: `${entry.fullName}`,
-      path: path.resolve(
-        __dirname,
-        entry.relativePath.replace(srcPath, distPath)
-      ),
+      path: destFolder,
     },
     module: {
       rules: [
         {
-          test: /\.js$/,
-          use: ['file-loader?name=[name].[ext]', 'babel-loader'],
-          exclude: /node_modules/,
-        },
-        {
-          test: /\.(jpe?g|gif|png|svg|woff|ttf|wav|mp3)$/,
-          loader: 'file-loader?name=[name].[ext]',
-        },
-        {
-          test: /\.css$/,
-          use: [
-            'file-loader?name=[name].[ext]',
+          test: /\.html$/,
+          loaders: [
+            'file-loader?name=[name].html',
             'extract-loader',
-            'css-loader',
+            {
+              loader: 'html-loader',
+              options: {
+                minimize: true,
+                root: path.resolve(__dirname, './src'),
+                attrs: ['img:src', 'link:href', 'script:src'],
+              },
+            },
           ],
         },
         {
-          test: /\.(html)$/,
+          test: /\.(png|jpg|gif)$/,
           use: [
-            'file-loader?name=[name].[ext]',
-            'extract-loader',
-            'html-loader',
+            {
+              loader: 'url-loader',
+              options: {
+                limit: 8192,
+                fallback: 'responsive-loader',
+                quality: 75,
+              },
+            },
+          ],
+        },
+        {
+          test: /\.css$/,
+          use: ['file-loader', 'extract-loader', 'css-loader'],
+        },
+        {
+          test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                name: '[name].[ext]',
+                outputPath: 'fonts/',
+              },
+            },
           ],
         },
       ],
     },
-  }))
+    optimization: {
+      minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
+    },
+    plugins: [
+      new HtmlWebpackPlugin({
+        minify: {
+          html5: true,
+          removeComments: true,
+          collapseWhitespace: true,
+          minifyCSS: true,
+          minifyJS: true,
+          // minifyURLs: true
+        },
+        template: entryHtmlFileAbsolutePath,
+      }),
+    ],
+  }
 }
 
-module.exports = createConfig()
+module.exports = dree
+  .scan(srcFolder, options)
+  .children.filter(o => o.extension === 'html')
+  .map(o => createConfig(o.name))

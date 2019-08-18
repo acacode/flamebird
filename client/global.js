@@ -3,14 +3,14 @@ import $ from 'jquery'
 import kinka from 'kinka'
 import TaskList from './scripts/task_list'
 import WebLogger from './scripts/weblogger'
-import FileLoader from './scripts/file_loader'
-import HotKeys from './scripts/hot_keys'
-import Theme from './scripts/theme'
-import { toggleClass, el as getEl, createSpan } from './scripts/dom_utils'
-import { el } from 'redom'
-import Tabs from './scripts/tabs'
+import FileLoader from './scripts/FileLoader'
+import HotKeys from './scripts/HotKeys'
+import ThemeSwitcher from './scripts/ThemeSwitcher'
+import { toggleClass, el as getEl, createSpan } from './helpers/dom_utils'
+import Tabs from './scripts/Tabs'
+import WindowAttached from './helpers/WindowAttached'
 
-class Global {
+class Global extends WindowAttached('global') {
   watchTaskLogsScrollTop = true
   theme
   logger
@@ -130,7 +130,7 @@ class Global {
     // if (!active || id !== active.id) {
     const task = this.taskList.getTask(id)
     if (task.id) {
-      if (this.notificationsEnabled) this.taskList.setUpdated(id, false)
+      if (this.notificationsEnabled) this.taskList.setTaskUpdated(id, false)
       this.taskList.setActive(task)
       this.updateTaskLogs(task)
     }
@@ -220,14 +220,14 @@ class Global {
           this.logger.push(log)
           if (this.watchTaskLogsScrollTop) this.logger.scrollTo('bottom')
           if (this.notificationsEnabled && this.pageIsNotActive) {
-            this.taskList.setUpdated(id, true, {
+            this.taskList.setTaskUpdated(id, true, {
               notify: this.notificationsEnabled,
               projectName: this.projectName,
               log,
             })
           }
         } else if (this.notificationsEnabled) {
-          this.taskList.setUpdated(id, true, {
+          this.taskList.setTaskUpdated(id, true, {
             notify: this.notificationsEnabled,
             log,
             projectName: this.projectName,
@@ -254,10 +254,11 @@ class Global {
   getTaskList = () => this.taskList
 
   constructor() {
+    super()
     $(window).focus(() => {
       this.pageIsNotActive = false
       if (this.notificationsEnabled) {
-        this.taskList.setUpdated(this.taskList.getActive().id, false)
+        this.taskList.setTaskUpdated(this.taskList.getActive().id, false)
       }
     })
 
@@ -266,7 +267,7 @@ class Global {
     })
 
     $(document).ready(async () => {
-      Theme.setTheme(localStorage.getItem('theme') || 'white')
+      ThemeSwitcher.setTheme(localStorage.getItem('theme') || 'white')
       this.fullscreen = !!localStorage.getItem('fullscreen')
       this.hotKeysEnabled = !!localStorage.getItem('hotkeys')
       this.notificationsEnabled = !!localStorage.getItem('notifications')

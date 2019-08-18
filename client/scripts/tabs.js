@@ -1,4 +1,11 @@
-class FlamebirdTabs {
+import _ from 'lodash'
+import { el, createEl } from '../helpers/dom_utils'
+
+const WRAPPER_ELEMENT = '.wrapper'
+const TABS_CONTAINER = '#tabs'
+const ACTIVE_TAB_CLASSNAME = 'active'
+
+class Tabs {
   wrapper = null
   onChangeListeners = []
 
@@ -11,53 +18,59 @@ class FlamebirdTabs {
 
   activeTab = _.find(this.tabs, { active: true })
 
-  constructor(wrapperElement, tabsContainer) {
+  constructor(wrapperElementQuery, tabsContainerQuery) {
+    const tabsContainer = el(tabsContainerQuery)
+    const wrapperElement = el(wrapperElementQuery)
+
     this.wrapper = wrapperElement
-    tabs.forEach(tab => {
+    this.tabs.forEach(tab => {
       createEl('button', {
-        className: 'tab' + (tab.active ? ' active' : ''),
+        className: 'tab' + (tab.active ? ` ${ACTIVE_TAB_CLASSNAME}` : ''),
         id: tab.name,
         innerText: tab.name,
-        onclick: () => Tabs.setActive(tab.name),
+        onclick: () => this.setActive(tab.name),
         parent: tabsContainer,
       })
     })
   }
 
-  getAll = () => tabs
+  getAll = () => this.tabs
 
-  getNotActiveTabs = () => _.find(this.tabs, { active: false })
+  getTabBy = partialTabData => _.find(this.tabs, partialTabData)
 
-  getTab = name => _.find(this.tabs, { name })
+  getNotActiveTabs = () => this.getTabBy({ active: false })
+
+  getTab = name => this.getTabBy({ name })
 
   getActive = () => this.activeTab
 
   setActive = name => {
-    let prevTab = this.activeTab
+    const prevTab = this.activeTab
     // if (prevTab.name !== name) {
     if (this.getTab(prevTab.name)) {
       prevTab.active = false
-      el(`#${prevTab.name}`).classList.remove('active')
+      el(`#${prevTab.name}`).classList.remove(ACTIVE_TAB_CLASSNAME)
     }
-    const nextTab = this.getTab(name)
-    nextTab.active = true
-    this.activeTab = nextTab
-    el(`#${nextTab.name}`).classList.add('active')
+    this.activeTab = this.getTab(name)
+    this.activeTab.active = true
+
+    el(`#${this.activeTab.name}`).classList.add(ACTIVE_TAB_CLASSNAME)
+
     if (this.onChangeListeners.length) {
       this.onChangeListeners.forEach(listener =>
-        listener(nextTab.name, prevTab.name)
+        listener(this.activeTab.name, prevTab.name)
       )
     }
-    this.wrapper.className = `wrapper active-tab-${nextTab.name}`
-    return nextTab
+    this.wrapper.className = `wrapper active-tab-${this.activeTab.name}`
+    return this.activeTab
   }
 
   setNextAsActive() {
-    let index = this.tabs.findIndex(tab => tab.name === this.activeTab.name)
-    if (typeof this.tabs[index + 1] !== 'undefined') {
-      this.setActive(this.tabs[index + 1].name)
-    } else {
+    const index = this.tabs.findIndex(tab => tab.name === this.activeTab.name)
+    if (_.isUndefined(this.tabs[index + 1])) {
       this.setActive(this.tabs[0].name)
+    } else {
+      this.setActive(this.tabs[index + 1].name)
     }
   }
 
@@ -66,9 +79,14 @@ class FlamebirdTabs {
   }
 
   removeTab = tab => {
-    this.tabs.splice(this.tabs.findIndex(({ name }) => tab.name === name), 1)
-    el(`#${tab.name}`).remove()
+    const removingTabIndex = this.tabs.findIndex(
+      ({ name }) => tab.name === name
+    )
+    if (removingTabIndex !== -1) {
+      this.tabs.splice(removingTabIndex, 1)
+      el(`#${tab.name}`).remove()
+    }
   }
 }
 
-window.Tabs = new FlamebirdTabs(el('.wrapper'), el('#tabs'))
+export default new Tabs(WRAPPER_ELEMENT, TABS_CONTAINER)
