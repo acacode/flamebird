@@ -14,7 +14,7 @@ const connectToWebSocket = require('./ws').create
 
 const paths = {
   frontendRoot: path.resolve(__dirname, '../dist'),
-  frontendHtml: path.resolve(__dirname, '../dist/main.html'),
+  frontendHtml: path.resolve(__dirname, '../dist/index.html'),
 }
 
 function start(taskfile) {

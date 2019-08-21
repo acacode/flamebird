@@ -40,7 +40,7 @@ export default new (class TaskList extends WindowAttached('taskList') {
     let activeTab = null
     _.each(Tabs.getAll(), tab => {
       const tasks = this.getTasksByTab(tab)
-      if (tasks) {
+      if (tasks && tasks.length) {
         this.activeTaskByTab[tab.name] = [tasks[0].id]
         if (!activeTab || tab.name === 'procfile') {
           activeTab = tab

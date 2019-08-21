@@ -9,7 +9,12 @@ class Tabs {
   wrapper = null
   onChangeListeners = []
 
-  tabs = window.tabs
+  tabs = [
+    { name: 'npm' },
+    { name: 'procfile', active: true },
+    { name: 'grunt' },
+    { name: 'gulp' },
+  ]
 
   activeTab = _.find(this.tabs, { active: true })
 

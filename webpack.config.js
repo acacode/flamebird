@@ -9,7 +9,7 @@ module.exports = {
   target: 'web',
   entry: {
     'index.html': path.resolve(srcFolder, './index.html'),
-    'global.js': path.resolve(srcFolder, './global.js'),
+    global: path.resolve(srcFolder, './global.js'),
   },
   output: {
     path: destFolder,
@@ -46,10 +46,8 @@ module.exports = {
       },
       {
         test: /\.js$/,
+        exclude: /node_modules/,
         use: [
-          {
-            loader: 'file-loader',
-          },
           {
             loader: 'babel-loader',
           },
