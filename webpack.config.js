@@ -6,6 +6,8 @@ const srcFolder = process.env.SRC_DIR || path.resolve(__dirname, './client')
 const destFolder = process.env.DEST_DIR || path.resolve(__dirname, './dist')
 
 module.exports = {
+  devtool: 'source-map',
+  mode: 'production',
   target: 'web',
   entry: {
     'index.html': path.resolve(srcFolder, './index.html'),

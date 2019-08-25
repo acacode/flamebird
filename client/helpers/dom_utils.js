@@ -114,13 +114,20 @@ export const el = (query, asList) =>
 export const createEl = (tag, options) => {
   const element = document.createElement(tag)
   _.each(options, (option, name) => {
-    if (name !== 'parent') element[name] = option
+    if (name !== 'parent' && name !== 'children') element[name] = option
   })
   if (options.parent) {
     const parentElement = _.isString(options.parent)
-      ? window.el(options.parent)
+      ? el(options.parent)
       : options.parent
     parentElement.appendChild(element)
+  }
+  if (options.children && options.children) {
+    _.each(options.children, child => {
+      element.appendChild(
+        typeof child === 'string' ? document.createTextNode(child) : child
+      )
+    })
   }
   return element
 }

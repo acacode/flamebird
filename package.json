@@ -4,12 +4,16 @@
   "description": "wonderful task manager for Procfile-based and npm-based applications",
   "main": "flamebird.js",
   "scripts": {
+    "clean": "rimraf dist",
     "lint-js": "eslint .",
     "lint": "npm run lint-js",
     "lint:fix": "npm run lint -- --fix",
-    "build": "rimraf dist && webpack --config webpack.config.js -p",
+    "build": "npm run clean && npm run client",
     "postinstall": "node postinstall.js",
-    "self-run": "node flamebird.js web -p 7733"
+    "server:dev": "node flamebird.js web -p 7733 -w",
+    "client": "webpack --config webpack.config.js -p",
+    "client:dev": "npm run client",
+    "dev": "nodemon flamebird.js start"
   },
   "repository": {
     "type": "git",
@@ -100,6 +104,7 @@
     "html-webpack-plugin": "^3.2.0",
     "jimp": "^0.6.4",
     "mini-css-extract-plugin": "^0.7.0",
+    "nodemon": "^1.19.1",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "prettier": "^1.18.2",
     "raw-loader": "^3.1.0",

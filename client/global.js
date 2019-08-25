@@ -124,29 +124,29 @@ export default new (class Global extends WindowAttached('global') {
     }, 0)
   }
 
-  openTask(id) {
+  openTask = task => {
     // const active = this.taskList.getActive()
     // if (!active || id !== active.id) {
-    const task = this.taskList.getTask(id)
     if (task.id) {
-      if (this.notificationsEnabled) this.taskList.setTaskUpdated(id, false)
+      if (this.notificationsEnabled)
+        this.taskList.setTaskUpdated(task.id, false)
       this.taskList.setActive(task)
       this.updateTaskLogs(task)
     }
     // }
   }
-  runTask(id) {
+  runTask = task => {
     window.event.stopPropagation()
-    const task = this.taskList.getTask(id)
+    // const task = this.taskList.getTask(id)
     if (!task.isLaunching && !task.isRun) {
       this.taskList.setActive(task, true)
       this.updateTaskLogs(task)
       kinka.post('/run/' + task.id)
     }
   }
-  stopTask(id) {
+  stopTask = task => {
     window.event.stopPropagation()
-    const task = this.taskList.getTask(id)
+    // const task = this.taskList.getTask(id)
     if (!task.isLaunching && task.isRun) {
       this.taskList.updateTask(task.id, false, task.isActive, false, true)
       kinka.post('/stop/' + task.id)
@@ -273,10 +273,11 @@ export default new (class Global extends WindowAttached('global') {
           .on('mouseover', this.showProjectVersion)
           .on('mouseleave', this.hideProjectVersion)
       }
-      this.taskList = window.taskList = new TaskList(
-        getEl('#task-list'),
-        commands
-      )
+      this.taskList = new TaskList(getEl('#task-list'), commands, {
+        onOpenTask: this.openTask,
+        onRunTask: this.runTask,
+        onStopTask: this.stopTask,
+      })
       this.logger = new WebLogger(getEl('#task-logs'))
       const ws = new WebSocket(`ws://${location.host}`)
       ws.onmessage = this.receiveWsMessage

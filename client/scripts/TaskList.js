@@ -1,30 +1,27 @@
 import _ from 'lodash'
-import Tabs from './Tabs'
-import HotKeys from './HotKeys'
+import Tabs, { PRIORITY_TAB, DEFAULT_TABS } from './Tabs'
+// import HotKeys from './HotKeys'
 import {
   toggleClass,
   addClass,
   removeClass,
-  createSpan,
-  createButton,
   el,
   createEl,
 } from '../helpers/dom_utils'
 import WindowAttached from '../helpers/WindowAttached'
+import { createEmptyTaskList } from '../helpers/taskList'
 
-export default new (class TaskList extends WindowAttached('taskList') {
+export default class TaskList extends WindowAttached('taskList') {
   element
-  taskList = {
-    npm: [],
-    procfile: [],
-  }
-  activeTaskByTab = {
-    npm: [],
-    procfile: [],
-  }
+  taskList = createEmptyTaskList(DEFAULT_TABS)
+  activeTaskByTab = createEmptyTaskList(DEFAULT_TABS)
   notifyTaskTimers = {}
 
-  init(taskListContainer, tasks) {
+  init(taskListContainer, tasks, { onOpenTask, onRunTask, onStopTask } = {}) {
+    this.onOpenTask = onOpenTask
+    this.onRunTask = onRunTask
+    this.onStopTask = onStopTask
+
     this.element = taskListContainer
     this.taskList = _.reduce(
       tasks,
@@ -32,17 +29,17 @@ export default new (class TaskList extends WindowAttached('taskList') {
         taskList[task.type].push(task)
         return taskList
       },
-      {
-        npm: [],
-        procfile: [],
-      }
+      // TODO: probably we can use just this.taskList here
+      createEmptyTaskList(DEFAULT_TABS)
     )
     let activeTab = null
+
     _.each(Tabs.getAll(), tab => {
+      // FIXME: tab is undefined because we remove tab from tabs on 46-47 line
       const tasks = this.getTasksByTab(tab)
       if (tasks && tasks.length) {
         this.activeTaskByTab[tab.name] = [tasks[0].id]
-        if (!activeTab || tab.name === 'procfile') {
+        if (!activeTab || tab.name === PRIORITY_TAB.name) {
           activeTab = tab
         }
       } else {
@@ -50,7 +47,9 @@ export default new (class TaskList extends WindowAttached('taskList') {
         Tabs.removeTab(tab)
       }
     })
+
     Tabs.listenChanges(this.onChangeTab)
+
     if (activeTab) Tabs.setActive(activeTab.name)
   }
 
@@ -72,11 +71,21 @@ export default new (class TaskList extends WindowAttached('taskList') {
   }
 
   updateTaskList(tabName) {
-    _.forEach(this.taskList[tabName], function(
-      { isRun, isLaunching, isActive, name, type, id },
-      index
-    ) {
-      const task = createEl('div', {
+    const staticElements = {
+      cogIcon: createEl('i', {
+        className: 'fas fa-cog',
+      }),
+      playIcon: createEl('i', {
+        className: 'fas fa-play',
+      }),
+      stopIcon: createEl('i', {
+        className: 'fas fa-stop',
+      }),
+    }
+    _.forEach(this.taskList[tabName], (task, index) => {
+      const { isRun, isLaunching, isActive, name, id } = task
+
+      const taskElement = createEl('div', {
         className: [
           'task',
           'task-num-' + (index + 1),
@@ -85,17 +94,30 @@ export default new (class TaskList extends WindowAttached('taskList') {
           isActive && 'active',
         ].join(' '),
         id,
-        onclick: () => window.global.openTask(id),
+        onclick: () => this.onOpenTask(task),
+        children: [
+          staticElements.cogIcon,
+          createEl('span', {
+            className: 'task-name',
+            innerText: name,
+          }),
+          createEl('button', {
+            className: 'run-task',
+            onclick: () => this.onRunTask(task),
+            children: [staticElements.playIcon],
+          }),
+          createEl('button', {
+            className: 'stop-task',
+            onclick: () => this.onStopTask(task),
+            children: [staticElements.stopIcon],
+          }),
+        ],
       })
-      if (window.HotKeys) {
-        HotKeys.connect(task, index)
-      }
-      task.innerHTML =
-        '<i class="fas fa-cog"></i>' +
-        createSpan('task-name', name) +
-        createButton('run-task', 'play', `global.runTask('${id}')`) +
-        createButton('stop-task', 'stop', `global.stopTask('${id}')`)
-      this.element.appendChild(task)
+      // TODO: ???
+      // if (HotKeys.isEnabled) {
+      //   HotKeys.connect(task, index)
+      // }
+      this.element.appendChild(taskElement)
     })
   }
 
@@ -189,4 +211,4 @@ export default new (class TaskList extends WindowAttached('taskList') {
     super()
     this.init(taskListContainer, tasks)
   }
-})()
+}

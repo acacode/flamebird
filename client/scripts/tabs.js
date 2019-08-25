@@ -1,20 +1,25 @@
 import _ from 'lodash'
 import { el, createEl } from '../helpers/dom_utils'
+import { createTab } from '../helpers/tabs'
 
 const WRAPPER_ELEMENT = '.wrapper'
 const TABS_CONTAINER = '#tabs'
 const ACTIVE_TAB_CLASSNAME = 'active'
 
+export const PRIORITY_TAB = createTab('procfile', true)
+
+export const DEFAULT_TABS = [
+  createTab('npm'),
+  PRIORITY_TAB,
+  createTab('grunt'),
+  createTab('gulp'),
+]
+
 class Tabs {
   wrapper = null
   onChangeListeners = []
 
-  tabs = [
-    { name: 'npm' },
-    { name: 'procfile', active: true },
-    { name: 'grunt' },
-    { name: 'gulp' },
-  ]
+  tabs = [...DEFAULT_TABS]
 
   activeTab = _.find(this.tabs, { active: true })
 
