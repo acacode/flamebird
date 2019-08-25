@@ -1,7 +1,5 @@
 import _ from 'lodash'
 import $ from 'jquery'
-import Tabs from './Tabs'
-import TaskList from './TaskList'
 
 const TASK_CHAR_CODES = [
   81,
@@ -39,49 +37,48 @@ const TASK_CHAR_CODES = [
   191,
 ]
 
-const TASK_LIST_ELEMENTS_QUERY = '#task-list .task'
+// const TASK_LIST_ELEMENTS_QUERY = '#task-list .task'
 
 const getTaskQueryByKeyCode = keyCode => $(`.task[char-code="${keyCode}"]`)
 
-export default new (class HotKeys {
+export default class HotKeys {
   isEnabled = false
   taskCharCodes = TASK_CHAR_CODES
+
+  actions = {
+    tab: _.noop,
+    arrowUp: _.noop,
+    arrowDown: _.noop,
+    del: _.noop,
+    shiftA: _.noop,
+    shiftS: _.noop,
+    shiftR: _.noop,
+    shiftArrowUp: _.noop,
+    shiftArrowDown: _.noop,
+  }
 
   keyCodeActions = {
     // [shift] key is not triggered
     0: {
-      9: /* [tab] */ event => {
-        this.clearifyEvent(event)
-        Tabs.setNextAsActive()
-        return false
-      },
-      38: /* [arrow up] */ () =>
-        window.global.getLogger().scrollTo('bottom', 0, 40),
-      40: /* [arrow down] */ () =>
-        window.global.getLogger().scrollTo('top', 0, 40),
-      46: /* [del] */ () => window.global.clearLogs(),
+      38: 'arrowUp',
+      40: 'arrowDown',
+      46: 'del',
+      9: 'tab',
     },
     // [shift] key is triggered
     1: {
-      65: /* [a] */ () => window.global.runAllTasks(),
-      83: /* [s] */ () => window.global.stopAllTasks(),
-      82: /* [r] */ () => {
-        const { isLaunching, isRun, id } = TaskList.getActive()
-        if (!isLaunching) {
-          window.global[`${isRun ? 'stop' : 'run'}Task`](id)
-        }
-      },
-      38: /* [arrow up] */ () =>
-        window.global.getLogger().scrollTo('top', '1500'),
-      40: /* [arrow down] */ () =>
-        window.global.getLogger().scrollTo('bottom', '500'),
+      38: 'shiftArrowUp',
+      40: 'shiftArrowDown',
+      65: 'shiftA',
+      82: 'shiftR',
+      83: 'shiftS',
     },
   }
 
   clearifyEvent = event => {
-    event.keyCode = 0
-    event.ctrlKey = false
-    event.cancelBubble = true
+    // event.keyCode = 0
+    // event.ctrlKey = false
+    // event.cancelBubble = true
     event.preventDefault()
     event.stopPropagation()
   }
@@ -93,20 +90,22 @@ export default new (class HotKeys {
       target: { tagName },
     } = event
     if (_.indexOf(['INPUT', 'TEXTAREA'], tagName) === -1) {
+      console.log('asdsa', shiftKey, keyCode)
       if (shiftKey) {
         this.clearifyEvent(event)
       }
-      const action = this.keyCodeActions[+shiftKey][keyCode]
-      if (action) {
-        action(event)
+      const actionName = this.keyCodeActions[+shiftKey][keyCode]
+      if (actionName) {
+        this.actions[actionName](event)
       } else if (!shiftKey) {
         getTaskQueryByKeyCode(keyCode).trigger('click')
       }
     }
   }
 
-  setEnabled(isEnabled) {
-    this.isEnabled = isEnabled
+  triggerEnabled(isEnabled) {
+    this.isEnabled = !!isEnabled
+    console.log('triggerEnabled')
     if (this.isEnabled) {
       this.connect()
     } else {
@@ -118,24 +117,61 @@ export default new (class HotKeys {
     window.addEventListener('keydown', this.onKeyClick, false)
     localStorage.setItem('hotkeys', true)
     document.body.setAttribute('hotkeys', 'true')
-    _.each(
-      document.querySelectorAll(TASK_LIST_ELEMENTS_QUERY),
-      (element, keycodeIndex) => {
-        element.setAttribute('char-code', this.taskCharCodes[keycodeIndex])
-      }
-    )
+
+    // setTimeout(() => {
+    //   _.each(
+    //     document.querySelectorAll(TASK_LIST_ELEMENTS_QUERY),
+    //     (element, keycodeIndex) => {
+    //       element.setAttribute('char-code', this.taskCharCodes[keycodeIndex])
+    //     }
+    //   )
+    // })
   }
 
   disconnect() {
     window.removeEventListener('keydown', this.onKeyClick, false)
     delete localStorage['hotkeys']
     document.body.removeAttribute('hotkeys')
-    _.each(document.querySelectorAll(TASK_LIST_ELEMENTS_QUERY), element => {
-      element.removeAttribute('char-code')
-    })
+    // setTimeout(() => {
+    //   _.each(document.querySelectorAll(TASK_LIST_ELEMENTS_QUERY), element => {
+    //     element.removeAttribute('char-code')
+    //   })
+    // })
   }
 
-  constructor() {
-    this.setEnabled(true)
+  connectTaskButton = (taskEl, index) => {
+    taskEl.setAttribute('char-code', this.taskCharCodes[index])
   }
-})()
+
+  constructor({
+    tab,
+    arrowUp,
+    arrowDown,
+    del,
+    shiftA,
+    shiftS,
+    shiftR,
+    shiftArrowUp,
+    shiftArrowDown,
+  } = {}) {
+    // this.triggerEnabled(true)
+
+    _.each(
+      {
+        tab,
+        arrowUp,
+        arrowDown,
+        del,
+        shiftA,
+        shiftS,
+        shiftR,
+        shiftArrowUp,
+        shiftArrowDown,
+      },
+      (handler, handlerName) => {
+        console.log('handler', handler, handlerName)
+        this.actions[handlerName] = handler
+      }
+    )
+  }
+}

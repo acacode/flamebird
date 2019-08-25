@@ -1,21 +1,17 @@
 
+body[theme="dark"] {
+    background: #212121;
+}
 
 [theme="dark"] header {
     background: #3e3e3e;
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.33);
 }
 
-
 [theme="dark"] .title {
     color: #eeeeee;
     background: #3e3e3e;
 }
-
-
-[theme="dark"] body{
-    background: #212121;
-}
-
 
 [theme="dark"] .wrapper {
     background: #424242;

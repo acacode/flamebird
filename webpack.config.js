@@ -5,9 +5,11 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const srcFolder = process.env.SRC_DIR || path.resolve(__dirname, './client')
 const destFolder = process.env.DEST_DIR || path.resolve(__dirname, './dist')
 
+const isDev = process.env.NODE_ENV === 'development'
+
 module.exports = {
-  devtool: 'source-map',
-  mode: 'production',
+  devtool: isDev ? 'eval' : false,
+  mode: isDev ? 'development' : 'production',
   target: 'web',
   entry: {
     'index.html': path.resolve(srcFolder, './index.html'),
@@ -26,7 +28,7 @@ module.exports = {
           {
             loader: 'html-loader',
             options: {
-              minimize: true,
+              minimize: !isDev,
               root: srcFolder,
               attrs: ['img:src', 'link:href'],
             },
@@ -74,7 +76,9 @@ module.exports = {
     ],
   },
   optimization: {
-    minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
+    minimizer: isDev
+      ? []
+      : [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
   },
   // plugins: [
   //   new HtmlWebpackPlugin({

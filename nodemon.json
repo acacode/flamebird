@@ -1,5 +1,6 @@
 {
   "verbose": false,
+  "ext": "js,css,html",
   "watch": ["client", "server", "flamebird.js", "webpack.config.js"],
   "ignore": ["node_modules"]
 }

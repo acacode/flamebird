@@ -35,7 +35,7 @@ export default class WebLogger {
     }
   }
 
-  createHTMLLog(logData) {
+  createHTMLLog = logData => {
     const log = this.ansiUp.ansi_to_html(
       logData.replace(/\n/g, '<br>').replace(/ /g, '&ensp;')
     )

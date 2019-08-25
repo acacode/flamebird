@@ -1,15 +1,9 @@
 import _ from 'lodash'
 import Tabs, { PRIORITY_TAB, DEFAULT_TABS } from './Tabs'
 // import HotKeys from './HotKeys'
-import {
-  toggleClass,
-  addClass,
-  removeClass,
-  el,
-  createEl,
-} from '../helpers/dom_utils'
+import { toggleClass, addClass, removeClass, el } from '../helpers/dom_utils'
 import WindowAttached from '../helpers/WindowAttached'
-import { createEmptyTaskList } from '../helpers/taskList'
+import { createEmptyTaskList, createTaskElement } from '../helpers/taskList'
 
 export default class TaskList extends WindowAttached('taskList') {
   element
@@ -17,10 +11,17 @@ export default class TaskList extends WindowAttached('taskList') {
   activeTaskByTab = createEmptyTaskList(DEFAULT_TABS)
   notifyTaskTimers = {}
 
-  init(taskListContainer, tasks, { onOpenTask, onRunTask, onStopTask } = {}) {
-    this.onOpenTask = onOpenTask
-    this.onRunTask = onRunTask
-    this.onStopTask = onStopTask
+  constructor(
+    taskListContainer,
+    tasks,
+    { onOpenTask, onRunTask, onStopTask, onCreateTaskEl } = {}
+  ) {
+    super()
+    this.onOpenTask = onOpenTask || _.noop
+    this.onRunTask = onRunTask || _.noop
+    this.onStopTask = onStopTask || _.noop
+    this.onStopTask = onStopTask || _.noop
+    this.onCreateTaskEl = onCreateTaskEl || _.noop
 
     this.element = taskListContainer
     this.taskList = _.reduce(
@@ -30,23 +31,40 @@ export default class TaskList extends WindowAttached('taskList') {
         return taskList
       },
       // TODO: probably we can use just this.taskList here
-      createEmptyTaskList(DEFAULT_TABS)
+      this.taskList
     )
     let activeTab = null
 
-    _.each(Tabs.getAll(), tab => {
-      // FIXME: tab is undefined because we remove tab from tabs on 46-47 line
-      const tasks = this.getTasksByTab(tab)
-      if (tasks && tasks.length) {
-        this.activeTaskByTab[tab.name] = [tasks[0].id]
-        if (!activeTab || tab.name === PRIORITY_TAB.name) {
-          activeTab = tab
+    for (let x = 0, allTabs = Tabs.getAll(); x < allTabs.length; x++) {
+      const tab = allTabs[x]
+      if (tab) {
+        const tasks = this.getTasksByTab(tab)
+        if (tasks && tasks.length) {
+          this.activeTaskByTab[tab.name] = [tasks[0].id]
+          if (!activeTab || tab.name === PRIORITY_TAB.name) {
+            activeTab = tab
+          }
+        } else {
+          delete this.taskList[tab.name]
+          delete this.activeTaskByTab[tab.name]
+          Tabs.removeTab(tab)
+          x--
         }
-      } else {
-        if (this.taskList[tab.name]) delete this.taskList[tab.name]
-        Tabs.removeTab(tab)
       }
-    })
+    }
+    // _.each(Tabs.getAll(), tab => {
+    //   // FIXME: tab is undefined because we remove tab from tabs on 46-47 line
+    //   const tasks = this.getTasksByTab(tab)
+    //   if (tasks && tasks.length) {
+    //     this.activeTaskByTab[tab.name] = [tasks[0].id]
+    //     if (!activeTab || tab.name === PRIORITY_TAB.name) {
+    //       activeTab = tab
+    //     }
+    //   } else {
+    //     if (this.taskList[tab.name]) delete this.taskList[tab.name]
+    //     Tabs.removeTab(tab)
+    //   }
+    // })
 
     Tabs.listenChanges(this.onChangeTab)
 
@@ -57,7 +75,7 @@ export default class TaskList extends WindowAttached('taskList') {
     this.clear()
     this.updateTaskList(name)
 
-    setTimeout(function() {
+    setTimeout(() => {
       const { name: currentName } = Tabs.getActive()
       if (name !== currentName) {
         name = currentName
@@ -71,53 +89,22 @@ export default class TaskList extends WindowAttached('taskList') {
   }
 
   updateTaskList(tabName) {
-    const staticElements = {
-      cogIcon: createEl('i', {
-        className: 'fas fa-cog',
-      }),
-      playIcon: createEl('i', {
-        className: 'fas fa-play',
-      }),
-      stopIcon: createEl('i', {
-        className: 'fas fa-stop',
-      }),
-    }
     _.forEach(this.taskList[tabName], (task, index) => {
-      const { isRun, isLaunching, isActive, name, id } = task
-
-      const taskElement = createEl('div', {
-        className: [
-          'task',
-          'task-num-' + (index + 1),
-          isRun && 'running',
-          isLaunching && 'clicked',
-          isActive && 'active',
-        ].join(' '),
-        id,
-        onclick: () => this.onOpenTask(task),
-        children: [
-          staticElements.cogIcon,
-          createEl('span', {
-            className: 'task-name',
-            innerText: name,
-          }),
-          createEl('button', {
-            className: 'run-task',
-            onclick: () => this.onRunTask(task),
-            children: [staticElements.playIcon],
-          }),
-          createEl('button', {
-            className: 'stop-task',
-            onclick: () => this.onStopTask(task),
-            children: [staticElements.stopIcon],
-          }),
-        ],
-      })
       // TODO: ???
       // if (HotKeys.isEnabled) {
       //   HotKeys.connect(task, index)
       // }
-      this.element.appendChild(taskElement)
+      const taskEl = createTaskElement(task, index, {
+        onOpenTask: () => this.onOpenTask(task),
+        onRunTask: () => this.onRunTask(task),
+        onStopTask: () => this.onStopTask(task),
+      })
+
+      console.log('onCreateTaskEl')
+
+      this.onCreateTaskEl(taskEl, index)
+
+      this.element.appendChild(taskEl)
     })
   }
 
@@ -205,10 +192,5 @@ export default class TaskList extends WindowAttached('taskList') {
         } else Notification.requestPermission()
       }, 1800)
     }
-  }
-
-  constructor(taskListContainer, tasks) {
-    super()
-    this.init(taskListContainer, tasks)
   }
 }

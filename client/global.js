@@ -4,22 +4,28 @@ import kinka from 'kinka'
 import TaskList from './scripts/TaskList'
 import WebLogger from './scripts/WebLogger'
 import HotKeys from './scripts/HotKeys'
-import ThemeSwitcher from './scripts/ThemeSwitcher'
+import ThemeSwitcher, { THEMES } from './scripts/ThemeSwitcher'
 import { toggleClass, el as getEl, createSpan } from './helpers/dom_utils'
 import Tabs from './scripts/Tabs'
 import WindowAttached from './helpers/WindowAttached'
+import { clearifyEvent } from './helpers/hotKeys'
+
+export const DEFAULT_PROJECT_NAME = 'flamebird'
 
 export default new (class Global extends WindowAttached('global') {
   watchTaskLogsScrollTop = true
-  theme
-  logger
-  taskList
+  setTheme
   previousEnvs = null
   hotKeysEnabled = false
   notificationsEnabled = false
   fullscreen = false
-  projectName = 'flamebird'
+  projectName = DEFAULT_PROJECT_NAME
   pageIsNotActive = false
+
+  logger
+  taskList
+  themeSwitcher
+  hotkeys
 
   showTaskList() {
     $(document.body).toggleClass('task-list-showed')
@@ -82,7 +88,7 @@ export default new (class Global extends WindowAttached('global') {
   updateEnvs() {
     getEl('.envs-log').classList.remove('active')
     const activeTask = this.taskList.getActive()
-    _.each(getEl('.envs-log > input', true), function(el) {
+    _.each(getEl('.envs-log > input', true), el => {
       const input = $(el)
       this.previousEnvs[input.attr('key')] = input.val()
     })
@@ -118,7 +124,7 @@ export default new (class Global extends WindowAttached('global') {
     this.logger.updateDescription(task)
     this.logger.updateEnvs(envs)
     const logs = _.map(rawLogs, this.logger.createHTMLLog).join('')
-    setTimeout(function() {
+    setTimeout(() => {
       this.logger.push(logs, true)
       this.logger.scrollTo('bottom')
     }, 0)
@@ -153,6 +159,12 @@ export default new (class Global extends WindowAttached('global') {
     }
   }
 
+  onCreateTaskEl = (taskEl, index) => {
+    if (this.hotkeys.isEnabled) {
+      this.hotkeys.connectTaskButton(taskEl, index)
+    }
+  }
+
   toggleNotifications() {
     this.notificationsEnabled = !this.notificationsEnabled
     this.updateNotifications()
@@ -179,7 +191,7 @@ export default new (class Global extends WindowAttached('global') {
 
   updateHotkeys() {
     toggleClass(getEl('.main-button.hot-keys'), 'active', this.hotKeysEnabled)
-    HotKeys.setEnabled(this.hotKeysEnabled)
+    this.hotkeys.triggerEnabled(this.hotKeysEnabled)
   }
 
   updateFullscreen() {
@@ -241,8 +253,42 @@ export default new (class Global extends WindowAttached('global') {
   getLogger = () => this.logger
   getTaskList = () => this.taskList
 
+  onSwitchTheme = newTheme => {
+    $('.toggle.color').toggleClass('active', newTheme === THEMES.DARK)
+  }
+
   constructor() {
     super()
+
+    this.themeSwitcher = new ThemeSwitcher({
+      onSwitchTheme: this.onSwitchTheme,
+    })
+
+    this.hotkeys = new HotKeys({
+      tab: event => {
+        clearifyEvent(event)
+        Tabs.setNextAsActive()
+        return false
+      },
+      arrowUp: () => this.logger.scrollTo('bottom', 0, 40),
+      arrowDown: () => this.logger.scrollTo('top', 0, 40),
+      del: () => this.clearLogs(),
+      shiftA: () => this.runAllTasks(),
+      shiftS: () => this.stopAllTasks(),
+      shiftR: () => {
+        const activeTask = this.taskList.getActive()
+        if (!activeTask.isLaunching) {
+          if (activeTask.isRun) {
+            this.stopTask(activeTask)
+          } else {
+            this.runTask(activeTask)
+          }
+        }
+      },
+      shiftArrowUp: () => this.logger.scrollTo('top', '1500'),
+      shiftArrowDown: () => this.logger.scrollTo('bottom', '500'),
+    })
+
     $(window).focus(() => {
       this.pageIsNotActive = false
       if (this.notificationsEnabled) {
@@ -255,7 +301,7 @@ export default new (class Global extends WindowAttached('global') {
     })
 
     $(document).ready(async () => {
-      ThemeSwitcher.setTheme(localStorage.getItem('theme') || 'white')
+      this.themeSwitcher.setTheme(localStorage.getItem('theme') || 'white')
       this.fullscreen = !!localStorage.getItem('fullscreen')
       this.hotKeysEnabled = !!localStorage.getItem('hotkeys')
       this.notificationsEnabled = !!localStorage.getItem('notifications')
@@ -271,12 +317,13 @@ export default new (class Global extends WindowAttached('global') {
         $('header > .title')
           .text(this.projectName)
           .on('mouseover', this.showProjectVersion)
-          .on('mouseleave', this.hideProjectVersion)
+          .on('mouseout', this.hideProjectVersion)
       }
       this.taskList = new TaskList(getEl('#task-list'), commands, {
         onOpenTask: this.openTask,
         onRunTask: this.runTask,
         onStopTask: this.stopTask,
+        onCreateTaskEl: this.onCreateTaskEl,
       })
       this.logger = new WebLogger(getEl('#task-logs'))
       const ws = new WebSocket(`ws://${location.host}`)
