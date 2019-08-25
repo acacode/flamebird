@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://www.npmjs.com/package/flamebird">
-    <img width="250" height="210" src="https://github.com/acacode/flamebird/raw/master/client/assets/logo.png">
+    <img width="250" height="210" src="https://github.com/acacode/flamebird/raw/develop/client/assets/logo.png">
   </a>
   <br>
   <br>
