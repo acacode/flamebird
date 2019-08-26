@@ -5,6 +5,14 @@ import { toggleClass, addClass, removeClass, el } from '../helpers/dom_utils'
 import WindowAttached from '../helpers/WindowAttached'
 import { createEmptyTaskList, createTaskElement } from '../helpers/taskList'
 
+const TASK_CLASSES = {
+  ACTIVE: 'active',
+  STOPPING: 'stopping',
+  RUNNING: 'running',
+  LAUNCHING: 'clicked',
+  UPDATED: 'updated',
+}
+
 export default class TaskList extends WindowAttached('taskList') {
   element
   taskList = createEmptyTaskList(DEFAULT_TABS)
@@ -119,20 +127,22 @@ export default class TaskList extends WindowAttached('taskList') {
     task.isActive = !!isActive
 
     if (task.isActive) {
-      const prevActiveTask = document.querySelector('.task.active')
+      const prevActiveTask = document.querySelector(
+        `.task.${TASK_CLASSES.ACTIVE}`
+      )
       if (prevActiveTask) {
         const prevTaskId = this.activeTaskByTab[task.type][0]
         if (prevTaskId !== task.id) {
           this.getTask(prevTaskId).isActive = false
-          removeClass(prevActiveTask, 'active')
+          removeClass(prevActiveTask, TASK_CLASSES.ACTIVE)
         }
       }
       this.activeTaskByTab[task.type] = [task.id]
-      addClass(taskElem, 'active')
+      addClass(taskElem, TASK_CLASSES.ACTIVE)
     }
-    toggleClass(taskElem, 'stopping', isStopping)
-    toggleClass(taskElem, 'running', isRun)
-    toggleClass(taskElem, 'clicked', isLaunching)
+    toggleClass(taskElem, TASK_CLASSES.STOPPING, isStopping)
+    toggleClass(taskElem, TASK_CLASSES.RUNNING, isRun)
+    toggleClass(taskElem, TASK_CLASSES.LAUNCHING, isLaunching)
     return task
   }
 
@@ -168,7 +178,9 @@ export default class TaskList extends WindowAttached('taskList') {
     const activeTab = Tabs.getActive()
     if (!options) options = {}
     if (task.type === activeTab.name)
-      el(`#${taskId}`).classList[isUpdated ? 'add' : 'remove']('updated')
+      el(`#${taskId}`).classList[isUpdated ? 'add' : 'remove'](
+        TASK_CLASSES.UPDATED
+      )
     if (Notification && options.notify && isUpdated) {
       if (this.notifyTaskTimers[taskId]) {
         clearTimeout(this.notifyTaskTimers[taskId])

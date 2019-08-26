@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import $ from 'jquery'
-import kinka from 'kinka'
+import Api from './scripts/Api'
 import TaskList from './scripts/TaskList'
 import WebLogger from './scripts/WebLogger'
 import HotKeys from './scripts/HotKeys'
@@ -22,10 +22,39 @@ export default new (class Global extends WindowAttached('global') {
   projectName = DEFAULT_PROJECT_NAME
   pageIsNotActive = false
 
+  api = new Api()
   logger
   taskList
-  themeSwitcher
-  hotkeys
+  themeSwitcher = new ThemeSwitcher({
+    onSwitchTheme: newTheme => {
+      $('.toggle.color').toggleClass('active', newTheme === THEMES.DARK)
+    },
+  })
+
+  hotkeys = new HotKeys({
+    tab: event => {
+      clearifyEvent(event)
+      Tabs.setNextAsActive()
+      return false
+    },
+    arrowUp: () => this.logger.scrollTo('bottom', 0, 40),
+    arrowDown: () => this.logger.scrollTo('top', 0, 40),
+    del: () => this.clearLogs(),
+    shiftA: () => this.runAllTasks(),
+    shiftS: () => this.stopAllTasks(),
+    shiftR: () => {
+      const activeTask = this.taskList.getActive()
+      if (!activeTask.isLaunching) {
+        if (activeTask.isRun) {
+          this.stopTask(activeTask)
+        } else {
+          this.runTask(activeTask)
+        }
+      }
+    },
+    shiftArrowUp: () => this.logger.scrollTo('top', '1500'),
+    shiftArrowDown: () => this.logger.scrollTo('bottom', '500'),
+  })
 
   showTaskList() {
     $(document.body).toggleClass('task-list-showed')
@@ -36,7 +65,7 @@ export default new (class Global extends WindowAttached('global') {
       this.taskList.getAllFromActiveTab({ isRun: false }),
       ({ isRun, id, isActive }) => {
         this.taskList.updateTask(id, isRun, isActive, true, false)
-        kinka.post(`/run/${id}`)
+        this.api.runTask(id)
       }
     )
   }
@@ -46,7 +75,7 @@ export default new (class Global extends WindowAttached('global') {
       this.taskList.getAllFromActiveTab({ isRun: true }),
       ({ isRun, id, isActive }) => {
         this.taskList.updateTask(id, isRun, isActive, false, true)
-        kinka.post(`/stop/${id}`)
+        this.api.stopTask(id)
       }
     )
   }
@@ -58,7 +87,7 @@ export default new (class Global extends WindowAttached('global') {
     if (_.isString(activeTask)) {
       activeTask = this.taskList.getTask(activeTask)
     }
-    kinka.post(`/clear-logs/${activeTask.id}`)
+    this.api.clearLogs(activeTask.id)
     activeTask.logs = []
     this.logger.clear()
     this.logger.updateDescription(activeTask.task)
@@ -94,10 +123,7 @@ export default new (class Global extends WindowAttached('global') {
     })
     activeTask.envs = _.clone(this.previousEnvs)
     this.clearLogs(activeTask)
-    kinka.post('/update-envs', {
-      id: activeTask.id,
-      envs: _.clone(this.previousEnvs),
-    })
+    this.api.updateEnvs(activeTask.id, this.previousEnvs)
     this.taskList.updateTask(
       activeTask.id,
       true,
@@ -120,7 +146,7 @@ export default new (class Global extends WindowAttached('global') {
 
   async updateTaskLogs({ task, envs, id }) {
     this.logger.clear()
-    const { data: rawLogs } = await kinka.get(`/logs/${id}`)
+    const { data: rawLogs } = await this.api.getLogs(id)
     this.logger.updateDescription(task)
     this.logger.updateEnvs(envs)
     const logs = _.map(rawLogs, this.logger.createHTMLLog).join('')
@@ -141,21 +167,23 @@ export default new (class Global extends WindowAttached('global') {
     }
     // }
   }
+
   runTask = task => {
     window.event.stopPropagation()
     // const task = this.taskList.getTask(id)
     if (!task.isLaunching && !task.isRun) {
       this.taskList.setActive(task, true)
       this.updateTaskLogs(task)
-      kinka.post('/run/' + task.id)
+      this.api.runTask(task.id)
     }
   }
+
   stopTask = task => {
     window.event.stopPropagation()
     // const task = this.taskList.getTask(id)
     if (!task.isLaunching && task.isRun) {
       this.taskList.updateTask(task.id, false, task.isActive, false, true)
-      kinka.post('/stop/' + task.id)
+      this.api.stopTask(task.id)
     }
   }
 
@@ -179,7 +207,7 @@ export default new (class Global extends WindowAttached('global') {
     if (this.notificationsEnabled) {
       localStorage.setItem('notifications', true)
     } else {
-      delete localStorage['notifications']
+      delete localStorage.notifications
       $('.task.updated').removeClass('updated')
     }
   }
@@ -201,7 +229,7 @@ export default new (class Global extends WindowAttached('global') {
       document.body.setAttribute('fullscreen', 'true')
     } else {
       document.body.removeAttribute('fullscreen')
-      delete localStorage['fullscreen']
+      delete localStorage.fullscreen
     }
   }
 
@@ -237,8 +265,8 @@ export default new (class Global extends WindowAttached('global') {
     }
   }
 
-  async showProjectVersion() {
-    const { data: version } = await kinka.get('/project-version')
+  showProjectVersion = async () => {
+    const { data: version } = await this.api.getProjectInfo()
     if (version) {
       $('header > .title').html(
         this.projectName + createSpan('project-version', version)
@@ -253,41 +281,8 @@ export default new (class Global extends WindowAttached('global') {
   getLogger = () => this.logger
   getTaskList = () => this.taskList
 
-  onSwitchTheme = newTheme => {
-    $('.toggle.color').toggleClass('active', newTheme === THEMES.DARK)
-  }
-
   constructor() {
     super()
-
-    this.themeSwitcher = new ThemeSwitcher({
-      onSwitchTheme: this.onSwitchTheme,
-    })
-
-    this.hotkeys = new HotKeys({
-      tab: event => {
-        clearifyEvent(event)
-        Tabs.setNextAsActive()
-        return false
-      },
-      arrowUp: () => this.logger.scrollTo('bottom', 0, 40),
-      arrowDown: () => this.logger.scrollTo('top', 0, 40),
-      del: () => this.clearLogs(),
-      shiftA: () => this.runAllTasks(),
-      shiftS: () => this.stopAllTasks(),
-      shiftR: () => {
-        const activeTask = this.taskList.getActive()
-        if (!activeTask.isLaunching) {
-          if (activeTask.isRun) {
-            this.stopTask(activeTask)
-          } else {
-            this.runTask(activeTask)
-          }
-        }
-      },
-      shiftArrowUp: () => this.logger.scrollTo('top', '1500'),
-      shiftArrowDown: () => this.logger.scrollTo('bottom', '500'),
-    })
 
     $(window).focus(() => {
       this.pageIsNotActive = false
@@ -302,15 +297,19 @@ export default new (class Global extends WindowAttached('global') {
 
     $(document).ready(async () => {
       this.themeSwitcher.setTheme(localStorage.getItem('theme') || 'white')
+
       this.fullscreen = !!localStorage.getItem('fullscreen')
       this.hotKeysEnabled = !!localStorage.getItem('hotkeys')
       this.notificationsEnabled = !!localStorage.getItem('notifications')
+
       this.updateFullscreen()
       this.updateHotkeys()
       this.updateNotifications()
+
       const {
         data: { name, commands },
-      } = await kinka.get('/info')
+      } = await this.api.getProjectInfo()
+
       this.projectName = name
       if (this.projectName) {
         $('title').text(`${this.projectName} | fb`)

@@ -130,7 +130,7 @@ export default class HotKeys {
 
   disconnect() {
     window.removeEventListener('keydown', this.onKeyClick, false)
-    delete localStorage['hotkeys']
+    delete localStorage.hotkeys
     document.body.removeAttribute('hotkeys')
     // setTimeout(() => {
     //   _.each(document.querySelectorAll(TASK_LIST_ELEMENTS_QUERY), element => {

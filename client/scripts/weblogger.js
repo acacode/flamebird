@@ -63,11 +63,13 @@ export default class WebLogger {
       isRaw ? log : this.createHTMLLog(log)
     )
   }
+
   clear() {
     while (this.element.lastChild) {
       this.element.removeChild(this.element.lastChild)
     }
   }
+
   updateEnvs(envs) {
     if (_.keys(envs).length) {
       const container = document.createElement('div')
@@ -87,6 +89,7 @@ export default class WebLogger {
       this.element.appendChild(container)
     }
   }
+
   updateDescription(description) {
     const container = createEl('div', { className: 'task-data' })
     const span = createEl('span', { innerText: description })
