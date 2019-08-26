@@ -37,15 +37,16 @@ body[theme="dark"] {
 
 
 [theme="dark"] button.tab {
-    color: #696969;
-    background: rgb(33, 33, 33);
+    color: #d1d1d1;
+    background: rgb(69, 69, 69);
+    box-shadow: 0 0px 0px 0.5px rgb(33, 33, 33);
 }
 
 
 [theme="dark"] button.tab.active, 
 [theme="dark"] button.tab:active {
-    background: #454545;
-    color: #c7c7c7;
+    background: rgb(159, 144, 55);
+    color: #212121;
 }
 
 [theme="dark"] .logs-container{

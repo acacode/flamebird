@@ -4,7 +4,7 @@
     }
 
     [fullscreen="true"] .wrapper {
-        max-width: 98.2%;
+        max-width: calc(98.2% - 40px);
     }
     
     [fullscreen="true"] header .title {
@@ -18,18 +18,9 @@
     [fullscreen="true"] #task-logs {
         width: calc(100% - 260px);
     }
-    [fullscreen="true"] .tabs {
-        position: absolute;
-        left: 332px;
-        top: 2px;
-        transform: rotate(0deg);
-        z-index: 2;
-    }
     [fullscreen="true"] .scrolling > .task-data {
         top: 48px;
     }
-    
-    [fullscreen="true"] button.tab {border-radius: 4px;}
     
     [fullscreen="true"] .logo {
         left: 3px;

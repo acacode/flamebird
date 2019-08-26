@@ -55,22 +55,26 @@
     }
     .task-list-showed .tabs {
         position: absolute;
-        left: 31.3%;
-        top: 292px;
-        transform: rotate(90deg);
+        left: calc(30% + 12px);
+        top: 37px;
+        transform: rotate(0deg);
         z-index: 2;
+    }
+    .task-list-showed .tab {
+        border-radius: 0 0 8px 8px;
+    }
+    .logs-container {
+        padding-top: 27px;
     }
     .scrolling > .task-data {
         top: 45px;
     }
     
-    @media screen and (max-width:760px){
-        .main-button.toggle{
-            min-width: 40px;
-        }
-        .main-button.toggle span{
-            display: none;
-        }
+    .main-button.toggle{
+        min-width: 40px;
+    }
+    .main-button.toggle span{
+        display: none;
     }
     
     .task-list-showed .active-tab-procfile .task.new-task.show {
