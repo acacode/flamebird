@@ -108,8 +108,6 @@ export default class TaskList extends WindowAttached('taskList') {
         onStopTask: () => this.onStopTask(task),
       })
 
-      console.log('onCreateTaskEl')
-
       this.onCreateTaskEl(taskEl, index)
 
       this.element.appendChild(taskEl)

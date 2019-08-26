@@ -88,7 +88,6 @@ class Tabs {
       ({ name }) => tab.name === name
     )
     if (removingTabIndex !== -1) {
-      console.log('removing tab')
       this.tabs.splice(removingTabIndex, 1)
       el(`#${tab.name}`).remove()
     }

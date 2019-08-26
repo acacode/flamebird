@@ -90,7 +90,6 @@ export default class HotKeys {
       target: { tagName },
     } = event
     if (_.indexOf(['INPUT', 'TEXTAREA'], tagName) === -1) {
-      console.log('asdsa', shiftKey, keyCode)
       if (shiftKey) {
         this.clearifyEvent(event)
       }
@@ -105,7 +104,6 @@ export default class HotKeys {
 
   triggerEnabled(isEnabled) {
     this.isEnabled = !!isEnabled
-    console.log('triggerEnabled')
     if (this.isEnabled) {
       this.connect()
     } else {
@@ -169,7 +167,6 @@ export default class HotKeys {
         shiftArrowDown,
       },
       (handler, handlerName) => {
-        console.log('handler', handler, handlerName)
         this.actions[handlerName] = handler
       }
     )
