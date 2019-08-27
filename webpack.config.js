@@ -37,7 +37,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|gif)$/,
-        use: [
+        loaders: [
           {
             loader: 'url-loader',
             options: {
@@ -50,10 +50,12 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        exclude: /node_modules/,
-        use: [
+        loaders: [
           {
             loader: 'babel-loader',
+            options: {
+              babelrc: true,
+            },
           },
         ],
       },

@@ -12,7 +12,7 @@ import { clearifyEvent } from './helpers/hotKeys'
 
 export const DEFAULT_PROJECT_NAME = 'flamebird'
 
-export default new (class Global extends WindowAttached('global') {
+class Global extends WindowAttached('global') {
   watchTaskLogsScrollTop = true
   setTheme
   previousEnvs = null
@@ -329,4 +329,6 @@ export default new (class Global extends WindowAttached('global') {
       ws.onmessage = this.receiveWsMessage
     })
   }
-})()
+}
+
+export default new Global()
