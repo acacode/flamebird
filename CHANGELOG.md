@@ -2,16 +2,20 @@
 # Changelog
 
 
-## Unreleased
-
+## [3.0.0-alpha] - {date}  
 
 ### Added
+- `web` [internal] changed webpack configuration for web client  
+- 
+- 
 
-### Changed
+<!-- ### Changed -->
 
-### Fixed
+### Fixed  
+- Problems linked with running flamebird without `node_modules` folder  
 
-### Removed
+### Removed  
+- Removed default usage experimental converting npm/yarn run scripts to the absolute paths  
 
 
 ## [2.1.4] - 12/06/2018
