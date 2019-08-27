@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 // Copyright IBM Corp. 2012,2015. All Rights Reserved.
 // Node module: flamebird
 // This file is licensed under the MIT License.

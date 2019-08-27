@@ -23,9 +23,9 @@ const separateEnvsFromString = str =>
   )
 
 const load = filename => {
-  var envFile = {}
+  let envFile = {}
   try {
-    var data = fs.readFileSync(filename)
+    const data = fs.readFileSync(filename)
     envFile = _.reduce(
       _.compact(data.toString().split(/[\n\r]/g)),
       (envFile, line) => {
