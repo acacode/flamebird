@@ -6,10 +6,29 @@
 
 ### Added
 - `web` [internal] changed webpack configuration for web client  
-- 
-- 
+- `web` new options:  
+    - `-i, --ignore-pms` (in previous version it uses by default)  
+        Allows to launch tasks without yarn or npm ( use absolute paths: webpack -> node_modules/.bin/webpack )  
+        default: `false`  
+    - `-u, --use-another-pm <NAME>` (works only with `-i` flag)  
+        Allows to use another package manager for launch tasks. By default will use npm ( For example: -y yarn )  
+        default: `'npm'`  
+    - `-w, --without-browser`  
+        This option disable opening the new tab in Google Chrome browser  
+        default: `false`  
+    - `-s, --sort-by-name`  
+        This option using to sort all commands by name (asc)  
+        default: `false`  
+- `cmd` new options:  
+    - `-i, --ignore-pms` (in previous version it uses by default)  
+        Allows to launch tasks without yarn or npm ( use absolute paths: webpack -> node_modules/.bin/webpack )  
+        default: `false`  
+    - `-u, --use-another-pm <NAME>` (works only with `-i` flag)  
+        Allows to use another package manager for launch tasks. By default will use npm ( For example: -y yarn )  
+        default: `'npm'`  
 
-<!-- ### Changed -->
+### Changed
+- [internal] fully refactored code on nodeJS and web view  
 
 ### Fixed  
 - Problems linked with running flamebird without `node_modules` folder  

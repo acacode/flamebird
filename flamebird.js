@@ -98,7 +98,8 @@ program
   )
   .option(
     '-u, --use-another-pm <NAME>',
-    'Allows to use another package manager for launch tasks. By default will use npm ( For example: -y yarn )',
+    `Allows to use another package manager for launch tasks. By default will use npm ( For example: -y yarn )\r\n` +
+      `Note: it works only with -i, --ignore-pms flag`,
     'npm'
   )
   .description(
@@ -126,7 +127,8 @@ program
   )
   .option(
     '-u, --use-another-pm <NAME>',
-    'Allows to use another package manager for launch tasks. By default will use npm ( For example: -y yarn )',
+    `Allows to use another package manager for launch tasks. By default will use npm ( For example: -y yarn )\r\n` +
+      `Note: it works only with -i, --ignore-pms flag`,
     'npm'
   )
   .option(
