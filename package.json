@@ -4,6 +4,7 @@
   "description": "wonderful task manager for Procfile-based and npm-based applications",
   "main": "flamebird.js",
   "scripts": {
+    "test": "echo \"No tests\" && exit 0",
     "clean": "rimraf dist",
     "lint-js": "eslint .",
     "lint": "npm run lint-js",
@@ -124,10 +125,11 @@
   },
   "files": [
     "dist",
-    "server",
     "flamebird.js",
     "LICENSE",
-    "postinstall.js"
+    "postinstall.js",
+    "README.md",
+    "server"
   ],
   "bugs": {
     "url": "https://github.com/acacode/flamebird/issues"

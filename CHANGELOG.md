@@ -14,7 +14,7 @@
 ### Removed
 
 
-## [2.1.4] - 06.12.2018
+## [2.1.4] - 12/06/2018
 
 ### Added
 - `web` hotkey feautures
@@ -37,7 +37,7 @@
 - typo fixes in `README.md`
 
 
-## [2.0.0] - 01.12.2018
+## [2.0.0] - 12/01/2018
 
 ### Changed
 - `web` replaced web http-client `axios` to `kinka`
@@ -136,7 +136,7 @@
 ### Fixed
 - fixed webpack build after installing npm packages
 
-## [1.7.0] - 2018-05-13
+## [1.7.0] - 13/05/2018
 
 ### Changed
 - refactoring code in frontend part of application
@@ -168,7 +168,7 @@
 ### Removed
 - removed option `-p, --package`
 
-## [1.5.5] - 2018-04-23
+## [1.5.5] - 04/23/2018
 
 ### Changed
 - working status of the tasks dependent on the server's status of task
@@ -180,7 +180,7 @@
 - fb web: UnhandledPromiseRejectionWarning: Error: spawn chrome ENOENT [BUG](https://github.com/acacode/flamebird/issues/2)
 
 
-## [1.5.3] - 2018-04-21
+## [1.5.3] - 04/21/2018
 
 ### Added
 - option `-n, --name <NAME>` for the `web` command. Sets the name of application
@@ -191,7 +191,7 @@
 - route `commands` renamed to `info` and now returns object with properties `appName` and `commands`
 
 
-## [1.5.0] - 2018-04-21
+## [1.5.0] - 04/21/2018
 
 ### Added
 - `fb` - additional command name for the calling flamebird
@@ -201,7 +201,7 @@
 - option `-P, --port <PORT>` for `web` command. Sets the server port. By default 5050 value
 
 
-## [1.0.0] - 2018-04-18
+## [1.0.0] - 04/18/2018
 
 ### Added
 - command `flamebird start` for the launching all commands in Procfile
