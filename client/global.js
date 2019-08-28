@@ -266,7 +266,7 @@ class Global extends WindowAttached('global') {
   }
 
   showProjectVersion = async () => {
-    const { data: version } = await this.api.getProjectInfo()
+    const { data: version } = await this.api.getProjectVersion()
     if (version) {
       $('header > .title').html(
         this.projectName + createSpan('project-version', version)
@@ -274,7 +274,8 @@ class Global extends WindowAttached('global') {
     }
   }
 
-  hideProjectVersion() {
+  hideProjectVersion = () => {
+    console.log('assda')
     $('header > .title').text(this.projectName)
   }
 

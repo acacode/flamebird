@@ -189,7 +189,11 @@ function getLogo(displayOnlyVersion) {
       '            ' + grey(' - wonderful nodejs task manager ') + '        '
     )
   }
-  const v = version + new Array(10 - version.length).join(' ')
+  const v =
+    version +
+    new Array(version.length >= 10 ? 10 : version.length - version.length).join(
+      ' '
+    )
   const commonSpace = displayOnlyVersion ? '  ' : '                           '
   strings.push(commonSpace + red('╔═══════════════╗  '))
   strings.push(commonSpace + red('║') + yellow('    v' + v + ' ') + red('║  '))

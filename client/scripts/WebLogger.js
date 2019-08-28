@@ -101,8 +101,8 @@ export default class WebLogger {
     toggleClass(this, 'scrolling', this.scrollTop > 70)
   }
 
-  triggerScrollWatcher() {
-    scrollTo('bottom', '1500')
+  triggerScrollWatcher = () => {
+    this.scrollTo('bottom', '1500')
     this.watchTaskLogsScrollTop = !this.watchTaskLogsScrollTop
     toggleClass(this.autoScrollButton, 'active', this.watchTaskLogsScrollTop)
   }
@@ -114,7 +114,7 @@ export default class WebLogger {
     })
     createEl('button', {
       className: 'logs-button scroll-top',
-      onclick: () => scrollTo('top', '500'),
+      onclick: () => this.scrollTo('top', '500'),
       innerHTML: '<i class="fas fa-angle-double-down"></i>',
       parent: scrollActions,
     })
