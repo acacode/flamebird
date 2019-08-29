@@ -2,13 +2,18 @@ const WebSocket = require('ws')
 const _ = require('lodash')
 const uuidv1 = require('uuid/v1')
 
+export const MESSAGE_TYPES = {
+  CONNECTION: 'CONNECTION',
+  LOG: 'LOG',
+}
+
 const sessions = {}
 
-function create(server) {
+export function createWSConnection(server) {
   const ws = new WebSocket.Server({ server })
 
   ws.on('connection', session => {
-    session.send(JSON.stringify({ status: 'ok' }))
+    sendMessageToSession(session, MESSAGE_TYPES.CONNECTION, { status: 'ok' })
 
     const sessionId = uuidv1()
     sessions[sessionId] = session
@@ -20,14 +25,23 @@ function create(server) {
   })
 }
 
-function send(message) {
-  _.each(
-    sessions,
-    session => session.readyState !== 3 && session.send(JSON.stringify(message))
+const sendMessageToSession = (session, type, message) =>
+  session.send(
+    JSON.stringify({
+      type,
+      message,
+    })
   )
+
+export function sendMessage(type, message) {
+  _.each(sessions, session => {
+    if (session.readyState !== 3) {
+      sendMessageToSession(session, type, message)
+    }
+  })
 }
 
 module.exports = {
-  create: create,
-  send: send,
+  create: createWSConnection,
+  send: sendMessage,
 }

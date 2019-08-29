@@ -1,7 +1,7 @@
 const _ = require('lodash')
 const uuidv1 = require('uuid/v1')
 const storage = require('./storage')
-const ws = require('../ws')
+const { MESSAGE_TYPES, sendMessage } = require('../ws')
 const { separateEnvsFromString } = require('./envs')
 
 const getCommandById = id => _.find(storage.get('commands', []), { id }) || {}
@@ -47,7 +47,7 @@ const updateCommand = (taskId, { isRun, isLaunching, isStopping, log }) => {
     command.logs.push(log)
     message.log = log
   }
-  ws.send(message)
+  sendMessage(MESSAGE_TYPES.LOG, message)
 }
 
 module.exports = {
