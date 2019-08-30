@@ -187,11 +187,7 @@ class Global extends WindowAttached('global') {
     }
   }
 
-  receiveWsMessage = ({ data }) => {
-    const {
-      type,
-      message: { name, id, isRun, isLaunching, isStopping, log },
-    } = JSON.parse(data)
+  handleOnUpdateLog = ({ name, id, isRun, isLaunching, isStopping, log }) => {
     if (name) {
       const isActive = id === this.taskList.getActive().id
       this.taskList.updateTask(id, isRun, isActive, isLaunching, isStopping)
@@ -227,7 +223,6 @@ class Global extends WindowAttached('global') {
   }
 
   hideProjectVersion = () => {
-    console.log('assda')
     $('header > .title').text(this.projectName)
   }
 
@@ -236,19 +231,18 @@ class Global extends WindowAttached('global') {
 
   constructor() {
     super()
-
-    $(window).focus(() => {
-      this.pageIsNotActive = false
-      if (this.header.notificationsEnabled) {
-        this.taskList.notifyAboutTask(this.taskList.getActive().id, false)
-      }
-    })
-
-    $(window).blur(() => {
-      this.pageIsNotActive = true
-    })
-
     $(document).ready(async () => {
+      $(window).focus(() => {
+        this.pageIsNotActive = false
+        if (this.header.notificationsEnabled) {
+          this.taskList.notifyAboutTask(this.taskList.getActive().id, false)
+        }
+      })
+
+      $(window).blur(() => {
+        this.pageIsNotActive = true
+      })
+
       const {
         data: { name, commands },
       } = await this.api.getProjectInfo()
@@ -268,10 +262,9 @@ class Global extends WindowAttached('global') {
         onCreateTaskEl: this.onCreateTaskEl,
       })
       this.logger = new WebLogger(getEl('#task-logs'))
-      this.websocket = new WebSocket(
-        `ws://${location.host}`,
-        this.receiveWsMessage
-      )
+      this.websocket = new WebSocket(`ws://${location.host}`, {
+        onLogUpdate: this.handleOnUpdateLog,
+      })
     })
   }
 }

@@ -10,8 +10,8 @@
     - `-i, --ignore-pms` (in previous version it uses by default)  
         Allows to launch tasks without yarn or npm ( use absolute paths: webpack -> node_modules/.bin/webpack )  
         default: `false`  
-    - `-u, --use-another-pm <NAME>` (works only with `-i` flag)  
-        Allows to use another package manager for launch tasks. By default will use npm ( For example: -y yarn )  
+    - `-r, --task-runner <NAME>`  
+        Allows to use another task runner for launch tasks. By default will use npm ( For example: -r yarn )  
         default: `'npm'`  
     - `-w, --without-browser`  
         This option disable opening the new tab in Google Chrome browser  
@@ -23,8 +23,8 @@
     - `-i, --ignore-pms` (in previous version it uses by default)  
         Allows to launch tasks without yarn or npm ( use absolute paths: webpack -> node_modules/.bin/webpack )  
         default: `false`  
-    - `-u, --use-another-pm <NAME>` (works only with `-i` flag)  
-        Allows to use another package manager for launch tasks. By default will use npm ( For example: -y yarn )  
+    - `-r, --task-runner <NAME>`  
+        Allows to use another task runner for launch tasks. By default will use npm ( For example: -r yarn )  
         default: `'npm'`  
 
 ### Changed

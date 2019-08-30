@@ -10,21 +10,19 @@ const storage = require('./utils/storage')
 const fs = require('fs')
 const pw = require('./processWorker')
 const { getCommandById } = require('./utils/commands')
-const connectToWebSocket = require('./ws').create
-
-const paths = {
-  frontendRoot: path.resolve(__dirname, '../dist'),
-  frontendHtml: path.resolve(__dirname, '../dist/index.html'),
-}
+const { PATHS } = require('./constants')
+const { createWSConnection } = require('./ws')
 
 function start(taskfile) {
   const options = storage.get('options')
   const app = express()
 
   app.use(bodyParser.json())
-  app.use(express.static(paths.frontendRoot))
+  app.use(express.static(path.resolve(__dirname, PATHS.WEB_APP_ROOT)))
 
-  app.get('/', (req, res) => res.sendFile(paths.frontendHtml))
+  app.get('/', (req, res) =>
+    res.sendFile(path.resolve(__dirname, PATHS.WEB_APP_ROOT))
+  )
 
   app.get('/info', (req, res) =>
     res.send(
@@ -101,7 +99,7 @@ function start(taskfile) {
 
   const server = http.createServer(app)
 
-  connectToWebSocket(server)
+  createWSConnection(server)
 
   server.listen(options.port, '0.0.0.0', () => {
     console.log(`Flamebird launched on port ${options.port}`)

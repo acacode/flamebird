@@ -26,7 +26,7 @@ function init(args, isWeb) {
     name: args.name,
     port: +args.port,
     tasks: _.compact(_.split(args.tasks, /,/g)),
-    useAnotherPm: args.useAnotherPm,
+    taskRunner: args.taskRunner,
     useOnlyPackageJson: !!args.package,
     web: !!isWeb,
     withoutBrowser: !!args.withoutBrowser,
@@ -97,9 +97,8 @@ program
     'List of tasks which will be run flamebird ( example : --tasks start,start:dev,start-server )'
   )
   .option(
-    '-u, --use-another-pm <NAME>',
-    `Allows to use another package manager for launch tasks. By default will use npm ( For example: -y yarn )\r\n` +
-      `Note: it works only with -i, --ignore-pms flag`,
+    '-r, --task-runner <NAME>',
+    `Allows to use another task runner for launch tasks. By default will use npm ( For example: -r yarn )`,
     'npm'
   )
   .description(
@@ -126,9 +125,8 @@ program
     'List of tasks which will be run flamebird ( example : --tasks start,start:dev,start-server )'
   )
   .option(
-    '-u, --use-another-pm <NAME>',
-    `Allows to use another package manager for launch tasks. By default will use npm ( For example: -y yarn )\r\n` +
-      `Note: it works only with -i, --ignore-pms flag`,
+    '-r, --task-runner <NAME>',
+    `Allows to use another task runner for launch tasks. By default will use npm ( For example: -r yarn )`,
     'npm'
   )
   .option(

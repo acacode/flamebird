@@ -1,11 +1,7 @@
 const WebSocket = require('ws')
 const _ = require('lodash')
 const uuidv1 = require('uuid/v1')
-
-const MESSAGE_TYPES = {
-  CONNECTION: 'CONNECTION',
-  LOG: 'LOG',
-}
+const { MESSAGE_TYPES } = require('./constants')
 
 const sessions = {}
 
@@ -42,9 +38,7 @@ function sendMessage(type, message) {
 }
 
 module.exports = {
-  create: createWSConnection,
   createWSConnection: createWSConnection,
   MESSAGE_TYPES: MESSAGE_TYPES,
   sendMessage: sendMessage,
-  send: sendMessage,
 }

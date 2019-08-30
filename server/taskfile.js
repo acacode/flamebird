@@ -3,6 +3,7 @@ const resolve = require('path').resolve
 const _ = require('lodash')
 const storage = require('./utils/storage')
 const commands = require('./utils/commands')
+const { TASK_RUNNERS } = require('./constants')
 
 let LIB_PATHS = null
 
@@ -114,16 +115,13 @@ function updateCommands(commands) {
       {}
     )
   } else {
-    const pms = {
-      npm: 'npm run',
-    }
+    const taskRunner =
+      TASK_RUNNERS[`${options.taskRunner}`.toUpperCase()] || options.taskRunner
     _.each(commands, command => {
       command.rawTask =
         command.type === 'procfile'
           ? command.task
-          : `${pms[options.useAnotherPm] ||
-              options.useAnotherPm ||
-              command.type} ${command.name}`
+          : `${taskRunner || command.type} ${command.name}`
     })
   }
 
