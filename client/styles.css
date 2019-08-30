@@ -417,8 +417,8 @@ button.tab {
     box-shadow: 0 0px 0px 0.5px rgb(171, 171, 171);
     transition: background 269ms cubic-bezier(0, 0, 0.2, 1);
     transform: rotate(-90deg);
-    margin: 16px -6px;
-    line-height: 16px;
+    margin: 21px -3px;
+    line-height: 10px;
     position: relative;
     width: inherit;
 }

@@ -9,6 +9,7 @@ import Tabs from './scripts/Tabs'
 import WindowAttached from './helpers/WindowAttached'
 import { clearifyEvent } from './helpers/hotKeys'
 import { Header } from './controllers/Header'
+import WebSocket from './scripts/WebSocket'
 
 export const DEFAULT_PROJECT_NAME = 'flamebird'
 
@@ -187,7 +188,10 @@ class Global extends WindowAttached('global') {
   }
 
   receiveWsMessage = ({ data }) => {
-    const { name, id, isRun, isLaunching, isStopping, log } = JSON.parse(data)
+    const {
+      type,
+      message: { name, id, isRun, isLaunching, isStopping, log },
+    } = JSON.parse(data)
     if (name) {
       const isActive = id === this.taskList.getActive().id
       this.taskList.updateTask(id, isRun, isActive, isLaunching, isStopping)
@@ -264,8 +268,10 @@ class Global extends WindowAttached('global') {
         onCreateTaskEl: this.onCreateTaskEl,
       })
       this.logger = new WebLogger(getEl('#task-logs'))
-      const ws = new WebSocket(`ws://${location.host}`)
-      ws.onmessage = this.receiveWsMessage
+      this.websocket = new WebSocket(
+        `ws://${location.host}`,
+        this.receiveWsMessage
+      )
     })
   }
 }
