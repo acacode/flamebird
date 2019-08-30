@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import WindowAttached from '../helpers/WindowAttached'
 import ThemeSwitcher, { THEMES } from '../scripts/ThemeSwitcher'
-import { toggleClass, el as getEl } from './helpers/dom_utils'
+import { toggleClass, el as getEl } from '../helpers/dom_utils'
 
 export class Header extends WindowAttached('header') {
   themeSwitcher = new ThemeSwitcher({
@@ -33,7 +33,7 @@ export class Header extends WindowAttached('header') {
   }
 
   handleThemeIconClick = () => {
-    ThemeSwitcher.switchTheme()
+    this.themeSwitcher.switchTheme()
   }
 
   handleResizeIconClick = () => {

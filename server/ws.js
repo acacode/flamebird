@@ -2,14 +2,14 @@ const WebSocket = require('ws')
 const _ = require('lodash')
 const uuidv1 = require('uuid/v1')
 
-export const MESSAGE_TYPES = {
+const MESSAGE_TYPES = {
   CONNECTION: 'CONNECTION',
   LOG: 'LOG',
 }
 
 const sessions = {}
 
-export function createWSConnection(server) {
+function createWSConnection(server) {
   const ws = new WebSocket.Server({ server })
 
   ws.on('connection', session => {
@@ -33,7 +33,7 @@ const sendMessageToSession = (session, type, message) =>
     })
   )
 
-export function sendMessage(type, message) {
+function sendMessage(type, message) {
   _.each(sessions, session => {
     if (session.readyState !== 3) {
       sendMessageToSession(session, type, message)
@@ -43,5 +43,8 @@ export function sendMessage(type, message) {
 
 module.exports = {
   create: createWSConnection,
+  createWSConnection: createWSConnection,
+  MESSAGE_TYPES: MESSAGE_TYPES,
+  sendMessage: sendMessage,
   send: sendMessage,
 }
