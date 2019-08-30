@@ -33,28 +33,28 @@
         <div class="main-buttons">
           <button
             class="main-button toggle color"
-            onclick="ThemeSwitcher.switchTheme()"
+            onclick="header.handleThemeIconClick()"
           >
             <i class="fas fa-adjust"></i>
             <span>theme</span>
           </button>
           <button
             class="main-button toggle resize"
-            onclick="global.toggleResize()"
+            onclick="header.handleResizeIconClick()"
           >
             <i class="fas fa-expand-arrows-alt"></i>
             <span>fullscreen</span>
           </button>
           <button
             class="main-button toggle notifications"
-            onclick="global.toggleNotifications()"
+            onclick="header.handleNotificationsIconClick()"
           >
             <i class="fas fa-exclamation"></i>
             <span>notifications</span>
           </button>
           <button
             class="main-button toggle hot-keys"
-            onclick="global.toggleHotKeys()"
+            onclick="header.handleKeyboardIconClick()"
           >
             <i class="far fa-keyboard"></i>
             <span>hotkeys</span>

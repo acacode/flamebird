@@ -4,11 +4,11 @@ import Api from './scripts/Api'
 import TaskList from './scripts/TaskList'
 import WebLogger from './scripts/WebLogger'
 import HotKeys from './scripts/HotKeys'
-import ThemeSwitcher, { THEMES } from './scripts/ThemeSwitcher'
-import { toggleClass, el as getEl, createSpan } from './helpers/dom_utils'
+import { el as getEl, createSpan } from './helpers/dom_utils'
 import Tabs from './scripts/Tabs'
 import WindowAttached from './helpers/WindowAttached'
 import { clearifyEvent } from './helpers/hotKeys'
+import { Header } from './controllers/Header'
 
 export const DEFAULT_PROJECT_NAME = 'flamebird'
 
@@ -16,21 +16,12 @@ class Global extends WindowAttached('global') {
   watchTaskLogsScrollTop = true
   setTheme
   previousEnvs = null
-  hotKeysEnabled = false
-  notificationsEnabled = false
-  fullscreen = false
   projectName = DEFAULT_PROJECT_NAME
   pageIsNotActive = false
 
   api = new Api()
   logger
   taskList
-  themeSwitcher = new ThemeSwitcher({
-    onSwitchTheme: newTheme => {
-      $('.toggle.color').toggleClass('active', newTheme === THEMES.DARK)
-    },
-  })
-
   hotkeys = new HotKeys({
     tab: event => {
       clearifyEvent(event)
@@ -55,6 +46,8 @@ class Global extends WindowAttached('global') {
     shiftArrowUp: () => this.logger.scrollTo('top', '1500'),
     shiftArrowDown: () => this.logger.scrollTo('bottom', '500'),
   })
+
+  header = new Header({ hotkeys: this.hotkeys })
 
   showTaskList() {
     $(document.body).toggleClass('task-list-showed')
@@ -160,8 +153,8 @@ class Global extends WindowAttached('global') {
     // const active = this.taskList.getActive()
     // if (!active || id !== active.id) {
     if (task.id) {
-      if (this.notificationsEnabled)
-        this.taskList.setTaskUpdated(task.id, false)
+      if (this.header.notificationsEnabled)
+        this.taskList.notifyAboutTask(task.id, false)
       this.taskList.setActive(task)
       this.updateTaskLogs(task)
     }
@@ -193,51 +186,6 @@ class Global extends WindowAttached('global') {
     }
   }
 
-  toggleNotifications() {
-    this.notificationsEnabled = !this.notificationsEnabled
-    this.updateNotifications()
-  }
-
-  updateNotifications() {
-    toggleClass(
-      getEl('.main-button.notifications'),
-      'active',
-      this.notificationsEnabled
-    )
-    if (this.notificationsEnabled) {
-      localStorage.setItem('notifications', true)
-    } else {
-      delete localStorage.notifications
-      $('.task.updated').removeClass('updated')
-    }
-  }
-
-  toggleHotKeys() {
-    this.hotKeysEnabled = !this.hotKeysEnabled
-    this.updateHotkeys()
-  }
-
-  updateHotkeys() {
-    toggleClass(getEl('.main-button.hot-keys'), 'active', this.hotKeysEnabled)
-    this.hotkeys.triggerEnabled(this.hotKeysEnabled)
-  }
-
-  updateFullscreen() {
-    toggleClass(getEl('.main-button.resize'), 'active', this.fullscreen)
-    if (this.fullscreen) {
-      localStorage.setItem('fullscreen', true)
-      document.body.setAttribute('fullscreen', 'true')
-    } else {
-      document.body.removeAttribute('fullscreen')
-      delete localStorage.fullscreen
-    }
-  }
-
-  toggleResize() {
-    this.fullscreen = !this.fullscreen
-    this.updateFullscreen()
-  }
-
   receiveWsMessage = ({ data }) => {
     const { name, id, isRun, isLaunching, isStopping, log } = JSON.parse(data)
     if (name) {
@@ -247,16 +195,16 @@ class Global extends WindowAttached('global') {
         if (isActive) {
           this.logger.push(log)
           if (this.watchTaskLogsScrollTop) this.logger.scrollTo('bottom')
-          if (this.notificationsEnabled && this.pageIsNotActive) {
-            this.taskList.setTaskUpdated(id, true, {
-              notify: this.notificationsEnabled,
+          if (this.header.notificationsEnabled && this.pageIsNotActive) {
+            this.taskList.notifyAboutTask(id, true, {
+              notify: this.header.notificationsEnabled,
               projectName: this.projectName,
               log,
             })
           }
-        } else if (this.notificationsEnabled) {
-          this.taskList.setTaskUpdated(id, true, {
-            notify: this.notificationsEnabled,
+        } else if (this.header.notificationsEnabled) {
+          this.taskList.notifyAboutTask(id, true, {
+            notify: this.header.notificationsEnabled,
             log,
             projectName: this.projectName,
           })
@@ -287,8 +235,8 @@ class Global extends WindowAttached('global') {
 
     $(window).focus(() => {
       this.pageIsNotActive = false
-      if (this.notificationsEnabled) {
-        this.taskList.setTaskUpdated(this.taskList.getActive().id, false)
+      if (this.header.notificationsEnabled) {
+        this.taskList.notifyAboutTask(this.taskList.getActive().id, false)
       }
     })
 
@@ -297,16 +245,6 @@ class Global extends WindowAttached('global') {
     })
 
     $(document).ready(async () => {
-      this.themeSwitcher.setTheme(localStorage.getItem('theme') || 'white')
-
-      this.fullscreen = !!localStorage.getItem('fullscreen')
-      this.hotKeysEnabled = !!localStorage.getItem('hotkeys')
-      this.notificationsEnabled = !!localStorage.getItem('notifications')
-
-      this.updateFullscreen()
-      this.updateHotkeys()
-      this.updateNotifications()
-
       const {
         data: { name, commands },
       } = await this.api.getProjectInfo()

@@ -171,7 +171,7 @@ export default class TaskList extends WindowAttached('taskList') {
 
   getActive = () => this.getTask(this.activeTaskByTab[Tabs.getActive().name][0])
 
-  setTaskUpdated(taskId, isUpdated, options) {
+  notifyAboutTask(taskId, isUpdated, options) {
     const task = this.getTask(taskId)
     const activeTab = Tabs.getActive()
     if (!options) options = {}
