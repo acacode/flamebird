@@ -132,7 +132,6 @@ header {
     padding: 0;
     display: flex;
     overflow: hidden;
-    padding-left: 43px;
 }
 
 
@@ -519,6 +518,17 @@ button.tab.active, button.tab:active {
     overflow: hidden;
     z-index: 10;
     white-space: nowrap;
+    max-width: 180px;
+    cursor: pointer;
+    position: relative;
+}
+.title .fas {
+    position: absolute;
+    right: 0;
+    font-size: 14px;
+    color: #9a9a9a;
+    line-height: 0.9;
+    padding: 8px 0 5px 6px;
 }
 .project-version {
     color: #888888;

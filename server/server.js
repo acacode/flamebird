@@ -24,15 +24,7 @@ function start(taskfile) {
     res.sendFile(path.resolve(__dirname, PATHS.WEB_APP_ROOT))
   )
 
-  app.get('/info', (req, res) =>
-    res.send(
-      _.merge(options, {
-        commands: _.map(storage.get('commands'), command =>
-          _.omit(command, 'logs')
-        ),
-      })
-    )
-  )
+  app.get('/info', (req, res) => res.send(storage.get('options')))
 
   app.post('/run-all', (req, res) => {
     pw.runAll(storage.get('commands'))

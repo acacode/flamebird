@@ -21,7 +21,7 @@ const createCommand = (name, commandData, type) => {
     name: name,
     logs: [],
     isRun: false,
-    id: 'command' + uuidv1().replace(/-/g, ''),
+    id: `c${uuidv1().replace(/-/g, '')}`,
     type,
   }
 }

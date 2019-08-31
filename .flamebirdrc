@@ -1,3 +1,4 @@
 {
-  activeApps: []
+    "port": 0,
+    "configs": []
 }

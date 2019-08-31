@@ -213,19 +213,6 @@ class Global extends WindowAttached('global') {
     }
   }
 
-  showProjectVersion = async () => {
-    const { data: version } = await this.api.getProjectVersion()
-    if (version) {
-      $('header > .title').html(
-        this.projectName + createSpan('project-version', version)
-      )
-    }
-  }
-
-  hideProjectVersion = () => {
-    $('header > .title').text(this.projectName)
-  }
-
   getLogger = () => this.logger
   getTaskList = () => this.taskList
 
@@ -250,10 +237,7 @@ class Global extends WindowAttached('global') {
       this.projectName = name
       if (this.projectName) {
         $('title').text(`${this.projectName} | fb`)
-        $('header > .title')
-          .text(this.projectName)
-          .on('mouseover', this.showProjectVersion)
-          .on('mouseout', this.hideProjectVersion)
+        $('.title span').text(this.projectName)
       }
       this.taskList = new TaskList(getEl('#task-list'), commands, {
         onOpenTask: this.openTask,

@@ -5,10 +5,9 @@
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
 
-const _ = require('lodash')
 const program = require('commander')
-const storage = require('./server/utils/storage')
 const emitter = require('./server/utils/emitter')
+const { createConfig } = require('./server/config')
 const { yellow, red, grey, cyan } = require('./server/utils/colors')
 const processWorker = require('./server/processWorker')
 const server = require('./server/server')
@@ -19,22 +18,6 @@ process.title = 'flamebird (nodejs task manager)'
 process.env.FORCE_COLOR = true
 process.env.colors = true
 process.env.color = true
-
-function init(args, isWeb) {
-  storage.set('options', {
-    ignorePms: !!args.ignorePms,
-    name: args.name,
-    port: +args.port,
-    tasks: _.compact(_.split(args.tasks, /,/g)),
-    taskRunner: args.taskRunner,
-    useOnlyPackageJson: !!args.package,
-    web: !!isWeb,
-    withoutBrowser: !!args.withoutBrowser,
-    sortByName: !!args.sortByName,
-  })
-  require('./server/utils/envs').load(program.env)
-  return require('./server/taskfile').load(program.procfile)
-}
 
 process.once('SIGINT', function() {
   emitter.emit('killall', 'SIGINT')
@@ -104,7 +87,10 @@ program
   .description(
     'Launch commands from Procfile/package.json/Grunt/Gulp and output logs in the current command line'
   )
-  .action(args => processWorker.runAll(init(args)))
+  .action(args => {
+    const config = createConfig(args)
+    processWorker.runAll(config.commands)
+  })
 
 program
   .command('web')
@@ -144,7 +130,10 @@ program
       cyan('web application') +
       ' which will help to manage all commands from package.json/Procfile/Grunt/Gulp'
   )
-  .action(args => server.start(init(args, true)))
+  .action(args => {
+    const config = createConfig(args, true)
+    server.start(config.commands)
+  })
 
 program.parse(process.argv)
 
