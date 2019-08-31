@@ -1,10 +1,10 @@
 const _ = require('lodash')
 const uuidv1 = require('uuid/v1')
-const storage = require('./storage')
+const memCache = require('./mem_cache')
 const { MESSAGE_TYPES, sendMessage } = require('../ws')
 const { separateEnvsFromString } = require('./envs')
 
-const getCommandById = id => _.find(storage.get('commands', []), { id }) || {}
+const getCommandById = id => _.find(memCache.get('commands', []), { id }) || {}
 
 /**
  * @typedef {Object} Command

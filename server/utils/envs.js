@@ -1,6 +1,6 @@
 const _ = require('lodash')
 const fs = require('fs')
-const storage = require('./storage')
+const memCache = require('./mem_cache')
 
 const separateEnvsFromString = str =>
   _.reduce(
@@ -38,7 +38,7 @@ const load = filename => {
   } catch (e) {
     console.warn('.ENV file not found')
   }
-  return storage.set('envFile', envFile)
+  return memCache.set('envFile', envFile)
 }
 
 module.exports = {

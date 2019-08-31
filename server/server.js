@@ -1,20 +1,43 @@
 /* eslint-disable no-path-concat */
+const http = require('http')
 const path = require('path')
 const express = require('express')
 const bodyParser = require('body-parser')
-const http = require('http')
 const opn = require('opn')
 const os = require('os')
 const _ = require('lodash')
-const storage = require('./utils/storage')
+const memCache = require('./utils/mem_cache')
 const fs = require('fs')
 const pw = require('./processWorker')
 const { getCommandById } = require('./utils/commands')
-const { PATHS } = require('./constants')
-const { createWSConnection } = require('./ws')
+const { PATHS, MESSAGE_TYPES } = require('./constants')
+const { createWSConnection, sendMessage } = require('./ws')
+const { getMainConfig } = require('./config')
 
-function start(taskfile) {
-  const options = storage.get('options')
+function start(config) {
+  if (!config.main) {
+    const mainConfig = getMainConfig()
+    http.request(
+      {
+        path: '/child-config-created',
+        port: mainConfig.port,
+        method: 'POST',
+      },
+      res => {
+        res.resume()
+        res.on('end', () => {
+          if (res.complete)
+            console.error(
+              'The connection was terminated while the message was still being sent'
+            )
+          else console.log('Successfully')
+          process.exit(0)
+        })
+      }
+    )
+    return
+  }
+
   const app = express()
 
   app.use(bodyParser.json())
@@ -24,16 +47,21 @@ function start(taskfile) {
     res.sendFile(path.resolve(__dirname, PATHS.WEB_APP_ROOT))
   )
 
-  app.get('/info', (req, res) => res.send(storage.get('options')))
+  app.get('/info', (req, res) => res.send(config))
 
   app.post('/run-all', (req, res) => {
-    pw.runAll(storage.get('commands'))
+    pw.runAll(memCache.get('commands'))
 
     res.send('ok')
   })
 
+  app.post('/child-config-created', (req, res) => {
+    console.log('FFFF')
+    sendMessage(MESSAGE_TYPES.APPS_LIST_UPDATE, 'updated...')
+  })
+
   app.post('/stop-all', (req, res) => {
-    pw.stopAll(storage.get('commands'))
+    pw.stopAll(memCache.get('commands'))
 
     res.send('ok')
   })
@@ -93,11 +121,11 @@ function start(taskfile) {
 
   createWSConnection(server)
 
-  server.listen(options.port, '0.0.0.0', () => {
-    console.log(`Flamebird launched on port ${options.port}`)
-    if (!options.withoutBrowser)
+  server.listen(config.port, '0.0.0.0', () => {
+    console.log(`Flamebird launched on port ${config.port}`)
+    if (!config.withoutBrowser)
       try {
-        opn('http://localhost:' + options.port, {
+        opn('http://localhost:' + config.port, {
           app: os.platform() === 'win32' ? 'chrome' : 'google-chrome',
         })
       } catch (e) {

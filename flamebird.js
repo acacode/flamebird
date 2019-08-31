@@ -132,7 +132,7 @@ program
   )
   .action(args => {
     const config = createConfig(args, true)
-    server.start(config.commands)
+    server.start(config)
   })
 
 program.parse(process.argv)

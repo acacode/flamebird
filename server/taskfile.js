@@ -1,7 +1,6 @@
 const fs = require('fs')
 const resolve = require('path').resolve
 const _ = require('lodash')
-const storage = require('./utils/storage')
 const commands = require('./utils/commands')
 const { TASK_RUNNERS } = require('./constants')
 
@@ -23,18 +22,17 @@ const createLibPaths = () => {
 
 /**
  * load task files (package.json or Procfile)
+ * @param {object} config
  * @param {string} procfilePath
- * @param {object} args
  */
-function load(procfilePath) {
-  const options = storage.get('options')
+function load(config, procfilePath) {
   const allCommands = []
-  if (options.web || options.useOnlyPackageJson) {
+  if (config.web || config.useOnlyPackageJson) {
     try {
       const packageJson = JSON.parse(fs.readFileSync('package.json').toString())
-      storage.get('options').name = packageJson.name || 'flamebird'
+      config.name = packageJson.name || 'flamebird'
       _.forEach(packageJson.scripts, (command, taskName) => {
-        if (!options.tasks.length || _.includes(options.tasks, taskName)) {
+        if (!config.tasks.length || _.includes(config.tasks, taskName)) {
           allCommands.push(commands.createCommand(taskName, command, 'npm'))
         }
       })
@@ -42,7 +40,7 @@ function load(procfilePath) {
       console.warn('package.json not found')
     }
   }
-  if (options.web || !options.useOnlyPackageJson) {
+  if (config.web || !config.useOnlyPackageJson) {
     try {
       const data = fs.readFileSync(procfilePath)
       _.each(_.compact(data.toString().split(/[\n\r]/g)), (line, i) => {
@@ -57,7 +55,7 @@ function load(procfilePath) {
                 ' Found'
             )
           }
-          if (!options.tasks.length || _.includes(options.tasks, name)) {
+          if (!config.tasks.length || _.includes(config.tasks, name)) {
             allCommands.push(commands.createCommand(name, task, 'procfile'))
           }
         }
@@ -66,7 +64,7 @@ function load(procfilePath) {
       console.warn('Procfile not found')
     }
   }
-  return storage.set('commands', updateCommands(allCommands))
+  return updateCommands(config, allCommands)
 }
 
 function setAbsolutePathsToTask(command, commandsWithoutPms) {
@@ -94,10 +92,8 @@ function setAbsolutePathsToTask(command, commandsWithoutPms) {
   return (command.rawTask = fixedTaskData.join(spaceChar))
 }
 
-function updateCommands(commands) {
-  const options = storage.get('options')
-
-  if (options.ignorePms) {
+function updateCommands(config, commands) {
+  if (config.ignorePms) {
     if (LIB_PATHS === null) createLibPaths()
     _.reduce(
       _.sortBy(
@@ -116,7 +112,7 @@ function updateCommands(commands) {
     )
   } else {
     const taskRunner =
-      TASK_RUNNERS[`${options.taskRunner}`.toUpperCase()] || options.taskRunner
+      TASK_RUNNERS[`${config.taskRunner}`.toUpperCase()] || config.taskRunner
     _.each(commands, command => {
       command.rawTask =
         command.type === 'procfile'
@@ -125,7 +121,7 @@ function updateCommands(commands) {
     })
   }
 
-  return options.sortByName ? _.sortBy(commands, 'name', 'asc') : commands
+  return config.sortByName ? _.sortBy(commands, 'name', 'asc') : commands
 }
 
 module.exports.load = load

@@ -1,7 +1,7 @@
 const _ = require('lodash')
 const prog = require('child_process')
 const emitter = require('./emitter')
-const storage = require('./storage')
+const memCache = require('./mem_cache')
 const kill = require('tree-kill')
 const isWin = require('os').platform() === 'win32'
 
@@ -53,7 +53,7 @@ function createProcess({ id, rawTask, envs }) {
     {
       stdio: 'pipe',
       windowsVerbatimArguments: isWin,
-      env: _.assign({}, process.env, storage.get('envFile'), envs),
+      env: _.assign({}, process.env, memCache.get('envFile'), envs),
     }
   ))
 }

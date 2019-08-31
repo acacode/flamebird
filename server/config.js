@@ -5,26 +5,34 @@ const uuidv1 = require('uuid/v1')
 
 const fs = require('fs')
 
-const rc = JSON.parse(
-  fs.readFileSync(path.resolve(__dirname, '../.flamebirdrc'))
-)
+const CONFIG_NAME = '.flamebirdrc'
+const CONFIG_PATH = path.resolve(__dirname, `../${CONFIG_NAME}`)
+const DEFAULT_CONFIG = {
+  port: 0,
+  configs: [],
+}
 
-const storage = require('./utils/storage')
+const memCache = require('./utils/mem_cache')
 const envs = require('./utils/envs')
 const taskfile = require('./taskfile')
 
-const updateRC = configChanges => {
-  Object.assign(rc, configChanges)
-  console.log('sss', rc)
-  fs.writeFile(
-    path.resolve(__dirname, '../.flamebirdrc'),
-    JSON.stringify(rc),
-    function(err) {
-      if (err) return console.log(err)
-      //   console.log(JSON.stringify(file))
-      //   console.log('writing to ' + fileName)
+const getRC = () => {
+  let config = {}
+  try {
+    config = JSON.parse(fs.readFileSync(CONFIG_PATH))
+    if (!config) {
+      throw new Error("Wrong flamebird rc file. Let's create new")
     }
-  )
+  } catch (e) {
+    config = DEFAULT_CONFIG
+    updateRC(config)
+  }
+  return config
+}
+
+const updateRC = rc => {
+  console.log('updateRC', rc)
+  fs.writeFileSync(CONFIG_PATH, JSON.stringify(rc))
 }
 
 const createConfig = (
@@ -40,8 +48,11 @@ const createConfig = (
   },
   isWeb
 ) => {
-  const config = {
-    appId: uuidv1(),
+  const rc = getRC()
+
+  const config = memCache.set('config', {
+    main: !rc.configs || !rc.configs.length,
+    appId: memCache.set('appId', uuidv1()),
     path: path.resolve(),
     ignorePms: !!ignorePms,
     name: name,
@@ -52,25 +63,25 @@ const createConfig = (
     web: !!isWeb,
     withoutBrowser: !!withoutBrowser,
     sortByName: !!sortByName,
-  }
-
-  storage.set('options', config)
+  })
 
   envs.load(program.env)
 
-  const commands = taskfile.load(program.procfile)
+  const commands = memCache.set(
+    'commands',
+    taskfile.load(config, program.procfile)
+  )
 
-  storage.set('options', {
-    port: rc.port || port,
-    configs: [
-      ...rc.configs,
-      _.merge(config, {
-        commands,
-      }),
-    ],
-  })
-
-  updateRC(storage.get('options'))
+  updateRC(
+    memCache.set('rc-snapshot', {
+      configs: [
+        ...rc.configs,
+        _.merge(config, {
+          commands,
+        }),
+      ],
+    })
+  )
 
   return {
     config,
@@ -78,7 +89,19 @@ const createConfig = (
   }
 }
 
+const findConfig = findHandler =>
+  _.find(_.get(memCache.get('rc-snapshot'), 'configs', []), findHandler) || {}
+
+const getConfig = id => (id ? findConfig({ id }) : memCache.get('config'))
+
+const getMainConfig = () => findConfig({ main: true })
+
+const isMainConfig = () => memCache.get('config').main
+
 module.exports = {
+  getMainConfig,
+  getConfig,
+  isMainConfig,
   createConfig,
   updateRC,
 }

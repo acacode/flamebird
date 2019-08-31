@@ -9,7 +9,7 @@ const { getCommandById, updateCommand } = require('./utils/commands')
 
 const colors = require('colors')
 const kill = require('tree-kill')
-const storage = require('./utils/storage')
+const { getConfig } = require('./config')
 
 colors.enabled = true
 
@@ -28,7 +28,7 @@ function run(command) {
   }
 
   const taskId = command.id
-  const isWeb = storage.get('options').web
+  const isWeb = getConfig().web
   const proc = createProcess(command)
 
   if (isWeb) {
