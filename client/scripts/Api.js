@@ -2,15 +2,12 @@ import _ from 'lodash'
 import kinka from 'kinka'
 
 export default new (class Api {
-  runTask = taskId => kinka.post(`/run/${taskId}`)
-  stopTask = taskId => kinka.post(`/stop/${taskId}`)
   getProjectInfo = () => kinka.get('/info')
   getProjectVersion = () => kinka.get('/project-version')
-  clearLogs = taskId => kinka.post(`/clear-logs/${taskId}`)
-  getLogs = taskId => kinka.get(`/logs/${taskId}`)
-  updateEnvs = (taskId, envs) =>
-    kinka.post('/update-envs', {
-      id: taskId,
-      envs: _.clone(envs),
-    })
+  runTask = (configId, taskId) => kinka.post(`/${configId}/${taskId}/run`)
+  stopTask = (configId, taskId) => kinka.post(`/${configId}/${taskId}/stop`)
+  clearLogs = (configId, taskId) => kinka.delete(`/${configId}/${taskId}/logs`)
+  getLogs = (configId, taskId) => kinka.get(`/${configId}/${taskId}/logs`)
+  updateEnvs = (configId, taskId, envs) =>
+    kinka.put(`/${configId}/${taskId}/envs`, _.clone(envs))
 })()

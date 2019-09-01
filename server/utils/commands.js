@@ -27,7 +27,7 @@ const createCommand = (name, commandData, type) => {
 }
 
 const updateCommand = (taskId, { isRun, isLaunching, isStopping, log }) => {
-  const command = getCommandById(taskId)
+  const command = getCommandById(configId, taskId)
   const message = {
     name: command.name,
     isRun: command.isRun,

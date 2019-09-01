@@ -38,12 +38,6 @@ function start(config) {
     })
   })
 
-  app.post('/run-all', (req, res) => {
-    pw.runAll(memCache.get('commands'))
-
-    res.send('ok')
-  })
-
   app.post('/child-config-created', (req, res) => {
     res.send('ok')
     const rc = refreshRC()
@@ -55,36 +49,31 @@ function start(config) {
     return null
   })
 
-  app.post('/stop-all', (req, res) => {
-    pw.stopAll(memCache.get('commands'))
+  app.post('/:configId/:taskId/envs', (req, res) => {
+    const { taskId, configId } = req.params
+    const envs = req.body
 
-    res.send('ok')
-  })
-
-  app.post('/update-envs', (req, res) => {
-    const { id, envs } = req.body
-
-    const currentCommand = getCommandById(id)
+    const currentCommand = getCommandById(configId, taskId)
     currentCommand.logs = []
     currentCommand.envs = envs
 
-    pw.reRun(id)
+    pw.reRun(taskId)
 
     res.send('ok')
   })
 
-  app.post('/clear-logs/:taskId', (req, res) => {
-    const { taskId } = req.params
+  app.delete('/:configId/:taskId/logs', (req, res) => {
+    const { taskId, configId } = req.params
 
-    getCommandById(taskId).logs = []
+    getCommandById(configId, taskId).logs = []
 
     res.send('ok')
   })
 
-  app.get('/logs/:taskId', (req, res) => {
-    const { taskId } = req.params
+  app.get('/:configId/:taskId/logs', (req, res) => {
+    const { taskId, configId } = req.params
 
-    res.send(getCommandById(taskId).logs)
+    res.send(getCommandById(configId, taskId).logs)
   })
 
   app.get('/project-version', (req, res) => {
@@ -96,18 +85,22 @@ function start(config) {
     }
   })
 
-  app.post('/run/:taskId', (req, res) => {
-    const { taskId } = req.params
+  app.post('/:configId/:taskId/run', (req, res) => {
+    const { taskId, configId } = req.params
 
-    pw.run(taskId)
+    const command = getCommandById(configId, taskId)
+
+    pw.run(command)
 
     res.send('ok')
   })
 
-  app.post('/stop/:taskId', (req, res) => {
-    const { taskId } = req.params
+  app.post('/:configId/:taskId/stop', (req, res) => {
+    const { taskId, configId } = req.params
+    
+    const command = getCommandById(configId, taskId)
 
-    pw.stop(taskId)
+    pw.stop(command)
 
     res.send('ok')
   })

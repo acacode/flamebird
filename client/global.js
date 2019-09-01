@@ -40,6 +40,7 @@ class Global extends WindowAttached('global') {
     shiftS: () => this.stopAllTasks(),
     shiftR: () => {
       const activeTask = this.taskList.getActive()
+
       if (!activeTask.isLaunching) {
         if (activeTask.isRun) {
           this.stopTask(activeTask)
@@ -74,21 +75,23 @@ class Global extends WindowAttached('global') {
   }
 
   runAllTasks() {
+    const config = this.configsManager.getActiveConfig()
     _.each(
       this.taskList.getAllFromActiveTab({ isRun: false }),
       ({ isRun, id, isActive }) => {
         this.taskList.updateTask(id, isRun, isActive, true, false)
-        api.runTask(id)
+        api.runTask(config.id, id)
       }
     )
   }
 
   stopAllTasks() {
+    const config = this.configsManager.getActiveConfig()
     _.each(
       this.taskList.getAllFromActiveTab({ isRun: true }),
       ({ isRun, id, isActive }) => {
         this.taskList.updateTask(id, isRun, isActive, false, true)
-        api.stopTask(id)
+        api.stopTask(config.id, id)
       }
     )
   }
@@ -100,7 +103,8 @@ class Global extends WindowAttached('global') {
     if (_.isString(activeTask)) {
       activeTask = this.taskList.getTask(activeTask)
     }
-    api.clearLogs(activeTask.id)
+    const config = this.configsManager.getActiveConfig()
+    api.clearLogs(config.id, activeTask.id)
     activeTask.logs = []
     this.logger.clear()
     this.logger.updateDescription(activeTask.task)
@@ -136,7 +140,8 @@ class Global extends WindowAttached('global') {
     })
     activeTask.envs = _.clone(this.previousEnvs)
     this.clearLogs(activeTask)
-    api.updateEnvs(activeTask.id, this.previousEnvs)
+    const config = this.configsManager.getActiveConfig()
+    api.updateEnvs(config.id, activeTask.id, this.previousEnvs)
     this.taskList.updateTask(
       activeTask.id,
       true,
@@ -159,7 +164,8 @@ class Global extends WindowAttached('global') {
 
   async updateTaskLogs({ task, envs, id }) {
     this.logger.clear()
-    const { data: rawLogs } = await api.getLogs(id)
+    const config = this.configsManager.getActiveConfig()
+    const { data: rawLogs } = await api.getLogs(config.id, id)
     this.logger.updateDescription(task)
     this.logger.updateEnvs(envs)
     const logs = _.map(rawLogs, this.logger.createHTMLLog).join('')
@@ -185,9 +191,10 @@ class Global extends WindowAttached('global') {
     window.event.stopPropagation()
     // const task = this.taskList.getTask(id)
     if (!task.isLaunching && !task.isRun) {
+      const config = this.configsManager.getActiveConfig()
       this.taskList.setActive(task, true)
       this.updateTaskLogs(task)
-      api.runTask(task.id)
+      api.runTask(config.id, task.id)
     }
   }
 
@@ -195,8 +202,9 @@ class Global extends WindowAttached('global') {
     window.event.stopPropagation()
     // const task = this.taskList.getTask(id)
     if (!task.isLaunching && task.isRun) {
+      const config = this.configsManager.getActiveConfig()
       this.taskList.updateTask(task.id, false, task.isActive, false, true)
-      api.stopTask(task.id)
+      api.stopTask(config.id, task.id)
     }
   }
 

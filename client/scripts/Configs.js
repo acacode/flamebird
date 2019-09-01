@@ -11,7 +11,7 @@ export default class ConfigsManager {
       data: { configs },
     } = await api.getProjectInfo()
     this.configs = configs
-    if (!this.configs[this.activeConfigIndex]) {
+    if (!this.getActiveConfig()) {
       this.setConfig(0)
     }
 
@@ -31,8 +31,10 @@ export default class ConfigsManager {
   setConfig = (index = 0) => {
     this.activeConfigIndex = index
 
-    this.onSetConfig(this.configs[this.activeConfigIndex])
+    this.onSetConfig(this.getActiveConfig())
   }
+
+  getActiveConfig = () => this.configs[this.activeConfigIndex]
 
   constructor(configsContainer, { onSetConfig }) {
     this.configsContainer = configsContainer

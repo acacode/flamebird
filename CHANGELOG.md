@@ -30,12 +30,22 @@
 ### Changed
 - [internal] fully refactored code on nodeJS and web view  
 - Option prefix from `-j, --procfile <FILE>` to `-f, --procfile <FILE>`
+- [web] changed API endpoints:  
+    - `POST:/run/${taskId}` -> `POST:/${configId}/${taskId}/run`  
+    - `POST:/stop/${taskId}` -> `POST:/${configId}/${taskId}/stop`  
+    - `POST:/clear-logs/${taskId}` -> `DELETE/${configId}/${taskId}/logs`  
+    - `GET:/logs/${taskId}` -> `GET:/${configId}/${taskId}/logs`  
+    - `POST:/update-envs({ id: string, envs: object})` -> `PUT:/${configId}/${taskId}/envs(envs:object)`  
+
 
 ### Fixed  
 - Problems linked with running flamebird without `node_modules` folder  
 
 ### Removed  
 - Removed default usage experimental converting npm/yarn run scripts to the absolute paths  
+- [web]  
+    - `/run-all` API endpoint  
+    - `/stop-all` API endpoint  
 
 
 ## [2.1.4] - 12/06/2018
