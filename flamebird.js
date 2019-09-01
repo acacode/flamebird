@@ -59,7 +59,7 @@ program.on('--help', function() {
 program.version(getLogo(true), '-v, --version')
 program.usage('[command] [options]')
 
-program.option('-j, --procfile <FILE>', 'load procfile from file', 'Procfile')
+program.option('-f, --procfile <FILE>', 'load procfile from file', 'Procfile')
 program.option(
   '-e, --env <FILE>',
   'load environment from file, a comma-separated list',
@@ -88,8 +88,8 @@ program
     'Launch commands from Procfile/package.json/Grunt/Gulp and output logs in the current command line'
   )
   .action(args => {
-    const config = createConfig(args)
-    processWorker.runAll(config.commands)
+    const { commands } = createConfig(args)
+    processWorker.runAll(commands)
   })
 
 program
@@ -131,8 +131,9 @@ program
       ' which will help to manage all commands from package.json/Procfile/Grunt/Gulp'
   )
   .action(args => {
-    const config = createConfig(args, true)
-    server.start(config)
+    const { config } = createConfig(args, true)
+    if (config.main) server.start(config)
+    else server.update(config)
   })
 
 program.parse(process.argv)

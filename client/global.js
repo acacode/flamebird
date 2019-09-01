@@ -1,15 +1,16 @@
 import _ from 'lodash'
 import $ from 'jquery'
-import Api from './scripts/Api'
+import api from './scripts/Api'
 import TaskList from './scripts/TaskList'
 import WebLogger from './scripts/WebLogger'
 import HotKeys from './scripts/HotKeys'
-import { el as getEl, createSpan } from './helpers/dom_utils'
+import { el as getEl } from './helpers/dom_utils'
 import Tabs from './scripts/Tabs'
 import WindowAttached from './helpers/WindowAttached'
 import { clearifyEvent } from './helpers/hotKeys'
 import { Header } from './controllers/Header'
 import WebSocket from './scripts/WebSocket'
+import ConfigsManager from './scripts/Configs'
 
 export const DEFAULT_PROJECT_NAME = 'flamebird'
 
@@ -20,9 +21,12 @@ class Global extends WindowAttached('global') {
   projectName = DEFAULT_PROJECT_NAME
   pageIsNotActive = false
 
-  api = new Api()
+  configsManager = new ConfigsManager('.configs-list', {
+    onSetConfig: config => this.handleConfigSet(config),
+  })
+
   logger
-  taskList
+  taskList = null
   hotkeys = new HotKeys({
     tab: event => {
       clearifyEvent(event)
@@ -54,12 +58,27 @@ class Global extends WindowAttached('global') {
     $(document.body).toggleClass('task-list-showed')
   }
 
+  handleConfigSet = ({ commands, name }) => {
+    this.setProjectName(name)
+
+    if (this.taskList) {
+      this.taskList.initalizeTasks(commands)
+    } else {
+      this.taskList = new TaskList(getEl('#task-list'), commands, {
+        onOpenTask: this.openTask,
+        onRunTask: this.runTask,
+        onStopTask: this.stopTask,
+        onCreateTaskEl: this.onCreateTaskEl,
+      })
+    }
+  }
+
   runAllTasks() {
     _.each(
       this.taskList.getAllFromActiveTab({ isRun: false }),
       ({ isRun, id, isActive }) => {
         this.taskList.updateTask(id, isRun, isActive, true, false)
-        this.api.runTask(id)
+        api.runTask(id)
       }
     )
   }
@@ -69,7 +88,7 @@ class Global extends WindowAttached('global') {
       this.taskList.getAllFromActiveTab({ isRun: true }),
       ({ isRun, id, isActive }) => {
         this.taskList.updateTask(id, isRun, isActive, false, true)
-        this.api.stopTask(id)
+        api.stopTask(id)
       }
     )
   }
@@ -81,7 +100,7 @@ class Global extends WindowAttached('global') {
     if (_.isString(activeTask)) {
       activeTask = this.taskList.getTask(activeTask)
     }
-    this.api.clearLogs(activeTask.id)
+    api.clearLogs(activeTask.id)
     activeTask.logs = []
     this.logger.clear()
     this.logger.updateDescription(activeTask.task)
@@ -117,7 +136,7 @@ class Global extends WindowAttached('global') {
     })
     activeTask.envs = _.clone(this.previousEnvs)
     this.clearLogs(activeTask)
-    this.api.updateEnvs(activeTask.id, this.previousEnvs)
+    api.updateEnvs(activeTask.id, this.previousEnvs)
     this.taskList.updateTask(
       activeTask.id,
       true,
@@ -140,7 +159,7 @@ class Global extends WindowAttached('global') {
 
   async updateTaskLogs({ task, envs, id }) {
     this.logger.clear()
-    const { data: rawLogs } = await this.api.getLogs(id)
+    const { data: rawLogs } = await api.getLogs(id)
     this.logger.updateDescription(task)
     this.logger.updateEnvs(envs)
     const logs = _.map(rawLogs, this.logger.createHTMLLog).join('')
@@ -168,7 +187,7 @@ class Global extends WindowAttached('global') {
     if (!task.isLaunching && !task.isRun) {
       this.taskList.setActive(task, true)
       this.updateTaskLogs(task)
-      this.api.runTask(task.id)
+      api.runTask(task.id)
     }
   }
 
@@ -177,7 +196,7 @@ class Global extends WindowAttached('global') {
     // const task = this.taskList.getTask(id)
     if (!task.isLaunching && task.isRun) {
       this.taskList.updateTask(task.id, false, task.isActive, false, true)
-      this.api.stopTask(task.id)
+      api.stopTask(task.id)
     }
   }
 
@@ -216,6 +235,14 @@ class Global extends WindowAttached('global') {
   getLogger = () => this.logger
   getTaskList = () => this.taskList
 
+  setProjectName = name => {
+    this.projectName = name
+    if (this.projectName) {
+      $('title').text(`${this.projectName} | fb`)
+      $('.title span').text(this.projectName)
+    }
+  }
+
   constructor() {
     super()
     $(document).ready(async () => {
@@ -230,24 +257,14 @@ class Global extends WindowAttached('global') {
         this.pageIsNotActive = true
       })
 
-      const {
-        data: { name, commands },
-      } = await this.api.getProjectInfo()
+      this.configsManager
+        .refreshConfigs()
+        .then(() => this.configsManager.setConfig(0))
 
-      this.projectName = name
-      if (this.projectName) {
-        $('title').text(`${this.projectName} | fb`)
-        $('.title span').text(this.projectName)
-      }
-      this.taskList = new TaskList(getEl('#task-list'), commands, {
-        onOpenTask: this.openTask,
-        onRunTask: this.runTask,
-        onStopTask: this.stopTask,
-        onCreateTaskEl: this.onCreateTaskEl,
-      })
       this.logger = new WebLogger(getEl('#task-logs'))
       this.websocket = new WebSocket(`ws://${location.host}`, {
         onLogUpdate: this.handleOnUpdateLog,
+        onAppListUpdate: this.configsManager.refreshConfigs,
       })
     })
   }

@@ -11,43 +11,32 @@ const fs = require('fs')
 const pw = require('./processWorker')
 const { getCommandById } = require('./utils/commands')
 const { PATHS, MESSAGE_TYPES } = require('./constants')
+const kill = require('tree-kill')
 const { createWSConnection, sendMessage } = require('./ws')
-const { getMainConfig } = require('./config')
+const { getMainConfig, refreshRC, updateRC } = require('./config')
+
+const rootPath = path.resolve(__dirname, PATHS.WEB_APP_ROOT)
 
 function start(config) {
-  if (!config.main) {
-    const mainConfig = getMainConfig()
-    http.request(
-      {
-        path: '/child-config-created',
-        port: mainConfig.port,
-        method: 'POST',
-      },
-      res => {
-        res.resume()
-        res.on('end', () => {
-          if (res.complete)
-            console.error(
-              'The connection was terminated while the message was still being sent'
-            )
-          else console.log('Successfully')
-          process.exit(0)
-        })
-      }
-    )
-    return
-  }
+  console.log('Initializing web server')
 
   const app = express()
 
   app.use(bodyParser.json())
-  app.use(express.static(path.resolve(__dirname, PATHS.WEB_APP_ROOT)))
+  app.use(express.static(rootPath))
 
-  app.get('/', (req, res) =>
-    res.sendFile(path.resolve(__dirname, PATHS.WEB_APP_ROOT))
-  )
+  app.get('/', (req, res) => res.sendFile(rootPath))
 
-  app.get('/info', (req, res) => res.send(config))
+  app.get('/info', (req, res) => {
+    const rcSnapshot = memCache.get('rc-snapshot')
+
+    res.send({
+      ...rcSnapshot,
+      configs: _.map(rcSnapshot.configs, config =>
+        _.omit(config, 'pid', 'path')
+      ),
+    })
+  })
 
   app.post('/run-all', (req, res) => {
     pw.runAll(memCache.get('commands'))
@@ -56,8 +45,14 @@ function start(config) {
   })
 
   app.post('/child-config-created', (req, res) => {
-    console.log('FFFF')
-    sendMessage(MESSAGE_TYPES.APPS_LIST_UPDATE, 'updated...')
+    res.send('ok')
+    const rc = refreshRC()
+    const newConfig = rc.configs[rc.configs.length - 1]
+
+    kill(newConfig.pid, 'SIGINT')
+    sendMessage(MESSAGE_TYPES.APPS_LIST_UPDATE, { ok: true })
+
+    return null
   })
 
   app.post('/stop-all', (req, res) => {
@@ -134,4 +129,57 @@ function start(config) {
   })
 }
 
-module.exports.start = start
+const update = config => {
+  console.log('Try to connect to main flamebird process')
+
+  const setConfigAsMain = () => {
+    console.log('setConfigAsMain')
+    updateRC(
+      memCache.set('rc-snapshot', {
+        configs: [
+          _.merge(config, {
+            main: true,
+            commands: memCache.get('commands'),
+          }),
+        ],
+      })
+    )
+    start(config)
+  }
+
+  const mainConfig = getMainConfig()
+
+  if (!mainConfig) {
+    setConfigAsMain()
+    return
+  }
+
+  process.once('uncaughtException', setConfigAsMain)
+
+  http
+    .request(
+      {
+        timeout: 5000,
+        host: '127.0.0.1',
+        path: '/child-config-created',
+        port: mainConfig.port,
+        method: 'POST',
+      },
+      res => {
+        res.resume()
+        res.on('error', err => {
+          console.log('TODO', err)
+        })
+        res.on('end', () => {
+          console.log('Successfully connected')
+          process.exit(0)
+        })
+      }
+    )
+    .end()
+}
+
+module.exports = {
+  start,
+  update,
+}

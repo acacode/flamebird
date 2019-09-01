@@ -1,25 +1,24 @@
 const program = require('commander')
+const fs = require('fs')
 const _ = require('lodash')
 const path = require('path')
 const uuidv1 = require('uuid/v1')
-
-const fs = require('fs')
-
-const CONFIG_NAME = '.flamebirdrc'
-const CONFIG_PATH = path.resolve(__dirname, `../${CONFIG_NAME}`)
-const DEFAULT_CONFIG = {
-  port: 0,
-  configs: [],
-}
 
 const memCache = require('./utils/mem_cache')
 const envs = require('./utils/envs')
 const taskfile = require('./taskfile')
 
+const RC_FILE_NAME = '.flamebirdrc'
+const RC_FILE_PATH = path.resolve(__dirname, `../${RC_FILE_NAME}`)
+const DEFAULT_CONFIG = {
+  port: 0,
+  configs: [],
+}
+
 const getRC = () => {
   let config = {}
   try {
-    config = JSON.parse(fs.readFileSync(CONFIG_PATH))
+    config = JSON.parse(fs.readFileSync(RC_FILE_PATH))
     if (!config) {
       throw new Error("Wrong flamebird rc file. Let's create new")
     }
@@ -31,8 +30,15 @@ const getRC = () => {
 }
 
 const updateRC = rc => {
-  console.log('updateRC', rc)
-  fs.writeFileSync(CONFIG_PATH, JSON.stringify(rc))
+  // console.log('updateRC', rc)
+  fs.writeFileSync(RC_FILE_PATH, JSON.stringify(rc))
+}
+
+const refreshRC = () => {
+  console.log('refreshRC')
+  const rc = getRC()
+  memCache.set('rc-snapshot', rc)
+  return rc
 }
 
 const createConfig = (
@@ -53,6 +59,7 @@ const createConfig = (
   const config = memCache.set('config', {
     main: !rc.configs || !rc.configs.length,
     appId: memCache.set('appId', uuidv1()),
+    pid: process.pid,
     path: path.resolve(),
     ignorePms: !!ignorePms,
     name: name,
@@ -72,16 +79,18 @@ const createConfig = (
     taskfile.load(config, program.procfile)
   )
 
-  updateRC(
-    memCache.set('rc-snapshot', {
-      configs: [
-        ...rc.configs,
-        _.merge(config, {
-          commands,
-        }),
-      ],
-    })
-  )
+  if (config.web) {
+    updateRC(
+      memCache.set('rc-snapshot', {
+        configs: [
+          ...rc.configs,
+          _.merge(config, {
+            commands,
+          }),
+        ],
+      })
+    )
+  }
 
   return {
     config,
@@ -90,7 +99,7 @@ const createConfig = (
 }
 
 const findConfig = findHandler =>
-  _.find(_.get(memCache.get('rc-snapshot'), 'configs', []), findHandler) || {}
+  _.find(_.get(memCache.get('rc-snapshot'), 'configs', []), findHandler) || null
 
 const getConfig = id => (id ? findConfig({ id }) : memCache.get('config'))
 
@@ -99,6 +108,7 @@ const getMainConfig = () => findConfig({ main: true })
 const isMainConfig = () => memCache.get('config').main
 
 module.exports = {
+  refreshRC,
   getMainConfig,
   getConfig,
   isMainConfig,

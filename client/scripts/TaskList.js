@@ -1,9 +1,10 @@
 import _ from 'lodash'
-import Tabs, { PRIORITY_TAB, DEFAULT_TABS } from './Tabs'
+import Tabs, { PRIORITY_TAB } from './Tabs'
 // import HotKeys from './HotKeys'
 import { toggleClass, addClass, removeClass, el } from '../helpers/dom_utils'
+import { createTab } from '../helpers/tabs'
 import WindowAttached from '../helpers/WindowAttached'
-import { createEmptyTaskList, createTaskElement } from '../helpers/taskList'
+import { createTaskElement } from '../helpers/taskList'
 
 const TASK_CLASSES = {
   ACTIVE: 'active',
@@ -15,8 +16,8 @@ const TASK_CLASSES = {
 
 export default class TaskList extends WindowAttached('taskList') {
   element
-  taskList = createEmptyTaskList(DEFAULT_TABS)
-  activeTaskByTab = createEmptyTaskList(DEFAULT_TABS)
+  taskList = {}
+  activeTaskByTab = {}
   notifyTaskTimers = {}
 
   constructor(
@@ -32,19 +33,41 @@ export default class TaskList extends WindowAttached('taskList') {
     this.onCreateTaskEl = onCreateTaskEl || _.noop
 
     this.element = taskListContainer
+
+    Tabs.listenChanges(this.handleTabChange)
+    this.initalizeTasks(tasks)
+  }
+
+  initalizeTasks = tasks => {
+    this.element.innerHTML = ''
+
+    this.taskList = {}
+    this.activeTaskByTab = {}
+
     this.taskList = _.reduce(
       tasks,
       (taskList, task) => {
+        if (!taskList[task.type]) {
+          taskList[task.type] = []
+        }
         taskList[task.type].push(task)
         return taskList
       },
       // TODO: probably we can use just this.taskList here
       this.taskList
     )
+
+    const tabs = _.map(_.keys(this.taskList), tabName => {
+      this.activeTaskByTab[tabName] = {}
+      return createTab(tabName, tabName === PRIORITY_TAB.name)
+    })
+
+    Tabs.createTabs(tabs)
+
     let activeTab = null
 
-    for (let x = 0, allTabs = Tabs.getAll(); x < allTabs.length; x++) {
-      const tab = allTabs[x]
+    for (let x = 0; x < tabs.length; x++) {
+      const tab = tabs[x]
       if (tab) {
         const tasks = this.getTasksByTab(tab)
         if (tasks && tasks.length) {
@@ -60,26 +83,11 @@ export default class TaskList extends WindowAttached('taskList') {
         }
       }
     }
-    // _.each(Tabs.getAll(), tab => {
-    //   // FIXME: tab is undefined because we remove tab from tabs on 46-47 line
-    //   const tasks = this.getTasksByTab(tab)
-    //   if (tasks && tasks.length) {
-    //     this.activeTaskByTab[tab.name] = [tasks[0].id]
-    //     if (!activeTab || tab.name === PRIORITY_TAB.name) {
-    //       activeTab = tab
-    //     }
-    //   } else {
-    //     if (this.taskList[tab.name]) delete this.taskList[tab.name]
-    //     Tabs.removeTab(tab)
-    //   }
-    // })
-
-    Tabs.listenChanges(this.onChangeTab)
 
     if (activeTab) Tabs.setActive(activeTab.name)
   }
 
-  onChangeTab = name => {
+  handleTabChange = name => {
     this.clear()
     this.updateTaskList(name)
 

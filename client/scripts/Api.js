@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import kinka from 'kinka'
 
-export default class Api {
+export default new (class Api {
   runTask = taskId => kinka.post(`/run/${taskId}`)
   stopTask = taskId => kinka.post(`/stop/${taskId}`)
   getProjectInfo = () => kinka.get('/info')
@@ -13,4 +13,4 @@ export default class Api {
       id: taskId,
       envs: _.clone(envs),
     })
-}
+})()

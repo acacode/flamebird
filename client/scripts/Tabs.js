@@ -24,17 +24,21 @@ class Tabs {
   activeTab = _.find(this.tabs, { active: true })
 
   constructor(wrapperElementQuery, tabsContainerQuery) {
-    const tabsContainer = el(tabsContainerQuery)
-    const wrapperElement = el(wrapperElementQuery)
+    this.tabsContainer = el(tabsContainerQuery)
+    this.wrapper = el(wrapperElementQuery)
+  }
 
-    this.wrapper = wrapperElement
+  createTabs = tabs => {
+    this.tabsContainer.innerHTML = ''
+
+    this.tabs = tabs
     this.tabs.forEach(tab => {
       createEl('button', {
         className: 'tab' + (tab.active ? ` ${ACTIVE_TAB_CLASSNAME}` : ''),
         id: tab.name,
         innerText: tab.name,
         onclick: () => this.setActive(tab.name),
-        parent: tabsContainer,
+        parent: this.tabsContainer,
       })
     })
   }

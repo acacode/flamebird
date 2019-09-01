@@ -29,6 +29,7 @@
 
 ### Changed
 - [internal] fully refactored code on nodeJS and web view  
+- Option prefix from `-j, --procfile <FILE>` to `-f, --procfile <FILE>`
 
 ### Fixed  
 - Problems linked with running flamebird without `node_modules` folder  

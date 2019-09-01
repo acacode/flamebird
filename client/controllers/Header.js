@@ -14,6 +14,7 @@ export class Header extends WindowAttached('header') {
     hotkeys: null,
   }
 
+  configShowed = false
   fullscreen = !!localStorage.getItem('fullscreen')
   hotKeysEnabled = !!localStorage.getItem('hotkeys')
   notificationsEnabled = !!localStorage.getItem('notifications')
@@ -29,6 +30,12 @@ export class Header extends WindowAttached('header') {
       this.updateFullscreen()
       this.updateHotkeys()
       this.updateNotifications()
+
+      window.addEventListener('click', () => {
+        if (this.configShowed) {
+          this.handleTitleClick(false)
+        }
+      })
     })
   }
 
@@ -44,6 +51,16 @@ export class Header extends WindowAttached('header') {
   handleNotificationsIconClick = () => {
     this.notificationsEnabled = !this.notificationsEnabled
     this.updateNotifications()
+  }
+
+  handleTitleClick = overrideFlag => {
+    if (typeof overrideFlag === 'boolean') {
+      this.configShowed = overrideFlag
+    } else {
+      this.configShowed = !this.configShowed
+      window.event.stopPropagation()
+    }
+    document.body.setAttribute('config', this.configShowed ? 'show' : 'hide')
   }
 
   handleKeyboardIconClick = () => {
