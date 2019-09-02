@@ -1,10 +1,11 @@
 const _ = require('lodash')
-const uuidv1 = require('uuid/v1')
+const uuid = require('short-uuid')
 const memCache = require('./mem_cache')
 const { MESSAGE_TYPES, sendMessage } = require('../ws')
 const { separateEnvsFromString } = require('./envs')
 
-const getCommandById = id => _.find(memCache.get('commands', []), { id }) || {}
+const getCommandById = (configId, taskId) =>
+  _.find(memCache.get(`commands-${configId}`, []), { id: taskId }) || {}
 
 /**
  * @typedef {Object} Command
@@ -13,27 +14,28 @@ const getCommandById = id => _.find(memCache.get('commands', []), { id }) || {}
  * @property {string} name
  */
 
-const createCommand = (name, commandData, type) => {
+const createCommand = (configId, name, commandData, type) => {
   const commonData = separateEnvsFromString(commandData)
   return {
+    configId,
     task: commonData.string,
     envs: commonData.envs,
     name: name,
     logs: [],
     isRun: false,
-    id: `c${uuidv1().replace(/-/g, '')}`,
+    id: `c${uuid.generate()}`,
     type,
   }
 }
 
-const updateCommand = (taskId, { isRun, isLaunching, isStopping, log }) => {
-  const command = getCommandById(configId, taskId)
+const updateCommand = (command, { isRun, isLaunching, isStopping, log }) => {
   const message = {
     name: command.name,
     isRun: command.isRun,
     type: command.type,
-    id: taskId,
+    id: command.id,
   }
+
   if (!_.isUndefined(isLaunching)) {
     message.isLaunching = isLaunching
   }

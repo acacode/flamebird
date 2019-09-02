@@ -33,7 +33,9 @@ function load(config, procfilePath) {
       config.name = packageJson.name || 'flamebird'
       _.forEach(packageJson.scripts, (command, taskName) => {
         if (!config.tasks.length || _.includes(config.tasks, taskName)) {
-          allCommands.push(commands.createCommand(taskName, command, 'npm'))
+          allCommands.push(
+            commands.createCommand(config.id, taskName, command, 'npm')
+          )
         }
       })
     } catch (e) {
@@ -56,7 +58,9 @@ function load(config, procfilePath) {
             )
           }
           if (!config.tasks.length || _.includes(config.tasks, name)) {
-            allCommands.push(commands.createCommand(name, task, 'procfile'))
+            allCommands.push(
+              commands.createCommand(config.id, name, task, 'procfile')
+            )
           }
         }
       })

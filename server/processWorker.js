@@ -5,7 +5,7 @@ const {
   getProcessById,
   createProcess,
 } = require('./utils/processes')
-const { getCommandById, updateCommand } = require('./utils/commands')
+const { updateCommand } = require('./utils/commands')
 
 const colors = require('colors')
 const kill = require('tree-kill')
@@ -14,48 +14,48 @@ const { getConfig } = require('./config')
 colors.enabled = true
 
 function stop(command) {
-  if (_.isString(command)) {
-    command = getCommandById(command)
-  }
+  // if (_.isString(command)) {
+  //   command = getCommandById(command)
+  // }
 
   killProcess(command.id)
-  updateCommand(command.id, { isStopping: true })
+  updateCommand(command, { isStopping: true })
 }
 
 function run(command) {
-  if (_.isString(command)) {
-    command = getCommandById(command)
-  }
+  // if (_.isString(command)) {
+  //   command = getCommandById(command)
+  // }
 
   const taskId = command.id
   const isWeb = getConfig().web
   const proc = createProcess(command)
 
   if (isWeb) {
-    updateCommand(taskId, { isRun: true })
+    updateCommand(command, { isRun: true })
 
     proc.stdout.on('data', rawLog =>
-      updateCommand(taskId, {
+      updateCommand(command, {
         log: rawLog.toString(),
         isRun: true,
       })
     )
     proc.stderr.on('data', rawLog =>
-      updateCommand(taskId, {
+      updateCommand(command, {
         log: rawLog.toString(),
         isRun: true,
       })
     )
     proc.on('close', code => {
       killProcess(taskId)
-      updateCommand(taskId, {
+      updateCommand(command, {
         isRun: false,
         log: !code ? 'Exited Successfully' : 'Exited with exit code ' + code,
       })
     })
     proc.on('error', () => {
       killProcess(taskId)
-      updateCommand(taskId, {
+      updateCommand(command, {
         isRun: false,
         log: 'Failed to execute command',
       })
@@ -72,19 +72,19 @@ function run(command) {
   }
 }
 
-function reRun(taskId) {
+function reRun(command) {
   const isLaunching = true
-  const proc = getProcessById(taskId)
+  const proc = getProcessById(command.id)
 
   if (proc) {
     kill(proc.pid, 'SIGINT', () => {
-      updateCommand(taskId, { isLaunching })
-      setTimeout(() => run(taskId), 1000)
+      updateCommand(command, { isLaunching })
+      setTimeout(() => run(command), 1000)
     })
-    updateCommand(taskId, { isLaunching })
+    updateCommand(command, { isLaunching })
   } else {
-    updateCommand(taskId, { isLaunching })
-    run(taskId)
+    updateCommand(command, { isLaunching })
+    run(command)
   }
 }
 

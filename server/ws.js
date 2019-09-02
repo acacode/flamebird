@@ -1,6 +1,6 @@
 const WebSocket = require('ws')
 const _ = require('lodash')
-const uuidv1 = require('uuid/v1')
+const uuid = require('short-uuid')
 const { MESSAGE_TYPES } = require('./constants')
 
 const sessions = {}
@@ -11,7 +11,7 @@ function createWSConnection(server) {
   ws.on('connection', session => {
     sendMessageToSession(session, MESSAGE_TYPES.CONNECTION, { status: 'ok' })
 
-    const sessionId = uuidv1()
+    const sessionId = uuid.generate()
     sessions[sessionId] = session
 
     session.on('close', () => {

@@ -1,4 +1,5 @@
 /* eslint-disable no-path-concat */
+
 const http = require('http')
 const path = require('path')
 const express = require('express')
@@ -32,9 +33,13 @@ function start(config) {
 
     res.send({
       ...rcSnapshot,
-      configs: _.map(rcSnapshot.configs, config =>
-        _.omit(config, 'pid', 'path')
-      ),
+      configs: _.map(rcSnapshot.configs, config => ({
+        ..._.omit(config, 'pid', 'path', 'commands'),
+        commands: _.map(memCache.get(`commands-${config.id}`), command => ({
+          ...command,
+          logs: [],
+        })),
+      })),
     })
   })
 
@@ -57,7 +62,7 @@ function start(config) {
     currentCommand.logs = []
     currentCommand.envs = envs
 
-    pw.reRun(taskId)
+    pw.reRun(currentCommand)
 
     res.send('ok')
   })
@@ -97,7 +102,7 @@ function start(config) {
 
   app.post('/:configId/:taskId/stop', (req, res) => {
     const { taskId, configId } = req.params
-    
+
     const command = getCommandById(configId, taskId)
 
     pw.stop(command)
@@ -132,7 +137,7 @@ const update = config => {
         configs: [
           _.merge(config, {
             main: true,
-            commands: memCache.get('commands'),
+            commands: memCache.get(`commands-${config.id}`),
           }),
         ],
       })

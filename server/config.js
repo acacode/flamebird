@@ -2,7 +2,7 @@ const program = require('commander')
 const fs = require('fs')
 const _ = require('lodash')
 const path = require('path')
-const uuidv1 = require('uuid/v1')
+const uuid = require('short-uuid')
 
 const memCache = require('./utils/mem_cache')
 const envs = require('./utils/envs')
@@ -58,7 +58,7 @@ const createConfig = (
 
   const config = memCache.set('config', {
     main: !rc.configs || !rc.configs.length,
-    appId: memCache.set('appId', uuidv1()),
+    id: memCache.set('id', uuid.generate()),
     pid: process.pid,
     path: path.resolve(),
     ignorePms: !!ignorePms,
@@ -75,7 +75,7 @@ const createConfig = (
   envs.load(program.env)
 
   const commands = memCache.set(
-    'commands',
+    `commands-${config.id}`,
     taskfile.load(config, program.procfile)
   )
 
