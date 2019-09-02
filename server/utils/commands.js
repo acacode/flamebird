@@ -4,8 +4,18 @@ const memCache = require('./mem_cache')
 const { MESSAGE_TYPES, sendMessage } = require('../ws')
 const { separateEnvsFromString } = require('./envs')
 
+const COMMAND_DEFAULT_DATA = {
+  logs: [],
+  isRun: false,
+}
+
 const getCommandById = (configId, taskId) =>
-  _.find(memCache.get(`commands-${configId}`, []), { id: taskId }) || {}
+  _.find(
+    _.find(_.get(memCache.get('rc-snapshot'), 'configs', []), {
+      id: configId,
+    }).commands,
+    { id: taskId }
+  ) || {}
 
 /**
  * @typedef {Object} Command
@@ -17,12 +27,11 @@ const getCommandById = (configId, taskId) =>
 const createCommand = (configId, name, commandData, type) => {
   const commonData = separateEnvsFromString(commandData)
   return {
+    ...COMMAND_DEFAULT_DATA,
     configId,
     task: commonData.string,
     envs: commonData.envs,
     name: name,
-    logs: [],
-    isRun: false,
     id: `c${uuid.generate()}`,
     type,
   }
@@ -53,6 +62,7 @@ const updateCommand = (command, { isRun, isLaunching, isStopping, log }) => {
 }
 
 module.exports = {
+  COMMAND_DEFAULT_DATA,
   getCommandById,
   createCommand,
   updateCommand,

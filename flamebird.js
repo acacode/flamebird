@@ -88,8 +88,8 @@ program
     'Launch commands from Procfile/package.json/Grunt/Gulp and output logs in the current command line'
   )
   .action(args => {
-    const { commands } = createConfig(args)
-    processWorker.runAll(commands)
+    const config = createConfig(args)
+    processWorker.runAll(config.commands)
   })
 
 program
@@ -131,7 +131,7 @@ program
       ' which will help to manage all commands from package.json/Procfile/Grunt/Gulp'
   )
   .action(args => {
-    const { config } = createConfig(args, true)
+    const config = createConfig(args, true)
     if (config.main) server.start(config)
     else server.update(config)
   })

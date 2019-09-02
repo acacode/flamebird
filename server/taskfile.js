@@ -68,6 +68,7 @@ function load(config, procfilePath) {
       console.warn('Procfile not found')
     }
   }
+  console.log('allCommands', allCommands)
   return updateCommands(config, allCommands)
 }
 
@@ -125,6 +126,7 @@ function updateCommands(config, commands) {
     })
   }
 
+  console.log('update Commands -> commands', commands)
   return config.sortByName ? _.sortBy(commands, 'name', 'asc') : commands
 }
 

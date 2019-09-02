@@ -11,7 +11,6 @@ const taskfile = require('./taskfile')
 const RC_FILE_NAME = '.flamebirdrc'
 const RC_FILE_PATH = path.resolve(__dirname, `../${RC_FILE_NAME}`)
 const DEFAULT_CONFIG = {
-  port: 0,
   configs: [],
 }
 
@@ -56,7 +55,9 @@ const createConfig = (
 ) => {
   const rc = getRC()
 
-  const config = memCache.set('config', {
+  console.log('createConfig')
+
+  const config = {
     main: !rc.configs || !rc.configs.length,
     id: memCache.set('id', uuid.generate()),
     pid: process.pid,
@@ -70,38 +71,37 @@ const createConfig = (
     web: !!isWeb,
     withoutBrowser: !!withoutBrowser,
     sortByName: !!sortByName,
-  })
+  }
 
+  // TODO: use it only when we call new command. because env very specific for each project.
   envs.load(program.env)
 
-  const commands = memCache.set(
-    `commands-${config.id}`,
-    taskfile.load(config, program.procfile)
-  )
-
   if (config.web) {
-    updateRC(
-      memCache.set('rc-snapshot', {
-        configs: [
-          ...rc.configs,
-          _.merge(config, {
-            commands,
-          }),
-        ],
-      })
-    )
+    const rcSnapshot = memCache.set('rc-snapshot', {
+      configs: [
+        ...rc.configs,
+        _.merge(config, {
+          commands: taskfile.load(config, program.procfile),
+        }),
+      ],
+    })
+    updateRC({
+      configs: _.map(rcSnapshot.configs, config => ({
+        ...config,
+        commands: _.map(config.commands, command =>
+          _.merge(command, { logs: [] })
+        ),
+      })),
+    })
   }
 
-  return {
-    config,
-    commands,
-  }
+  return config
 }
 
 const findConfig = findHandler =>
   _.find(_.get(memCache.get('rc-snapshot'), 'configs', []), findHandler) || null
 
-const getConfig = id => (id ? findConfig({ id }) : memCache.get('config'))
+const getConfig = id => (id ? findConfig({ id }) : getMainConfig())
 
 const getMainConfig = () => findConfig({ main: true })
 

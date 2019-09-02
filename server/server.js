@@ -31,11 +31,13 @@ function start(config) {
   app.get('/info', (req, res) => {
     const rcSnapshot = memCache.get('rc-snapshot')
 
+    console.log('/info -> rcSnapshot', rcSnapshot)
+
     res.send({
       ...rcSnapshot,
       configs: _.map(rcSnapshot.configs, config => ({
-        ..._.omit(config, 'pid', 'path', 'commands'),
-        commands: _.map(memCache.get(`commands-${config.id}`), command => ({
+        ..._.omit(config, 'pid', 'path'),
+        commands: _.map(config.commands, command => ({
           ...command,
           logs: [],
         })),
@@ -43,14 +45,13 @@ function start(config) {
     })
   })
 
-  app.post('/child-config-created', (req, res) => {
-    res.send('ok')
+  app.post('/refresh-rc-configs', (req, res) => {
     const rc = refreshRC()
     const newConfig = rc.configs[rc.configs.length - 1]
 
     kill(newConfig.pid, 'SIGINT')
     sendMessage(MESSAGE_TYPES.APPS_LIST_UPDATE, { ok: true })
-
+    res.send('ok')
     return null
   })
 
@@ -137,7 +138,6 @@ const update = config => {
         configs: [
           _.merge(config, {
             main: true,
-            commands: memCache.get(`commands-${config.id}`),
           }),
         ],
       })
@@ -159,7 +159,7 @@ const update = config => {
       {
         timeout: 5000,
         host: '127.0.0.1',
-        path: '/child-config-created',
+        path: `/refresh-rc-configs`,
         port: mainConfig.port,
         method: 'POST',
       },
