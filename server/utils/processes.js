@@ -52,6 +52,7 @@ function createProcess({ id, rawTask, envs }, { path }) {
     [...processConfig.args, rawTask],
     {
       stdio: 'pipe',
+      cwd: path.replace(/\\/g, '/'),
       windowsVerbatimArguments: isWin,
       env: _.assign(
         {},
