@@ -108,6 +108,7 @@ const getMainConfig = () => findConfig({ main: true })
 const isMainConfig = () => memCache.get('config').main
 
 module.exports = {
+  getRC,
   refreshRC,
   getMainConfig,
   getConfig,

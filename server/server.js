@@ -14,7 +14,7 @@ const { getCommandById } = require('./utils/commands')
 const { PATHS, MESSAGE_TYPES } = require('./constants')
 const kill = require('tree-kill')
 const { createWSConnection, sendMessage } = require('./ws')
-const { getMainConfig, refreshRC, updateRC } = require('./config')
+const { getMainConfig, getRC, updateRC } = require('./config')
 
 const rootPath = path.resolve(__dirname, PATHS.WEB_APP_ROOT)
 
@@ -46,8 +46,12 @@ function start(config) {
   })
 
   app.post('/refresh-rc-configs', (req, res) => {
-    const rc = refreshRC()
-    const newConfig = rc.configs[rc.configs.length - 1]
+    const freshRC = getRC()
+    const rcSnapshot = memCache.get('rc-snapshot')
+    const newConfig = freshRC.configs[freshRC.configs.length - 1]
+    memCache.set('rc-snapshot', {
+      configs: [...rcSnapshot.configs, newConfig],
+    })
 
     kill(newConfig.pid, 'SIGINT')
     sendMessage(MESSAGE_TYPES.APPS_LIST_UPDATE, { ok: true })

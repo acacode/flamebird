@@ -27,9 +27,10 @@ function run(command) {
   //   command = getCommandById(command)
   // }
 
+  const config = getConfig(command.configId)
   const taskId = command.id
-  const isWeb = getConfig().web
-  const proc = createProcess(command)
+  const isWeb = getConfig(command.configId).web
+  const proc = createProcess(command, config)
 
   if (isWeb) {
     updateCommand(command, { isRun: true })
