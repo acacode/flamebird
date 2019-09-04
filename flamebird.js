@@ -44,7 +44,7 @@ program.on('--help', function() {
       '  ' +
       grey('$') +
       ' fb web                                 ' +
-      '- launch web GUI which have contained all possible commands from grunt, gulp, package.json etc.\r\n' +
+      '- launch web GUI which have contained all possible commands from package.json etc.\r\n' +
       '  ' +
       grey('$') +
       ' fb web -w -u yarn                      ' +
@@ -85,7 +85,7 @@ program
     'npm'
   )
   .description(
-    'Launch commands from Procfile/package.json/Grunt/Gulp and output logs in the current command line'
+    'Launch commands from Procfile/package.json and output logs in the current command line'
   )
   .action(args => {
     const config = createConfig(args)

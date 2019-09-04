@@ -46,22 +46,23 @@ function getProcessById(taskId) {
  * @param {object} command { id, rawTask, envs }
  * @returns spawned process
  */
-function createProcess({ id, rawTask, envs }, { path }) {
+function createProcess({ id, rawTask, envs }, config) {
   return (processes[id] = prog.spawn(
     processConfig.file,
     [...processConfig.args, rawTask],
     {
       stdio: 'pipe',
-      cwd: path.replace(/\\/g, '/'),
+      cwd: config.path.replace(/\\/g, '/'),
       windowsVerbatimArguments: isWin,
       env: _.assign(
         {},
         process.env,
         {
-          PWD: path.replace(/\\/g, '/'),
+          PWD: config.path.replace(/\\/g, '/'),
         },
-        // TODO: !
-        memCache.get('envFile'),
+        // env variables from .env file
+        config.envs,
+        // env variables from command
         envs
       ),
     }

@@ -1,6 +1,5 @@
 const _ = require('lodash')
 const fs = require('fs')
-const memCache = require('./mem_cache')
 
 const separateEnvsFromString = str =>
   _.reduce(
@@ -22,7 +21,7 @@ const separateEnvsFromString = str =>
     }
   )
 
-const load = filename => {
+const getDataFromEnvFile = filename => {
   let envFile = {}
   try {
     const data = fs.readFileSync(filename)
@@ -38,10 +37,10 @@ const load = filename => {
   } catch (e) {
     console.warn('.ENV file not found')
   }
-  return memCache.set('envFile', envFile)
+  return envFile
 }
 
 module.exports = {
   separateEnvsFromString,
-  load,
+  getDataFromEnvFile,
 }

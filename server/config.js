@@ -5,7 +5,7 @@ const path = require('path')
 const uuid = require('short-uuid')
 
 const memCache = require('./utils/mem_cache')
-const envs = require('./utils/envs')
+const { getDataFromEnvFile } = require('./utils/envs')
 const taskfile = require('./taskfile')
 
 const RC_FILE_NAME = '.flamebirdrc'
@@ -71,10 +71,8 @@ const createConfig = (
     web: !!isWeb,
     withoutBrowser: !!withoutBrowser,
     sortByName: !!sortByName,
+    envs: getDataFromEnvFile(program.env),
   }
-
-  // TODO: use it only when we call new command. because env very specific for each project.
-  envs.load(program.env)
 
   if (config.web) {
     const rcSnapshot = memCache.set('rc-snapshot', {
