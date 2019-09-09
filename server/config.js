@@ -105,6 +105,17 @@ const getMainConfig = () => findConfig({ main: true })
 
 const isMainConfig = () => memCache.get('config').main
 
+const removeConfig = configId => {
+  const rcSnapshot = memCache.get('rc-snapshot')
+  const configIndex = rcSnapshot.configs.findIndex(
+    config => configId === config.id
+  )
+  if (configIndex > -1) rcSnapshot.configs.splice(configIndex, 1)
+
+  memCache.set('rc-snapshot', rcSnapshot)
+  updateRC(rcSnapshot)
+}
+
 module.exports = {
   getRC,
   refreshRC,
@@ -112,5 +123,6 @@ module.exports = {
   getConfig,
   isMainConfig,
   createConfig,
+  removeConfig,
   updateRC,
 }

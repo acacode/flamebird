@@ -23,6 +23,13 @@ class Global extends WindowAttached('global') {
 
   configsManager = new ConfigsManager('.configs-list', {
     onSetConfig: config => this.handleConfigSet(config),
+    getConfigs: async () => {
+      const {
+        data: { configs },
+      } = await api.getProjectInfo()
+      return configs || []
+    },
+    onRemoveConfig: config => api.removeConfig(config.id),
   })
 
   logger

@@ -7,21 +7,31 @@ export default class ConfigsManager {
   activeConfigIndex = 0
 
   refreshConfigs = async () => {
-    const {
-      data: { configs },
-    } = await api.getProjectInfo()
+    const configs = await this.getConfigs()
     this.configs = configs
     if (!this.getActiveConfig()) {
       this.setConfig(0)
     }
+    this.refreshHtml()
+  }
 
+  refreshHtml = () => {
     const configsContainerEl = el(this.configsContainer)
     configsContainerEl.innerHTML = ''
 
     this.configs.forEach((config, index) =>
       createEl('div', {
         className: 'config',
-        innerText: config.name,
+        children: [
+          createEl('span', {
+            className: 'name',
+            innerText: config.name,
+          }),
+          createEl('i', {
+            className: 'close-icon',
+            onclick: () => this.removeConfig(index),
+          }),
+        ],
         onclick: () => this.setConfig(index),
         parent: configsContainerEl,
       })
@@ -34,11 +44,20 @@ export default class ConfigsManager {
     this.onSetConfig(this.getActiveConfig())
   }
 
+  removeConfig = index => {
+    const [removedConfig] = this.configs.splice(index, 1)
+    this.onRemoveConfig(removedConfig, index)
+
+    this.refreshHtml()
+  }
+
   getActiveConfig = () => this.configs[this.activeConfigIndex]
 
-  constructor(configsContainer, { onSetConfig }) {
+  constructor(configsContainer, { onSetConfig, getConfigs, onRemoveConfig }) {
     this.configsContainer = configsContainer
     // this.configs = configs
     this.onSetConfig = onSetConfig || _.noop
+    this.onRemoveConfig = onRemoveConfig || _.noop
+    this.getConfigs = getConfigs || _.noop
   }
 }

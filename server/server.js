@@ -14,7 +14,7 @@ const { getCommandById } = require('./utils/commands')
 const { PATHS, MESSAGE_TYPES } = require('./constants')
 const kill = require('tree-kill')
 const { createWSConnection, sendMessage } = require('./ws')
-const { getMainConfig, getRC, updateRC } = require('./config')
+const { getMainConfig, getRC, updateRC, removeConfig } = require('./config')
 
 const rootPath = path.resolve(__dirname, PATHS.WEB_APP_ROOT)
 
@@ -70,6 +70,11 @@ function start(config) {
     pw.reRun(currentCommand)
 
     res.send('ok')
+  })
+
+  app.delete('/:configId', (req, res) => {
+    const { configId } = req.params
+    removeConfig(configId)
   })
 
   app.delete('/:configId/:taskId/logs', (req, res) => {
