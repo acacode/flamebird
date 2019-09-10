@@ -22,7 +22,7 @@ class Global extends WindowAttached('global') {
   pageIsNotActive = false
 
   configsManager = new ConfigsManager('.configs-list', {
-    onSetConfig: config => this.handleConfigSet(config),
+    onSetConfig: config => config && this.handleConfigSet(config),
     getConfigs: async () => {
       const {
         data: { configs },
@@ -32,7 +32,7 @@ class Global extends WindowAttached('global') {
     onRemoveConfig: config => {
       const activeConfig = this.configsManager.getActiveConfig()
 
-      if (activeConfig.id === config.id) {
+      if (!activeConfig || activeConfig.id === config.id) {
         this.configsManager.setConfig(0)
       }
       this.stopAllTasks(config)

@@ -29,9 +29,9 @@ export default class ConfigsManager {
           }),
           index &&
             createEl('i', {
-              className: 'far fa-times-circle close-icon',
+              className: 'fas fa-times close-icon',
               onclick: () => {
-                clearifyEvent()
+                window.event.preventDefault()
                 this.removeConfig(index)
               },
             }),
