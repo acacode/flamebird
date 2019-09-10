@@ -75,6 +75,8 @@ function start(config) {
   app.delete('/:configId', (req, res) => {
     const { configId } = req.params
     removeConfig(configId)
+
+    res.send('ok')
   })
 
   app.delete('/:configId/:taskId/logs', (req, res) => {

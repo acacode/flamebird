@@ -15,7 +15,7 @@
     "server:dev": "cross-env NODE_ENV=development npm run server",
     "client": "webpack --config webpack.config.js -p",
     "client:dev": "cross-env NODE_ENV=development npm run client",
-    "debug": "nodemon flamebird.js start"
+    "debug": "nodemon --exec \"npm run client:dev\" --watch client -V"
   },
   "repository": {
     "type": "git",

@@ -29,7 +29,15 @@ class Global extends WindowAttached('global') {
       } = await api.getProjectInfo()
       return configs || []
     },
-    onRemoveConfig: config => api.removeConfig(config.id),
+    onRemoveConfig: config => {
+      const activeConfig = this.configsManager.getActiveConfig()
+
+      if (activeConfig.id === config.id) {
+        this.configsManager.setConfig(0)
+      }
+      this.stopAllTasks(config)
+      api.removeConfig(config.id)
+    },
   })
 
   logger
@@ -81,8 +89,7 @@ class Global extends WindowAttached('global') {
     }
   }
 
-  runAllTasks() {
-    const config = this.configsManager.getActiveConfig()
+  runAllTasks(config = this.configsManager.getActiveConfig()) {
     _.each(
       this.taskList.getAllFromActiveTab({ isRun: false }),
       ({ isRun, id, isActive }) => {
@@ -92,8 +99,7 @@ class Global extends WindowAttached('global') {
     )
   }
 
-  stopAllTasks() {
-    const config = this.configsManager.getActiveConfig()
+  stopAllTasks(config = this.configsManager.getActiveConfig()) {
     _.each(
       this.taskList.getAllFromActiveTab({ isRun: true }),
       ({ isRun, id, isActive }) => {

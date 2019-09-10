@@ -612,6 +612,9 @@ button.tab.active, button.tab:active {
     font-weight: 400;
     cursor: pointer;
     color: #212529;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 [config="show"] .configs-list {
@@ -619,6 +622,10 @@ button.tab.active, button.tab:active {
 }
 [config="show"] .title .fas {
     transform: rotate(180deg);
+}
+
+.close-icon {
+    color: #b55d5d;
 }
 
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }

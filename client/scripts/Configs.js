@@ -1,6 +1,6 @@
 import _ from 'lodash'
-import api from './Api'
 import { el, createEl } from '../helpers/dom_utils'
+import { clearifyEvent } from '../helpers/hotKeys'
 
 export default class ConfigsManager {
   configs = []
@@ -27,10 +27,14 @@ export default class ConfigsManager {
             className: 'name',
             innerText: config.name,
           }),
-          createEl('i', {
-            className: 'close-icon',
-            onclick: () => this.removeConfig(index),
-          }),
+          index &&
+            createEl('i', {
+              className: 'far fa-times-circle close-icon',
+              onclick: () => {
+                clearifyEvent()
+                this.removeConfig(index)
+              },
+            }),
         ],
         onclick: () => this.setConfig(index),
         parent: configsContainerEl,
@@ -42,6 +46,10 @@ export default class ConfigsManager {
     this.activeConfigIndex = index
 
     this.onSetConfig(this.getActiveConfig())
+  }
+
+  getConfig = (index = 0) => {
+    return this.configs[index]
   }
 
   removeConfig = index => {

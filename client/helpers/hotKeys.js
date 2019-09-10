@@ -1,4 +1,4 @@
-export const clearifyEvent = e => {
+export const clearifyEvent = (e = window.event) => {
   e.preventDefault()
   e.stopPropagation()
 }

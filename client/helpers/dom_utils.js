@@ -124,9 +124,10 @@ export const createEl = (tag, options) => {
   }
   if (options.children && options.children) {
     _.each(options.children, child => {
-      element.appendChild(
-        typeof child === 'string' ? document.createTextNode(child) : child
-      )
+      if (child)
+        element.appendChild(
+          typeof child === 'string' ? document.createTextNode(child) : child
+        )
     })
   }
   return element
