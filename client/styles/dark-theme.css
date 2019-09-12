@@ -110,6 +110,27 @@ body[theme="dark"] {
     transform: scaleX(-1);
 }
 
+[theme="dark"] .close-icon {
+    color: #995959;
+}
+
+[theme="dark"] .configs-list {
+    background: #424242;
+}
+
+[theme="dark"] .config {
+    color: #aeaeae;
+}
+
+[theme="dark"] .config:hover {
+    background: #2b2b2b;
+}
+
+[theme="dark"] .config:not(:first-child) {
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+
 @keyframes dark-highlight{
     50%{
         background: rgb(79, 80, 63);

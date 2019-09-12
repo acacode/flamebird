@@ -93,7 +93,7 @@ class Global extends WindowAttached('global') {
     _.each(
       this.taskList.getAllFromActiveTab({ isRun: false }),
       ({ isRun, id, isActive }) => {
-        this.taskList.updateTask(id, isRun, isActive, true, false)
+        this.taskList.updateTask(id, { isRun, isActive, isLaunching: true })
         api.runTask(config.id, id)
       }
     )
@@ -103,7 +103,7 @@ class Global extends WindowAttached('global') {
     _.each(
       this.taskList.getAllFromActiveTab({ isRun: true }),
       ({ isRun, id, isActive }) => {
-        this.taskList.updateTask(id, isRun, isActive, false, true)
+        this.taskList.updateTask(id, { isRun, isActive, isStopping: true })
         api.stopTask(config.id, id)
       }
     )
@@ -155,13 +155,11 @@ class Global extends WindowAttached('global') {
     this.clearLogs(activeTask)
     const config = this.configsManager.getActiveConfig()
     api.updateEnvs(config.id, activeTask.id, this.previousEnvs)
-    this.taskList.updateTask(
-      activeTask.id,
-      true,
-      activeTask.isActive,
-      true,
-      false
-    )
+    this.taskList.updateTask(activeTask.id, {
+      isRun: true,
+      isActive: activeTask.isActive,
+      isLaunching: true,
+    })
     this.previousEnvs = null
   }
 
@@ -216,7 +214,10 @@ class Global extends WindowAttached('global') {
     // const task = this.taskList.getTask(id)
     if (!task.isLaunching && task.isRun) {
       const config = this.configsManager.getActiveConfig()
-      this.taskList.updateTask(task.id, false, task.isActive, false, true)
+      this.taskList.updateTask(task.id, {
+        isActive: task.isActive,
+        isStopping: true,
+      })
       api.stopTask(config.id, task.id)
     }
   }
@@ -230,7 +231,12 @@ class Global extends WindowAttached('global') {
   handleOnUpdateLog = ({ name, id, isRun, isLaunching, isStopping, log }) => {
     if (name) {
       const isActive = id === this.taskList.getActive().id
-      this.taskList.updateTask(id, isRun, isActive, isLaunching, isStopping)
+      this.taskList.updateTask(id, {
+        isRun,
+        isActive,
+        isLaunching,
+        isStopping,
+      })
       if (log) {
         if (isActive) {
           this.logger.push(log)

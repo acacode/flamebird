@@ -124,7 +124,7 @@ export default class TaskList extends WindowAttached('taskList') {
 
   getTask = id => _.find(_.concat.apply(null, _.values(this.taskList)), { id })
 
-  updateTask(id, isRun, isActive, isLaunching, isStopping) {
+  updateTask(id, { isRun, isActive, isLaunching, isStopping }) {
     const task = this.getTask(id)
 
     if (!task) return
@@ -161,13 +161,12 @@ export default class TaskList extends WindowAttached('taskList') {
   }
 
   setActive(task, isLaunching, isStopping) {
-    this.updateTask(
-      task.id,
-      task.isRun,
-      true,
-      isLaunching === undefined ? task.isLaunching : isLaunching,
-      isStopping === undefined ? task.isStopping : isStopping
-    )
+    this.updateTask(task.id, {
+      isRun: task.isRun,
+      isActive: true,
+      isLaunching: isLaunching === undefined ? task.isLaunching : isLaunching,
+      isStopping: isStopping === undefined ? task.isStopping : isStopping,
+    })
   }
 
   getTasksByTab = tab => {
@@ -203,15 +202,18 @@ export default class TaskList extends WindowAttached('taskList') {
             {
               icon: 'assets/logo2_small.png',
               body:
-                `project: ${options.projectName}` +
-                `\r\ntaskfile: [${task.type}]` +
-                '\r\nlatest message: ' +
-                options.log,
+                `project: ${options.projectName}\r\n` +
+                `taskfile: [${task.type}]\r\n` +
+                'latest message: \r\n' +
+                `...${options.log
+                  .split('')
+                  .splice(-22)
+                  .join('')}`,
             }
           )
           notification.onclick = () => window.focus()
         } else Notification.requestPermission()
-      }, 1800)
+      }, 2800)
     }
   }
 }

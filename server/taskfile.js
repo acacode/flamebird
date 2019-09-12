@@ -106,6 +106,7 @@ function updateCommands(config, commands) {
         ({ task }) => _.includes(task, 'yarn') || _.includes(task, 'npm')
       ),
       (commandsWithoutPms, command) => {
+        // TODO: fix problem with displaying cross-env in .task property
         command.task = _.replace(command.task, 'cross-env ', '')
         commandsWithoutPms[command.name] = setAbsolutePathsToTask(
           command,
