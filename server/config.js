@@ -42,7 +42,7 @@ const refreshRC = () => {
 
 const createConfig = (
   {
-    ignorePms,
+    ignoreTrs,
     name,
     port,
     tasks,
@@ -62,7 +62,7 @@ const createConfig = (
     id: memCache.set('id', uuid.generate()),
     pid: process.pid,
     path: path.resolve(),
-    ignorePms: !!ignorePms,
+    withoutTaskRunner: !!ignoreTrs,
     name: name,
     port: +port,
     tasks: _.compact(_.split(tasks, /,/g)),

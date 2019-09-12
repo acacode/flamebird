@@ -7,7 +7,7 @@
 ### Added
 - `web` [internal] changed webpack configuration for web client  
 - `web` new options:  
-    - `-i, --ignore-pms` (in previous version it uses by default)  
+    - `-i, --ignore-trs` (in previous version it used by default)  
         Allows to launch tasks without yarn or npm ( use absolute paths: webpack -> node_modules/.bin/webpack )  
         default: `false`  
     - `-r, --task-runner <NAME>`  
@@ -20,7 +20,7 @@
         This option using to sort all commands by name (asc)  
         default: `false`  
 - `cmd` new options:  
-    - `-i, --ignore-pms` (in previous version it uses by default)  
+    - `-i, --ignore-trs` (in previous version it used by default)  
         Allows to launch tasks without yarn or npm ( use absolute paths: webpack -> node_modules/.bin/webpack )  
         default: `false`  
     - `-r, --task-runner <NAME>`  

@@ -10,5 +10,5 @@ export default new (class Api {
   getLogs = (configId, taskId) => kinka.get(`/${configId}/${taskId}/logs`)
   removeConfig = configId => kinka.delete(`/${configId}`)
   updateEnvs = (configId, taskId, envs) =>
-    kinka.put(`/${configId}/${taskId}/envs`, _.clone(envs))
+    kinka.post(`/${configId}/${taskId}/envs`, _.clone(envs))
 })()

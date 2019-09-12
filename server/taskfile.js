@@ -98,7 +98,7 @@ function setAbsolutePathsToTask(command, commandsWithoutPms) {
 }
 
 function updateCommands(config, commands) {
-  if (config.ignorePms) {
+  if (config.withoutTaskRunner) {
     if (LIB_PATHS === null) createLibPaths()
     _.reduce(
       _.sortBy(

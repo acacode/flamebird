@@ -71,7 +71,7 @@ program
   .usage('[Options]')
   .option('-p, --package', 'Use package.json for managing tasks')
   .option(
-    '-i, --ignore-pms',
+    '-i, --ignore-trs',
     'Allows to launch tasks without yarn or npm ( using absolute paths: webpack -> node_modules/.bin/webpack )',
     false
   )
@@ -97,7 +97,7 @@ program
   .usage('[Options]')
   .option('-p, --port <PORT>', 'sets the server port', 5050)
   .option(
-    '-i, --ignore-pms',
+    '-i, --ignore-trs',
     'Allows to launch tasks without yarn or npm ( use absolute paths: webpack -> node_modules/.bin/webpack )',
     false
   )
