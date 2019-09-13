@@ -1,7 +1,6 @@
 const _ = require('lodash')
 const prog = require('child_process')
 const emitter = require('./emitter')
-const memCache = require('./mem_cache')
 const kill = require('tree-kill')
 const isWin = require('os').platform() === 'win32'
 

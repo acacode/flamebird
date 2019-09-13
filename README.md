@@ -81,75 +81,73 @@ If you want to help this project you need to read this part of readme.md for mor
 
 First of all take a look at project structure:  
 
-```
-
-- [flamebird.js](./flamebird.js)
-- [LICENSE](./LICENSE)
-- [list.md](./list.md)
-- [nodemon.json](./nodemon.json)
-- [node_modules](./node_modules) - you know what is that :D
-- [package-lock.json](./package-lock.json)
-- [package.json](./package.json)
-- [postinstall.js](./postinstall.js)
-- [Procfile](./Procfile)
-- [README.md](./README.md)
-- [webpack.config.js](./webpack.config.js)
-- [babel.config.js](./babel.config.js)
-- [CHANGELOG.md](./CHANGELOG.md)
-- __assets__
-  - [task_button.png](./assets/task_button.png)
-  - [hotkeys_button.png](./assets/hotkeys_button.png)
-  - [web-ui-screen.png](./assets/web-ui-screen.png)
-- __client__
-  - __controllers__
-    - [Header.js](./client/controllers/Header.js)
+- **flamebird project**
+  - [flamebird.js](./flamebird.js) - Executable by nodejs file when call `fb start`/`fb web`. Describe information about commands `web` and `start`.
+  - [LICENSE](./LICENSE)
+  - [nodemon.json](./nodemon.json) - Nodemon config file. Only needed for debug flamebird.
+  - [node_modules](./node_modules) - you know what is that :D
+  - [package-lock.json](./package-lock.json)
+  - [package.json](./package.json)
+  - [postinstall.js](./postinstall.js) - Script which execute after installing flamebird dependencies
+  - [Procfile](./Procfile) - List of scripts which execute via nodemon. Only needed for debug flamebird.
+  - [README.md](./README.md)
+  - [webpack.config.js](./webpack.config.js)
+  - [babel.config.js](./babel.config.js)
+  - [CHANGELOG.md](./CHANGELOG.md)
   - __assets__
-    - [logo.psd](./client/assets/logo.psd)
-    - [logo.png](./client/assets/logo.png)
-    - [logo2_small.png](./client/assets/logo2_small.png)
-    - [logo2.png](./client/assets/logo2.png)
-    - [logo2_transparent.png](./client/assets/logo2_transparent.png)
-  - __helpers__
-    - [dom_utils.js](./client/helpers/dom_utils.js)
-    - [hotKeys.js](./client/helpers/hotKeys.js)
-    - [tabs.js](./client/helpers/tabs.js)
-    - [taskList.js](./client/helpers/taskList.js)
-    - [WindowAttached.js](./client/helpers/WindowAttached.js)
-  - [global.js](./client/global.js)
-  - [index.html](./client/index.html)
-  - [medium-screens.css](./client/medium-screens.css)
-  - __scripts__
-    - [Api.js](./client/scripts/Api.js)
-    - [Configs.js](./client/scripts/Configs.js)
-    - [HotKeys.js](./client/scripts/HotKeys.js)
-    - [Tabs.js](./client/scripts/Tabs.js)
-    - [TaskList.js](./client/scripts/TaskList.js)
-    - [ThemeSwitcher.js](./client/scripts/ThemeSwitcher.js)
-    - [WebLogger.js](./client/scripts/WebLogger.js)
-    - [WebSocket.js](./client/scripts/WebSocket.js)
-  - [small-screens.css](./client/small-screens.css)
-  - __styles__
-    - [dark-theme.css](./client/styles/dark-theme.css)
-    - [fullscreen.css](./client/styles/fullscreen.css)
-    - [hot_keys-shortcuts.css](./client/styles/hot_keys-shortcuts.css)
-  - [styles.css](./client/styles.css)
-- __dist__ - frontend build folder
-- __server__
-  - [config.js](./server/config.js) - module which working with configuration file (`.flamebirdrc`)  
-  - [constants.js](./server/constants.js) - module which contains constant values. It usings on both sides (client, server)
-  - [processWorker.js](./server/processWorker.js)
-  - [server.js](./server/server.js)
-  - __utils__
-    - [colors.js](./server/utils/colors.js)
-    - [commands.js](./server/utils/commands.js)
-    - [emitter.js](./server/utils/emitter.js)
-    - [envs.js](./server/utils/envs.js)
-    - [mem_cache.js](./server/utils/mem_cache.js)
-    - [processes.js](./server/utils/processes.js)
-  - [ws.js](./server/ws.js)
-  - [taskfile.js](./server/taskfile.js)
+    - [task_button.png](./assets/task_button.png)
+    - [hotkeys_button.png](./assets/hotkeys_button.png)
+    - [web-ui-screen.png](./assets/web-ui-screen.png)
+  - __client__ Client application ⚡️
+    - __controllers__ - folder with controllers where each one have specific UI manipulations  
+      - [Header.js](./client/controllers/Header.js)
+    - __assets__ - folder with assets
+      - [logo.psd](./client/assets/logo.psd) - source of the flamebird logo  
+      - [logo.png](./client/assets/logo.png)
+      - [logo2_small.png](./client/assets/logo2_small.png)
+      - [logo2.png](./client/assets/logo2.png)
+      - [logo2_transparent.png](./client/assets/logo2_transparent.png)
+    - __helpers__ - folder with helpers where helper contains specific logic. In future it will be removed or moved into modules in `scripts` folder.
+      - [dom_utils.js](./client/helpers/dom_utils.js)
+      - [hotKeys.js](./client/helpers/hotKeys.js)
+      - [tabs.js](./client/helpers/tabs.js)
+      - [taskList.js](./client/helpers/taskList.js)
+      - [WindowAttached.js](./client/helpers/WindowAttached.js)
+    - [global.js](./client/global.js) - global file which implement pattern Facade and combine all interactions of modules from `scripts` folder.  
+    - [index.html](./client/index.html)
+    - [medium-screens.css](./client/medium-screens.css)
+    - __scripts__ - Bunch of modules which needed for web application.
+      - [Api.js](./client/scripts/Api.js) - Contains all API endpoints which needed for client. It uses `kinka` as http web client.
+      - [Configs.js](./client/scripts/Configs.js) - Responsible for update configs list
+      - [HotKeys.js](./client/scripts/HotKeys.js) - Hot keys
+      - [Tabs.js](./client/scripts/Tabs.js) - Module which responsible for update tabs list. 
+      - [TaskList.js](./client/scripts/TaskList.js) - Module which responsible for update tasks list.
+      - [ThemeSwitcher.js](./client/scripts/ThemeSwitcher.js) - Module which responsible for theme switching.
+      - [WebLogger.js](./client/scripts/WebLogger.js) - Logger module. Output logs into the logs container
+      - [WebSocket.js](./client/scripts/WebSocket.js) - WebSocket client connection
+    - [small-screens.css](./client/small-screens.css)
+    - __styles__
+      - [dark-theme.css](./client/styles/dark-theme.css)
+      - [fullscreen.css](./client/styles/fullscreen.css)
+      - [hot_keys-shortcuts.css](./client/styles/hot_keys-shortcuts.css)
+    - [styles.css](./client/styles.css)
+  - __dist__ - client build folder
+  - __server__  Server application ⚡️
+    - [config.js](./server/config.js) - module which working with configuration file (`.flamebirdrc`)  
+    - [constants.js](./server/constants.js) - module which contains constant values. It usings on both sides (client, server)
+    - [processWorker.js](./server/processWorker.js) - module which responsible for run/stop tasks
+    - [server.js](./server/server.js) - [`Web version`] module which contains API endpoints.
+    - __utils__ - bunch of utilities 😊
+      - [colors.js](./server/utils/colors.js) - tools which colorize console output
+      - [commands.js](./server/utils/commands.js) - tools which needed for CRUD commands
+      - [emitter.js](./server/utils/emitter.js) - instance of `events.EventEmitter`. 
+      - [envs.js](./server/utils/envs.js) - tools which needed for parse environment variables
+      - [mem_cache.js](./server/utils/mem_cache.js) - just simple object which save all information. Have methods `get`, `set`
+      - [processes.js](./server/utils/processes.js) - tools which needed for create and kill processes
+    - [ws.js](./server/ws.js) - [`Web version`] Websocket connection
+    - [taskfile.js](./server/taskfile.js) - module which parse all commands from `Procfile` and `package.json`
 
-```
+
 
 
 
