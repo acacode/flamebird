@@ -127,7 +127,7 @@ export default class TaskList extends WindowAttached('taskList') {
   updateTask(id, { isRun, isActive, isLaunching, isStopping }) {
     const task = this.getTask(id)
 
-    if (!task) return
+    // TODO: fix task as undefined
 
     const taskElem = document.getElementById(task.id)
     task.isRun = isRun

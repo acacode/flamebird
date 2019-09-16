@@ -47,9 +47,11 @@ export default class ConfigsManager {
     this.onSetConfig(this.getActiveConfig())
   }
 
-  getConfig = (index = 0) => {
+  getConfigByIndex = (index = 0) => {
     return this.configs[index]
   }
+
+  getConfigById = id => _.find(this.configs, { id })
 
   removeConfig = index => {
     const [removedConfig] = this.configs.splice(index, 1)
