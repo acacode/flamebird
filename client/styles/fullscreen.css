@@ -1,0 +1,35 @@
+@media screen and (min-width: 923px) {
+    body[fullscreen="true"] {
+        padding: 0.9% 0;
+    }
+
+    [fullscreen="true"] .wrapper {
+        max-width: calc(98.2% - 40px);
+    }
+    
+    [fullscreen="true"] header .title {
+        padding-left: 49px;
+    }
+    
+    [fullscreen="true"] #task-list,[fullscreen="true"] .task.new-task {
+        width: 260px;
+    }
+    
+    [fullscreen="true"] #task-logs {
+        width: calc(100% - 260px);
+    }
+    [fullscreen="true"] .scrolling > .task-data {
+        top: 48px;
+    }
+    
+    [fullscreen="true"] .logo {
+        left: 3px;
+        z-index: 20;
+        top: 4px;
+    }
+
+    [fullscreen="true"] .logs-container {
+        padding: 20px 20px 27px;
+    }
+    
+}

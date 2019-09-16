@@ -1,67 +1,98 @@
-const fs = require('fs')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const resolve = require('path').resolve
+const path = require('path')
+const TerserJSPlugin = require('terser-webpack-plugin')
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
-function getEntries(path, isForJsFiles) {
-  return fs
-    .readdirSync(path)
-    .filter(file => file.match(isForJsFiles ? /.*\.js$/ : /.*\.css$/))
-    .map(file => {
-      return {
-        name: file.substring(0, file.length - 3),
-        path: path + file,
-      }
-    })
-    .reduce((memo, file) => {
-      memo[file.name] = file.path
-      return memo
-    }, {})
+const srcFolder = process.env.SRC_DIR || path.resolve(__dirname, './client')
+const destFolder = process.env.DEST_DIR || path.resolve(__dirname, './dist')
+
+const isDev = process.env.NODE_ENV === 'development'
+
+module.exports = {
+  devtool: isDev ? 'eval' : false,
+  mode: isDev ? 'development' : 'production',
+  target: 'web',
+  entry: {
+    'index.html': path.resolve(srcFolder, './index.html'),
+    global: path.resolve(srcFolder, './global.js'),
+  },
+  output: {
+    path: destFolder,
+  },
+  module: {
+    rules: [
+      {
+        test: /\.html$/,
+        loaders: [
+          'file-loader?name=[name].html',
+          'extract-loader',
+          {
+            loader: 'html-loader',
+            options: {
+              minimize: !isDev,
+              root: srcFolder,
+              attrs: ['img:src', 'link:href'],
+            },
+          },
+        ],
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
+        loaders: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 8192,
+              fallback: 'responsive-loader',
+              quality: 75,
+            },
+          },
+        ],
+      },
+      {
+        test: /\.js$/,
+        loaders: [
+          {
+            loader: 'babel-loader',
+            options: {
+              babelrc: true,
+            },
+          },
+        ],
+      },
+      {
+        test: /\.css$/,
+        use: ['file-loader', 'extract-loader', 'css-loader'],
+      },
+      {
+        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'fonts/',
+            },
+          },
+        ],
+      },
+    ],
+  },
+  optimization: {
+    minimizer: isDev
+      ? []
+      : [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
+  },
+  // plugins: [
+  //   new HtmlWebpackPlugin({
+  //     minify: {
+  //       html5: true,
+  //       removeComments: true,
+  //       collapseWhitespace: true,
+  //       minifyCSS: true,
+  //       minifyJS: true,
+  //       // minifyURLs: true
+  //     },
+  //     template: entryHtmlFileAbsolutePath,
+  //   }),
+  // ],
 }
-
-const jsConfig = {
-  rules: [
-    {
-      test: /\.js$/,
-      loader: 'babel-loader',
-      exclude: /node_modules/,
-    },
-  ],
-}
-
-const cssConfig = {
-  rules: [
-    {
-      test: /\.css$/,
-      use: ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use: 'css-loader?minimize=true',
-      }),
-    },
-  ],
-  plugins: [
-    new ExtractTextPlugin('[name]css'), // css file will override generated js file
-  ],
-}
-
-function createBuildConfig(path, isForJsFiles) {
-  const config = isForJsFiles ? jsConfig : cssConfig
-  return {
-    mode: 'production',
-    entry: getEntries(path, isForJsFiles),
-    output: {
-      path: resolve(path),
-      filename: '[name]' + (isForJsFiles ? '.js' : 'css'),
-    },
-    module: {
-      rules: config.rules,
-    },
-    plugins: config.plugins,
-  }
-}
-
-module.exports = [
-  createBuildConfig('./lib/app/', true),
-  createBuildConfig('./lib/app/scripts/', true),
-  createBuildConfig('./lib/app/'),
-  createBuildConfig('./lib/app/styles/'),
-]

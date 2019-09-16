@@ -1,0 +1,7 @@
+{
+  "verbose": false,
+  "ext": "js,css,html",
+  "delay": "3000",
+  "watch": ["client/**/*", "server/**/*", "flamebird.js", "webpack.config.js"],
+  "ignore": ["node_modules"]
+}

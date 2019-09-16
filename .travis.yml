@@ -1,21 +1,60 @@
 language: node_js
-branches:
-  only:
-    - master
 node_js:
   - "node"
+
 cache:
-  yarn: true
   directories:
-      - "node_modules"
+    - "node_modules"
+
 before_install:
-  - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
+  - export PACKAGE_VERSION=$(node -p "require('./package.json').version")
+  - export NPM_REMOTE_VERSION=$(npm view flamebird version)
+  - export PACKAGE_NAME=$(node -p "require('./package.json').name")
+  - export BRANCH_IS_TAG=$(node -p "/^([0-9].[0-9].[0-9]+((-(alpha|beta))|))$/.test('${TRAVIS_BRANCH}')")
+  - export PROJECT_NAME="acacode/flamebird"
+  - export RELEASE_BODY=$(node -p "'[Click here to find current release changes](https://github.com/$PROJECT_NAME/blob/$TRAVIS_BRANCH/CHANGELOG.md)'")
+
 install:
-  - yarn
-script:
-  - yarn lint-js
-  - yarn build-prod
-after_success:
-  - if [ ${TRAVIS_BRANCH} = "master" ] && [ "${TRAVIS_PULL_REQUEST}" = "false" ];then
-    npm publish;
-    fi
+  - npm ci
+
+jobs:
+  include:
+    - stage: pre-test(lint,audit)
+      script:
+        - npm audit
+        - npm run lint
+    - stage: test
+      script:
+        - npm run build
+        - npm run test
+    - stage: publish
+      if: env(BRANCH_IS_TAG) != true AND branch = master AND type = push
+      name: "Create Github Release"
+      before_deploy:
+        - git config --global user.email "builds@travis-ci.com"
+        - git config --global user.name "Travis CI"
+        - git tag $PACKAGE_VERSION -a -m "Generated tag from TravisCI for build $TRAVIS_BUILD_NUMBER from $TRAVIS_BRANCH"
+        - git push -q https://$GITHUB_TOKEN@github.com/$PROJECT_NAME --tags
+        - zip -r release.zip dist flamebird.js LICENSE postinstall.js README.md client server package-lock.json package.json
+        - ls -l
+      deploy:
+        provider: releases
+        name: "Release ${PACKAGE_VERSION}"
+        body: "$RELEASE_BODY"
+        overwrite: true
+        skip_cleanup: true
+        api_key:
+          secure: ${GITHUB_TOKEN}
+        file:
+          - release.zip
+        on:
+          all_branches: true
+          repo: $PROJECT_NAME
+      after_deploy:
+        - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
+        - npm publish
+
+notifications:
+  slack:
+    rooms:
+      secure: oEsx4yOk0AkiYMrjhDbKzh7mJIHd/Rn1Y+C86bmxGxCbAc/VuAM1pRfk/A3o7I0QwDzFZ1XCZrHT1VsYDj4ypFaJb8pCtwOU0pv+mseGlcYOvtV5NgQMBM3HQvx9+9iF8sLXg1glzToNkd8iBkbNxEgg6EEeBdX3mD7QX04xl4Mgl259gofN1pOxP3LwHKkKcZgeS6MAEfWhBG/a8poAccvusgn75wNZ1qyI+ZPYtQ75JK4QieJzmxTHPr2gGhq1EwRWYIjjyIEA4ofQpjWyzy0U6OQKBxwPaH+GM+Vn6hhp5JOenmiIslUZmzgyXL233Iu4iMvh1AiLJvB7AIBDilA3CYvCzM5uQVyKqiNFMrkcBRZgE3FCAaYYcpfr+k+3wO3HGstvcW+xxB3EdOGfXuI6Bu31k6kQQjXTZnYCGXgH4b+s+CkknOt04VXMxwPaQNjwb7+2HZt7En0kCAcswCB2ZYekfwJ8ps+ahlKGDbPEgg/vYAPV0JqwY4gEGFOthe3MhHDzpnjm6udpItlYrlcqzV4w4b3LEOgc5AomrQRD+SPdFHwvUjtjyDjyhdPNK9QixCIPW55njCssCJOi5kwq74zr3eVvqD8ijmUdfL6ASu1113fs/4k58mX4GwEkmMicThLg01aoppd3IWTc//bsYOLC+AbC8cAm9JZZWHA=

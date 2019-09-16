@@ -2,7 +2,60 @@
 # Changelog
 
 
-## [2.1.4] - 06.12.2018
+## [3.0.0-alpha] - {date}  
+
+Improvenments:  
+  - command `fb web` will have only one instance of NodeJS application.  
+    First call `fb web -p SOME_PORT` create a server hosted on port `SOME_PORT`.  
+    But call `fb web` inside another project will not create a new server  
+    But instead of this you can see all your running projects looking at `localhost:SOME_PORT`  
+
+
+### Added
+- `web` [internal] changed webpack configuration for web client  
+- `web` new options:  
+    - `-i, --ignore-trs` (in previous version it used by default)  
+        Allows to launch tasks without yarn or npm ( use absolute paths: webpack -> node_modules/.bin/webpack )  
+        default: `false`  
+    - `-r, --task-runner <NAME>`  
+        Allows to use another task runner for launch tasks. By default will use npm ( For example: -r yarn )  
+        default: `'npm'`  
+    - `-w, --without-browser`  
+        This option disable opening the new tab in Google Chrome browser  
+        default: `false`  
+    - `-s, --sort-by-name`  
+        This option using to sort all commands by name (asc)  
+        default: `false`  
+- `cmd` new options:  
+    - `-i, --ignore-trs` (in previous version it used by default)  
+        Allows to launch tasks without yarn or npm ( use absolute paths: webpack -> node_modules/.bin/webpack )  
+        default: `false`  
+    - `-r, --task-runner <NAME>`  
+        Allows to use another task runner for launch tasks. By default will use npm ( For example: -r yarn )  
+        default: `'npm'`  
+
+### Changed
+- [internal] fully refactored code on nodeJS and web view  
+- Option prefix from `-j, --procfile <FILE>` to `-f, --procfile <FILE>`
+- [web] changed API endpoints:  
+    - `POST:/run/${taskId}` -> `POST:/${configId}/${taskId}/run`  
+    - `POST:/stop/${taskId}` -> `POST:/${configId}/${taskId}/stop`  
+    - `POST:/clear-logs/${taskId}` -> `DELETE/${configId}/${taskId}/logs`  
+    - `GET:/logs/${taskId}` -> `GET:/${configId}/${taskId}/logs`  
+    - `POST:/update-envs({ id: string, envs: object})` -> `PUT:/${configId}/${taskId}/envs(envs:object)`  
+
+
+### Fixed  
+- Problems linked with running flamebird without `node_modules` folder  
+
+### Removed  
+- Removed default usage experimental converting npm/yarn run scripts to the absolute paths  
+- [web]  
+    - `/run-all` API endpoint  
+    - `/stop-all` API endpoint  
+
+
+## [2.1.4] - 12/06/2018
 
 ### Added
 - `web` hotkey feautures
@@ -25,7 +78,7 @@
 - typo fixes in `README.md`
 
 
-## [2.0.0] - 01.12.2018
+## [2.0.0] - 12/01/2018
 
 ### Changed
 - `web` replaced web http-client `axios` to `kinka`
@@ -124,7 +177,7 @@
 ### Fixed
 - fixed webpack build after installing npm packages
 
-## [1.7.0] - 2018-05-13
+## [1.7.0] - 13/05/2018
 
 ### Changed
 - refactoring code in frontend part of application
@@ -156,7 +209,7 @@
 ### Removed
 - removed option `-p, --package`
 
-## [1.5.5] - 2018-04-23
+## [1.5.5] - 04/23/2018
 
 ### Changed
 - working status of the tasks dependent on the server's status of task
@@ -168,7 +221,7 @@
 - fb web: UnhandledPromiseRejectionWarning: Error: spawn chrome ENOENT [BUG](https://github.com/acacode/flamebird/issues/2)
 
 
-## [1.5.3] - 2018-04-21
+## [1.5.3] - 04/21/2018
 
 ### Added
 - option `-n, --name <NAME>` for the `web` command. Sets the name of application
@@ -179,7 +232,7 @@
 - route `commands` renamed to `info` and now returns object with properties `appName` and `commands`
 
 
-## [1.5.0] - 2018-04-21
+## [1.5.0] - 04/21/2018
 
 ### Added
 - `fb` - additional command name for the calling flamebird
@@ -189,7 +242,7 @@
 - option `-P, --port <PORT>` for `web` command. Sets the server port. By default 5050 value
 
 
-## [1.0.0] - 2018-04-18
+## [1.0.0] - 04/18/2018
 
 ### Added
 - command `flamebird start` for the launching all commands in Procfile

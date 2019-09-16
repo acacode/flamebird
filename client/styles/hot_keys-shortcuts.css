@@ -1,0 +1,92 @@
+
+[hotkeys="true"] .task:after{
+    position: absolute;
+    right: 6px;
+    bottom: 6px;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #828282;
+    text-align: center;
+    width: 10px;
+}
+[hotkeys="true"] .task-num-1:after {
+    content:'q';
+}
+[hotkeys="true"] .task-num-2:after {
+    content:'w';
+}
+[hotkeys="true"] .task-num-3:after {
+    content:'e';
+}
+[hotkeys="true"] .task-num-4:after {
+    content:'r';
+}
+[hotkeys="true"] .task-num-5:after {
+    content:'t';
+}
+[hotkeys="true"] .task-num-6:after {
+    content:'y';
+}
+[hotkeys="true"] .task-num-7:after {
+    content:'u';
+}
+[hotkeys="true"] .task-num-8:after {
+    content:'i';
+}
+[hotkeys="true"] .task-num-9:after {
+    content:'o';
+}
+[hotkeys="true"] .task-num-10:after {
+    content:'p';
+}
+[hotkeys="true"] .task-num-11:after {
+    content:'[';
+}
+[hotkeys="true"] .task-num-12:after {
+    content:']';
+}
+[hotkeys="true"] .task-num-13:after {
+    content:'a';
+}
+[hotkeys="true"] .task-num-14:after {
+    content:'s';
+}
+[hotkeys="true"] .task-num-15:after {
+    content:'d';
+}
+[hotkeys="true"] .task-num-16:after {
+    content:'f';
+}
+[hotkeys="true"] .task-num-17:after {
+    content:'g';
+}
+[hotkeys="true"] .task-num-18:after {
+    content:'h';
+}
+[hotkeys="true"] .task-num-19:after {
+    content:'j';
+}
+[hotkeys="true"] .task-num-20:after {
+    content:'k';
+}
+[hotkeys="true"] .task-num-21:after {
+    content:'l';
+}
+[hotkeys="true"] .task-num-22:after {
+    content:';';
+}
+[hotkeys="true"] .task-num-23:after {
+    content:"'";
+}
+[hotkeys="true"] .task-num-24:after {
+    content:'z';
+}
+[hotkeys="true"] .task-num-25:after {
+    content:'x';
+}
+[hotkeys="true"] .task-num-26:after {
+    content:'c';
+}
+[hotkeys="true"] .task-num-27:after {
+    content:'v';
+}

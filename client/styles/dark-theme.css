@@ -1,0 +1,138 @@
+
+body[theme="dark"] {
+    background: #212121;
+}
+
+[theme="dark"] header {
+    background: #3e3e3e;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.33);
+}
+
+[theme="dark"] .title {
+    color: #eeeeee;
+    background: #3e3e3e;
+}
+
+[theme="dark"] .wrapper {
+    background: #424242;
+}
+
+
+[theme="dark"] .task.active {
+    background: rgb(37, 37, 37);
+    color: #ebebeb;
+}
+
+
+[theme="dark"] .task {
+    color: #a5a5a5;
+}
+
+
+[theme="dark"] .task:hover {
+    background: rgb(37, 37, 37);
+    color: #ebebeb;
+}
+
+
+
+[theme="dark"] button.tab {
+    color: #d1d1d1;
+    background: rgb(69, 69, 69);
+    box-shadow: 0 0px 0px 0.5px rgb(33, 33, 33);
+}
+
+
+[theme="dark"] button.tab.active, 
+[theme="dark"] button.tab:active {
+    background: rgb(159, 144, 55);
+    color: #212121;
+}
+
+[theme="dark"] .logs-container{
+    color: #dcdcdc;
+}
+
+[theme="dark"] .ansi-red-fg {
+    color: rgb(230, 78, 78);
+}
+
+[theme="dark"] .logs-container::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+}
+
+[theme="dark"] .logs-container::-webkit-scrollbar-thumb:hover {
+    background: #9e9e9e; 
+}
+
+[theme="dark"] .logs-container{
+    background: #060606;
+}
+
+[theme="dark"] .ansi-bright-black-fg {
+    color: #909090;
+}
+
+[theme="dark"] .main-button.toggle {
+    background: #333333;
+    color: #929292;
+}
+
+[theme="dark"] .main-button.toggle.active {
+    background: #2e7b58;
+    color: #b5e0cd;
+}
+
+
+[theme="dark"] .run{
+    background: #2f9a6a;
+}
+
+[theme="dark"] .stop{background: #8c4343;}
+
+
+[theme="dark"] .task.new-task .form input,[theme="dark"] .task.new-task .form textarea {
+    background: #333;
+    color: #dcdcdc;
+}
+
+[theme="dark"] .task.new-task .form button {
+    background: #2e7b58;
+    color: #b5e0cd;
+}
+
+
+[theme="dark"] .task.updated{
+    animation-name: dark-highlight;
+}
+
+[theme="dark"] .toggle.color .fas {
+    transform: scaleX(-1);
+}
+
+[theme="dark"] .close-icon {
+    color: #995959;
+}
+
+[theme="dark"] .configs-list {
+    background: #424242;
+}
+
+[theme="dark"] .config {
+    color: #aeaeae;
+}
+
+[theme="dark"] .config:hover {
+    background: #2b2b2b;
+}
+
+[theme="dark"] .config:not(:first-child) {
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+
+@keyframes dark-highlight{
+    50%{
+        background: rgb(79, 80, 63);
+    }
+}
