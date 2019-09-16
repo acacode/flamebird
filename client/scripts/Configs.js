@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import { el, createEl } from '../helpers/dom_utils'
-import { clearifyEvent } from '../helpers/hotKeys'
 
 export default class ConfigsManager {
   configs = []
