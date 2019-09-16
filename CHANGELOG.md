@@ -4,6 +4,13 @@
 
 ## [3.0.0-alpha] - {date}  
 
+Improvenments:  
+  - command `fb web` will have only one instance of NodeJS application.  
+    First call `fb web -p SOME_PORT` create a server hosted on port `SOME_PORT`.  
+    But call `fb web` inside another project will not create a new server  
+    But instead of this you can see all your running projects looking at `localhost:SOME_PORT`  
+
+
 ### Added
 - `web` [internal] changed webpack configuration for web client  
 - `web` new options:  
